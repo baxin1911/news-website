@@ -1,0 +1,94 @@
+<footer class="bg-dark text-light">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-4">
+
+                <a class="fw-medium" href="/contact">
+                    <i class="fa fa-envelope me-2"></i>Contacto
+                </a>
+
+                <h5 class="footer-title">
+                    Siguenos
+                </h5>
+
+                <div class="d-flex justify-content-between">
+
+                    <a class="btn btn-secondary" href="#">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+
+                    <a class="btn btn-secondary" href="#"><i
+                        class="fab fa-facebook-f"></i>
+                    </a>
+
+                    <a class="btn btn-secondary" href="#">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+
+                    <a class="btn btn-secondary" href="#">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <h5 class="footer-title">
+                    Noticias Populares
+                </h5>
+
+                <div class="swipwer popular-news">
+
+                    <div class="swiper-wrapper">
+
+                        <% notices.forEach(notice => {
+
+                            const imageUrl = notice.image_urls && notice.image_urls.length > 0 ? notice.image_urls[0] : '';
+                            const shortDescription = notice.description.length > 150 ? `${notice.description.substring(0, 150)} ...` : notice.description;
+                            const shortTitle = notice.title.length > 50 ? `${notice.title.substring(0, 50)} ...` : notice.title;
+                        %>
+                        
+                            <div class="swiper-slide">
+
+                                <img src="<%= imageUrl %>">
+
+                                <a class="badge bg-primary news-category" href="">
+                                    <%= getCategory(notice.category) %>
+                                </a>
+
+                                <a class="text-body" href=""><small>
+                                    <%= formatShortDate(notice.publication_date) %>
+                                </small></a>
+
+                                <a class="text-body news-text"
+                                    href="/notice/<%= encryptId(notice.idNotice.toString(), encryptionKey) %>">
+                                    <%= shortTitle %>
+                                </a>
+
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container">
+        <p class="text-center">&copy; <a href="#">Titulo</a>. Todos los derechos reservados.
+    </div>
+
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+</footer>
+
