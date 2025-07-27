@@ -1,52 +1,42 @@
 <header class="bg-dark text-light">
-    <div class="container justify-content-between align-items-center">
-
-        <div class="row">
-
-            <div class="col-3">
-
-                <div>
+    <div class="container-fluid">
+        <div class="row header-row">
+            <div class="col-12 col-md-4 col-lg-3 border-end px-0">
+                <div class="py-2">
                     <%= todayFormatted %>
                 </div>
-
             </div>
 
-            <div class="col-6">
+            <div class="col-12 col-md-4 col-lg-6 px-0">
+                <nav class="navbar p-0">
+                    <ul class="navbar-nav d-flex flex-row justify-content-center">
 
-                <nav class="navbar">
-
-                    <ul class="navbar-nav">
-
-                        <li class="nav-item border-end">
-                            <a class="nav-link text-body">Tags</a>
+                        <li class="nav-item border-end px-2">
+                            <a class="nav-link text-light" href="#">Tags</a>
                         </li>
 
-                        <li class="nav-item border-end">
-                            <a class="nav-link text-body">Contacto</a>
+                        <li class="nav-item border-end px-2">
+                            <a class="nav-link text-light" href="#">Contacto</a>
                         </li>
-
                     </ul>
-
                 </nav>
-
             </div>
 
-            <aside class="col-3">
-
-                <a class="nav-link text-body" href="#"><i class="fab fa-tiktok"></i></a>
-                <a class="nav-link text-body" href="#"><i class="fab fa-facebook-f"></i></a>
-                <a class="nav-link text-body" href="#"><i class="fab fa-instagram"></i></a>
-                <a class="nav-link text-body" href="#"><i class="fab fa-twitter"></i></a>
-                <a class="nav-link text-body" href="#"><i class="fab fa-youtube"></i></a>
-
-            </aside>
-
+            <div class="col-12 col-md-4 col-lg-3 px-0">
+                <div class="py-2">
+                    <a href="/login" class="text-light">
+                        <i class="fa fa-user me-2"></i>Iniciar Sesión
+                    </a>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="row bg-white">
-            <div class="col-4">
+    <div class="container-fluid bg-title py-3">
+        <div class="row header-row">
+            <div class="col-12">
                 <a href="/" class="navbar-brand">
-                    <h1 class="text-uppercase text-primary fw-bold">Titulo</h1>
+                    <h1 class="text-uppercase fw-bold text-light mb-0">Titulo</h1>
                 </a>
             </div>
         </div>

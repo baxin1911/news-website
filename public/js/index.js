@@ -1,6 +1,3 @@
-const base = 'https://ruinednews.com';
-const urlGetNotices = base + '/api/notices';
-
 const swiper = new Swiper( '.popular-news', {
     loop: true,
     autoplay: {
