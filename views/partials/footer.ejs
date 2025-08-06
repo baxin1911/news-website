@@ -2,47 +2,13 @@
     <div class="container-fluid">
         <div class="row py-5">
             <div class="col-12 col-md-5 col-lg-4">
-                <a class="fw-medium d-inline-block mb-4" href="/contact">
-                    <i class="fa fa-envelope me-2"></i>Contactanos
-                </a>
+                <%- include('./newsletter') %>
 
-                <h5 class="footer-title">
-                    Siguenos
-                </h5>
-
-                <div class="d-flex gap-2">
-
-                    <a class="btn btn-secondary" href="#">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-
-                    <a class="btn btn-secondary" href="#"><i
-                        class="fab fa-facebook-f"></i>
-                    </a>
-
-                    <a class="btn btn-secondary" href="#">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-
-                    <a class="btn btn-secondary" href="#">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-
-                    <a class="btn btn-secondary" href="#">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </div>
+                <%- include('./socialLinks', { isFooter: true }) %>
             </div>
 
             <div class="col-12 col-md-7 col-lg-8">
-                <%- include('../components/slider', {
-                    classTitleType: 'footer',
-                    sectionTitle: 'Noticias Populares',
-                    swiperClass: 'popular-news',
-                    notices: notices,
-                    withOverlay: true,
-                    encryptionKey
-                }) %>
+                <%- include('./popularNews') %>
             </div>
         </div>
     </div>

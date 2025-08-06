@@ -1,0 +1,21 @@
+<% const links = [
+    { name: 'TikTok', icon: 'fab fa-tiktok', slug: '#', style1: 'btn btn-tiktok', style2: 'tiktok-link' },
+    { name: 'Facebook', icon: 'fab fa-facebook-f', slug: '#', style1: 'btn btn-facebook', style2: 'facebook-link' },
+    { name: 'Instagram', icon: 'fab fa-instagram', slug: '#', style1: 'btn btn-instagram', style2: 'instagram-link' },
+    { name: 'Twitter', icon: 'fab fa-twitter', slug: '#', style1: 'btn btn-twitter', style2: 'twitter-link' },
+    { name: 'YouTube', icon: 'fab fa-youtube', slug: '#', style1: 'btn btn-youtube', style2: 'youtube-link' }
+]; %>
+
+<section>
+    <h5 class="title-style">
+        Siguenos
+    </h5>
+
+    <%- include('../components/buttonList', { 
+        buttons: links,
+        classContainer: isFooter ? 'd-flex gap-2' : 'social-links bg-style d-grid',
+        withStyle2: isFooter ? false : true,
+        withName: isFooter ? false : true,
+        withIcon: true
+    }) %>
+</section>

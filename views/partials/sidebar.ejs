@@ -1,12 +1,13 @@
-<aside class="mb-4 my-3">
-    <div class="mb-4">
-        <%- include('../components/slider', {
-            classTitleType: 'sidebar',
-            sectionTitle,
-            swiperClass,
-            notices,
-            withOverlay,
-            encryptionKey
-        }) %>
-    </div>
+<aside class="my-4">
+    <%- include('./popularNews') %>
+
+    <%- include('./socialLinks', { isFooter: false }) %>
+
+    <%- include('./tags') %>
+
+    <%- include('./categories') %>
+
+    <%- include('./newsletter') %>
+
+    <%- include('./recommendedArticle') %>
 </aside>

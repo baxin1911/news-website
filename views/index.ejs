@@ -20,57 +20,11 @@
         <div class="container-fluid my-4">
             <div class="row">
                 <div class="col-12 col-md-8 col-lg-9">
-                    <main>
-                        <%- include('partials/section', {
-                            sectionTitle: false,
-                            swiperClass: 'main-news',
-                            notices: notices,
-                            withOverlay: true,
-                            encryptionKey
-                        }) %>
-
-                        <%- include('partials/section', {
-                            sectionTitle: 'Últimas Noticias',
-                            swiperClass: 'latest-news',
-                            notices: notices,
-                            withOverlay: true,
-                            encryptionKey
-                        }) %>
-
-                        <%- include('partials/section', {
-                            sectionTitle: 'Noticias de Juegos',
-                            swiperClass: 'gaming-news',
-                            notices: notices,
-                            withOverlay: false,
-                            encryptionKey
-                        }) %>
-
-                        <%- include('partials/section', {
-                            sectionTitle: 'Noticias de eSports',
-                            swiperClass: 'e-sports-news',
-                            notices: notices,
-                            withOverlay: false,
-                            encryptionKey
-                        }) %>
-
-                        <%- include('partials/section', {
-                            sectionTitle: 'Noticias de Tecnología',
-                            swiperClass: 'tech-news',
-                            notices: notices,
-                            withOverlay: false,
-                            encryptionKey
-                        }) %>
-                    </main>
+                    <%- include('partials/main') %>
                 </div>
 
                 <div class="col-12 col-md-4 col-lg-3">
-                    <%- include('partials/sidebar', {
-                        sectionTitle: 'Noticias Populares',
-                        swiperClass: 'popular-news',
-                        notices: notices,
-                        withOverlay: true,
-                        encryptionKey
-                    }) %>
+                    <%- include('partials/sidebar') %>
                 </div>
             </div>
         </div>

@@ -1,0 +1,16 @@
+<% 
+    const date = formatShortDate(new Date());
+    const shortTitle = 'ejemplo';
+    const category = getCategory(2);
+%>
+
+<section>
+    <h5 class="title-style">Artículo Recomendado</h5>
+
+    <%- include('../components/article', { 
+        withOverlay: false,
+        category,
+        date,
+        shortTitle
+    }) %>
+</section>

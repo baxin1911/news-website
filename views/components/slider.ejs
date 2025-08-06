@@ -1,40 +1,22 @@
-<% if (sectionTitle) { %>
-    <h5 class="<%= classTitleType === 'footer' ? 'footer-title' : classTitleType === 'section' ? 'section-title' : 'sidebar-title' %>">
-        <%= sectionTitle %>
-    </h5>
-<% } %>
-
 <div class="swiper <%= swiperClass %>">
     <div class="swiper-wrapper">
         <% notices.forEach(notice => {
-            const imageUrl = notice.image_urls && notice.image_urls.length > 0 ? notice.image_urls[0] : '';
+            const imageUrl = notice.imageUrls && notice.imageUrls.length > 0 ? notice.imageUrls[0] : '';
             const shortTitle = notice.title.length > 50 ? `${notice.title.substring(0, 50)} ...` : notice.title;
+            const category = notice.category ? getCategory(notice.category) : '';
+            const date = notice.publicationDate ? formatShortDate(notice.publicationDate) : '';
         %>
-            <div class="swiper-slide d-flex flex-column align-items-<%= withOverlay ? 'center' : 'start' %>">
-                <% if (withOverlay) { %>
-                    <div class="overlay">        
-                <% } %>
-
-                <div class="bg-image" style="background-image: url('<%= imageUrl %>');"></div>
-
-                <a class="badge bg-primary news-category d-inline-block mb-1" href="#">
-                    <%= getCategory(notice.category) %>
-                </a>
-
-                <a class="d-inline-block mb-1" href="#"><small>
-                    <%= formatShortDate(notice.publication_date) %>
-                </small></a>
-
-                <a class="news-text" href="/notice/<%= encryptId(notice.idNotice.toString(), encryptionKey) %>">
-                    <%= shortTitle %>
-                </a>
-
-                <% if (withOverlay) { %>
-                    </div>
-                <% } %>
+            <div class="swiper-slide">
+                <%- include('./article', {
+                    category,
+                    date,
+                    shortTitle
+                }) %>
             </div>
         <% }) %>
     </div>
 
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
     <div class="swiper-pagination"></div>
 </div>

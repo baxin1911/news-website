@@ -1,16 +1,7 @@
-<section class="my-3">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-12 col-lg-12">
-                <%- include('../components/slider', {
-                    classTitleType: 'section',
-                    sectionTitle,
-                    swiperClass,
-                    notices,
-                    withOverlay,
-                    encryptionKey
-                }) %>
-            </div>
-        </div>
-    </div>
+<section>
+    <% if (title) { %>
+        <h5 class="title-style"><%= title %></h5>
+    <% } %>
+
+    <%- include('../components/slider') %>
 </section>
