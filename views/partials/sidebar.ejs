@@ -1,13 +1,13 @@
 <aside class="my-4">
-    <%- include('./popularNews') %>
+    <%- include('./popularNews', { isFooter: false }); %>
 
-    <%- include('./socialLinks', { isFooter: false }) %>
+    <%- include('./socialMedia', { isFooter: false }); %>
 
-    <%- include('./tags') %>
+    <%- include('./tags'); %>
 
-    <%- include('./categories') %>
+    <%- include('./categories'); %>
 
-    <%- include('./newsletter') %>
+    <%- include('./newsletter'); %>
 
-    <%- include('./recommendedArticle') %>
+    <%- include('./recommendedArticles'); %>
 </aside>

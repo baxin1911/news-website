@@ -1,10 +1,14 @@
 <section>
     <h5 class="title-style">Noticias Populares</h5>
 
-    <div class="bg-style">
-        <%- include('../components/slider', {
-            swiperClass: 'swiper-popular-news',
-            withOverlay: true,
-        }) %>
+    <div class="py-3">
+        <% if (isFooter) { %>
+            <%- include('./slider', { 
+                swiperClass: 'swiper-popular-news', 
+                viewMode: 'overlay' 
+            }); %>
+        <%} else { %>
+            <%- include('./articleList', { isSidebar: true }); %>
+        <% } %>
     </div>
 </section>

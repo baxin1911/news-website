@@ -1,29 +1,17 @@
 <main class="my-4">
-    <% const sections = [
-        { title: false, swiperClass: 'main-news', withOverlay: true },
-        { title: 'Últimas Noticias', swiperClass: 'latest-news', withOverlay: false },
-        { title: 'Noticias de Juegos', swiperClass: 'gaming-news', withOverlay: false },
-        { title: 'Noticias de eSports', swiperClass: 'e-sports-news', withOverlay: false },
-        { title: 'Noticias de Tecnología', swiperClass: 'tech-news', withOverlay: false }
-    ]; %>
+    <%- include('./mainNews'); %>
 
-    <% sections.forEach((section, index) => { %>
-        <% const isDoubleColumn = index === 2 || index === 3; %>
+    <%- include('./latestNews'); %>
 
-        <% if (isDoubleColumn && index % 2 === 2) { %>
-            <div class="row">
-        <% } %>
+    <%- include('./newsByCategory', {
+        title: 'Noticias de Juegos'
+    }); %>
 
-        <div class="<%= isDoubleColumn ? 'col-12 col-md-6 col-lg-6' : 'col-12 col-md-12 col-lg-12' %>">
-            <%- include('./section', {
-                title: section.title,
-                swiperClass: section.swiperClass,
-                withOverlay: section.withOverlay
-            }) %>
-        </div>
+    <%- include('./newsByCategory', {
+        title: 'Noticias de Streaming'
+    }); %>
 
-        <% if (isDoubleColumn && index % 2 === 3) { %>
-            </div>
-        <% } %>
-    <% }); %>
+    <%- include('./newsByCategory', {
+        title: 'Noticias de Tecnología'
+    }); %>
 </main>
