@@ -1,0 +1,71 @@
+<% const links = [
+    { content: 'Inicio', slug: '/' },
+    { content: 'Gamming', slug: '#' },
+    { content: 'Entretenimiento', slug: '#' },
+    { content: 'Negocios', slug: '#' },
+    { content: 'Educación', slug: '#' },
+    { content: 'Streaming', slug: '#' },
+    { content: 'Deportes', slug: '#' },
+    { content: 'Tecnología', slug: '#' },
+    { content: 'General', slug: '#' },
+    { content: '<i class="fas fa-envelope me-2"></i>Contacto', slug: '/contacto' }
+];
+
+const buttons = [
+    { content: '<i class="fa-solid fa-magnifying-glass me-2"></i>Buscar', toggle: 'offcanvas',target: '#searchMenu' },
+    { content: '<i class="fa fa-user me-2"></i>Iniciar sesión', toggle: 'modal', target: '#loginModal' }
+]; %>
+
+<header class="dark">
+    <div class="top-bar text-center">
+        <%= todayFormatted %>
+    </div>
+
+    <nav class="navbar navbar-expand-xl p-0">
+        <div class="container-fluid">
+            <div id="navbarNews" class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <% links.forEach(link => { %>
+                        <li class="nav-item py-1">
+                            <a class="nav-link text-light" href="<%= link.slug %>">
+                                <%- link.content %>
+                            </a>
+                        </li>
+                    <% }) %>
+                </ul>
+
+                <div class="d-flex gap-2">
+                    <% buttons.forEach(button => { %>
+                        <button class="btn btn-outline-primary" type="button" 
+                                data-bs-toggle="<%= button.toggle %>" 
+                                data-bs-target="<%= button.target %>"
+                        >
+                            <%- button.content %>
+                        </button>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid bg-title py-3">
+        <div class="d-flex align-items-center justify-content-center position-relative">
+            <div class="position-absolute start-0 d-xl-none">
+                <div class="btn btn-primary p-0">
+                    <button class="navbar-toggler p-2" type="button" 
+                        data-bs-toggle="collapse" data-bs-target="#navbarNews" 
+                        aria-controls="navbarNews" aria-expanded="false"
+                    >
+                        <i class="fas fa-bars me-2"></i>Menú
+                    </button>
+                </div>
+            </div>
+            
+            <a href="/" class="navbar-brand text-center">
+                <h1 class="title-style">Titulo</h1>
+            </a>
+        </div>
+
+        <%- include('../offcanvas/searchMenu'); %>
+    </div>
+</header>

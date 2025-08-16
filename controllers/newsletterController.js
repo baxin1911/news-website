@@ -1,12 +1,14 @@
 export const subscribe = (req, res) => {
-    const { email } = req.body;
+    const { email } = req.body || null;
 
     if (!email) {
         req.flash('error', 'El correo electrónico es requerido');
         return res.redirect('/');
     }
 
-    if (!/\S+@\S+\.\S+/.test(email)) {
+    const isValid = validateEmailFormat(email);
+
+    if (!isValid) {
         req.flash('error', 'El correo electrónico no es válido');
         return res.redirect('/');
     }

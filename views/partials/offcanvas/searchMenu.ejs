@@ -1,0 +1,54 @@
+<% const categories = [
+    { id: 1, idCat: 'catGamming', name: 'Gamming' },
+    { id: 2, idCat: 'catEntretenimiento', name: 'Entretenimiento' },
+    { id: 3, idCat: 'catNegocios', name: 'Negocios' },
+    { id: 4, idCat: 'catEducacion', name: 'Educación' },
+    { id: 5, idCat: 'catStreaming', name: 'Streaming' },
+    { id: 6, idCat: 'catDeportes', name: 'Deportes' },
+    { id: 7, idCat: 'catTecnologia', name: 'Tecnología' },
+    { id: 8, idCat: 'catGeneral', name: 'General' },
+]; %>
+
+<div id="searchMenu" tabindex="-1" class="offcanvas offcanvas-start" 
+    aria-labelledby="searchTitle"
+>
+    <div class="offcanvas-header">
+        <h5 id="searchTitle" class="offcanvas-title">Búsqueda de noticias</h5>
+
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas" aria-label="Cerrar">
+            <i class="fa-solid fa-xmark fa-lg"></i>
+        </button>
+    </div>
+
+    <div class="offcanvas-body dark">
+        <form action="/search" method="get" class="g-3">
+            <label for="searchQuery" class="form-label">Palabras clave:</label>
+
+            <input id="searchQuery" type="text" name="q" class="form-control mb-2" 
+                placeholder="Escribe tu búsqueda..." required>
+
+            <div class="mb-2">
+                <label class="form-label">Categorías:</label>
+                <% categories.forEach(category => { %>
+                    <br>
+
+                    <input id="<%= category.idCat %>" type="checkbox" name="categories[]" 
+                        value="<%= category.id %>" class="btn-check" autocomplete="off">
+
+                    <label for="<%= category.idCat %>" class="btn btn-outline-primary">
+                        <%= category.name %>
+                    </label>
+                <% }) %>
+            </div>
+
+            <label for="searchDate" class="form-label">Fecha:</label>
+
+            <input id="searchDate" type="date" name="date" class="form-control mb-4">
+
+            <div class="d-flex justify-content-between">
+                <button type="reset" class="btn btn-primary">Limpiar</button>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+    </div>
+</div>

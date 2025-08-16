@@ -1,7 +1,7 @@
 export const getCategory = (categoryId) => {
     switch (categoryId) {
         case 1:
-            return 'Gaming';
+            return 'Gamming';
         case 2:
             return 'Entretenimiento';
         case 3:
@@ -13,7 +13,7 @@ export const getCategory = (categoryId) => {
         case 6:
             return 'Deportes'
         case 7:
-            return 'Tecnologia'
+            return 'Tecnología'
         default:
             return 'General';
     }

@@ -1,0 +1,29 @@
+<% const modal = {
+    idModal: 'loginModal',
+    idModalLabel: 'loginModalLabel',
+    modalTitle: 'Inicio de sesión'
+};
+
+const extraContent = {
+    withExtraContent: true,
+    title: '¿Eres nuevo?',
+    buttonLabel: 'Regístrate',
+    idModal: '#registerModal'
+};
+
+const form = {
+    action: '/login',
+    inputs: [
+        { label: 'Correo electrónico:', name: 'email', type: 'email' },
+        { label: 'Contraseña:', name: 'password', type: 'password' }
+    ],
+    idModal: '#recoverModal',
+    linkLabel: 'Recuperar contraseña',
+    buttonLabel: 'Ingresar'
+}; %>
+
+<%- include('./modal', {
+    modal,
+    extraContent,
+    form
+}); %>

@@ -1,0 +1,28 @@
+<% const modal = {
+    idModal: 'recoverModal',
+    idModalLabel: 'recoverModalLabel',
+    modalTitle: 'Recuperar Contraseña'
+};
+
+const extraContent = {
+    withExtraContent: false,
+    title: null,
+    buttonLabel: null,
+    idModal: null
+};
+
+const form = {
+    action: '/recover',
+    inputs: [
+        { label: 'Correo electrónico:', name: 'email', type: 'email' }
+    ],
+    idModal: '#loginModal',
+    linkLabel: 'Cancelar',
+    buttonLabel: 'Recuperar'
+}; %>
+
+<%- include('./modal', {
+    modal,
+    extraContent,
+    form
+}); %>

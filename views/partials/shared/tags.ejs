@@ -1,0 +1,18 @@
+<% const tags = [
+    { content: 'Xbox', slug: '#', style: 'btn btn-outline-secondary m-1' },
+    { content: 'T1', slug: '#', style: 'btn btn-outline-secondary m-1' },
+    { content: 'PlayStation', slug: '#', style: 'btn btn-outline-secondary m-1' },
+    { content: 'Vue.js', slug: '#', style: 'btn btn-outline-secondary m-1' },
+    { content: 'React', slug: '#', style: 'btn btn-outline-secondary m-1' }
+]; %>
+
+<section>
+    <h5 class="title-style">
+        Tags
+    </h5>
+
+    <%- include('./buttonList', { 
+        buttons: tags,
+        classContainer: 'bg-style container-flex-buttons'
+    }); %> 
+</section>

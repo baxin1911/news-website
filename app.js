@@ -1,5 +1,6 @@
 import indexRoutes from './routes/indexRoutes.js';
 import newsletterRoutes from './routes/newsletterRoutes.js';
+import searchRoutes from './routes/searchRoutes.js';
 
 import express from 'express';
 import path from 'path';
@@ -39,6 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 //routes
 app.use('/', indexRoutes);
 app.use('/newsletter', newsletterRoutes);
+app.use('/search', searchRoutes);
 
 app.use((req, res, next) => {
     res.status(404).render('error/404');

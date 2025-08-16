@@ -1,0 +1,21 @@
+<% const categories = [
+    { content: 'Gaming', slug: '#', style: 'btn btn-outline-primary m-1' },
+    { content: 'Negocios', slug: '#', style: 'btn btn-outline-primary m-1' },
+    { content: 'Educación', slug: '#', style: 'btn btn-outline-primary m-1' },
+    { content: 'Tecnología', slug: '#', style: 'btn btn-outline-primary m-1' },
+    { content: 'Streaming', slug: '#', style: 'btn btn-outline-primary m-1' },
+    { content: 'Deportes', slug: '#', style: 'btn btn-outline-primary m-1' },
+    { content: 'Entretenimiento', slug: '#', style: 'btn btn-outline-primary m-1' },
+    { content: 'General', slug: '#', style: 'btn btn-outline-primary m-1' }
+]; %>
+
+<section>
+    <h5 class="title-style">
+        Categorías
+    </h5>
+
+    <%- include('./buttonList', { 
+        buttons: categories,
+        classContainer: 'bg-style container-flex-buttons'
+    }); %>
+</section>

@@ -1,0 +1,7 @@
+<div class="<%= classContainer %>">
+    <% buttons.forEach(button => { %>
+        <a class="<%= button.style %>" href="<%= button.slug %>">
+            <%- button.content %>
+        </a>
+    <% }); %>
+</div>

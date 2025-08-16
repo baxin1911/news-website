@@ -1,0 +1,31 @@
+<% const modal = {
+    idModal: 'registerModal',
+    idModalLabel: 'registerModalLabel',
+    modalTitle: 'Registro para titulo'
+};
+
+const extraContent = {
+    withExtraContent: true,
+    title: '¿Ya tienes una cuenta?',
+    buttonLabel: 'Inicia sesión',
+    idModal: '#loginModal'
+};
+
+const form = {
+    action: '/register',
+    inputs: [
+        { label: 'Correo electrónico:', name: 'email', type: 'email' },
+        { label: 'Contraseña:', name: 'password', type: 'password' },
+        { label: 'Repetir contraseña:', name: 'repeatPassword', type: 'password' },
+        { label: 'Nombre de usuario:', name: 'username', type: 'text' }
+    ],
+    idModal: '#recoverModal',
+    linkLabel: 'Recuperar contraseña',
+    buttonLabel: 'Ingresar'
+}; %>
+
+<%- include('./modal', {
+    modal,
+    extraContent,
+    form
+}); %>

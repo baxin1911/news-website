@@ -21,11 +21,12 @@
         <a class="badge badge-body" href="#"><%= category %></a>
     </article>
 <% } else if (viewMode === 'horizontal') { %>
-    <article class="d-flex align-items-start bg-style">
-        <img class="img-fluid" src="/img/ejemplo.png" 
-            width="300">
+    <article class="row bg-style">
+        <div class="col-12 col-md-4">
+            <img class="img-fluid" src="/img/ejemplo.png" width="300">
+        </div>
         
-        <div class="ms-3">
+        <div class="col-12 col-md-8">
             <a href="#">
                 <p class="fs-3 fw-bold"><%= shortTitle %></p>
                 <p class="small"><%= date %></p>
