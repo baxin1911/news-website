@@ -12,16 +12,15 @@ const extraContent = {
 };
 
 const form = {
-    action: '/register',
+    idForm: 'registerForm',
+    viewMode: 'register',
     inputs: [
-        { label: 'Correo electrónico:', name: 'email', type: 'email' },
-        { label: 'Contraseña:', name: 'password', type: 'password' },
-        { label: 'Repetir contraseña:', name: 'repeatPassword', type: 'password' },
-        { label: 'Nombre de usuario:', name: 'username', type: 'text' }
+        { id: 'emailRegisterInput', label: 'Correo electrónico:', name: 'email', type: 'email' },
+        { id: 'passwordRegisterInput', label: 'Contraseña:', name: 'password', type: 'password' },
+        { id: 'repeatedPasswordRegisterInput', label: 'Repetir contraseña:', name: 'repeatedPassword', type: 'password' },
+        { id: 'usernameRegisterInput', label: 'Nombre de usuario:', name: 'username', type: 'text' }
     ],
-    idModal: '#recoverModal',
-    linkLabel: 'Recuperar contraseña',
-    buttonLabel: 'Ingresar'
+    buttonLabel: 'Registrar'
 }; %>
 
 <%- include('./modal', {

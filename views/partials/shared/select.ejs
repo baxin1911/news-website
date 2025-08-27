@@ -1,0 +1,13 @@
+<div class="mb-3">
+    <label class="form-label"><%= select.label %></label>
+
+    <select id="<%= select.id %>" name="<%= select.name %>" class="form-select mb-2">
+        <% select.options.forEach(option => { %>
+            <option value="<%= option.id %>"><%= option.name %></option>
+        <% }); %>
+    </select>
+
+    <div id="<%= select.id %>Error" class="alert alert-danger" role="alert"
+        aria-live="assertive" aria-hidden="true" hidden>
+    </div>
+</div>

@@ -1,20 +1,16 @@
-export const subscribe = (req, res) => {
-    const { email } = req.body || null;
+import { validateEmail } from "../helpers/validations/auth.js";
 
-    if (!email) {
-        req.flash('error', 'El correo electrónico es requerido');
-        return res.redirect('/');
-    }
+export const subscribe = async (email) => {
 
-    const isValid = validateEmailFormat(email);
+    const errors = {
+        emailError: validateEmail(email)
+    };
 
-    if (!isValid) {
-        req.flash('error', 'El correo electrónico no es válido');
-        return res.redirect('/');
-    }
+    const hasErrors = Object.values(errors).some(error => error);
+
+    if (hasErrors) return { errors };
 
     // Save the email to the database or send a confirmation email
 
-    req.flash('success', '¡Gracias por suscribirte al boletín!');
-    res.redirect('/');
+    return { message: '¡Gracias por suscribirte al boletín!' };
 }

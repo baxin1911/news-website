@@ -5,7 +5,7 @@
         <% if (isFooter) { %>
             <%- include('./slider', { 
                 swiperClass: 'swiper-popular-news', 
-                viewMode: 'overlay' 
+                articleViewMode: 'overlay' 
             }); %>
         <%} else { %>
             <%- include('./articleList', { isSidebar: true }); %>

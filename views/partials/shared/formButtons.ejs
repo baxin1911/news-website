@@ -1,0 +1,18 @@
+<div class="d-flex justify-content-between">
+
+    <% if (formViewMode === 'search') { %>
+        <button type="reset" class="btn btn-primary">Limpiar</button>
+    <% } %>
+    
+    <button type="submit" class="btn btn-primary">
+        <%= buttonLabel %>
+    </button>
+
+    <% if (formViewMode === 'login' || formViewMode === 'recover') { %>
+        <a href="#" class="align-content-center" data-bs-toggle="modal" 
+            data-bs-target="<%= idModal %>" data-bs-dismiss="modal"
+        >
+            <%= linkLabel %>
+        </a>
+    <% } %>
+</div>

@@ -1,0 +1,56 @@
+<form id="<%= form.idForm %>" novalidate>
+    <% if (formViewMode === 'search') { %>
+        <%- include('./input', { input: form.inputs[0] }); %>
+
+        <%- include('./select', { select: form.selectCategory }); %>
+
+        <%- include('./input', { input: form.inputs[1] }); %>
+
+        <fieldset class="mb-3">
+            <legend>Rango de fechas:</legend>
+
+            <div class="row">
+                <div class="col-6">
+                    <%- include('./input', { input: form.inputs[2] }); %>
+                </div>
+
+                <div class="col-6">
+                    <%- include('./input', { input: form.inputs[3] }); %>
+                </div>
+            </div>
+        </fieldset>
+
+        <%- include('./select', { select: form.selectOrdering }); %>
+
+        <%- include('./formButtons', {
+            buttonLabel: 'Buscar',
+            formViewMode
+        }); %>
+    <% } else if (formViewMode === 'newsletter') { %>
+        <p>Recibe las últimas noticias y actualizaciones directamente en tu bandeja de entrada.</p>
+        
+        <label for="<%= form.idInput %>" class="form-label">Correo electrónico:</label>
+
+        <div class="input-group">
+            <input id="<%= form.idInput %>" type="email" name="email" 
+                class="form-control" placeholder="Ingresa tu correo electrónico"
+                aria-describedby="<%= form.idInput %>Error">
+
+            <button type="submit" class="btn btn-primary">Suscribirse</button>
+        </div>
+
+        <div id="<%= form.idInput %>Error" class="alert alert-danger" role="alert"
+            aria-live="assertive" aria-hidden="true" hidden>
+    <% } else { %>
+        <% form.inputs.forEach( input => { %>
+            <%- include('./input', { input }); %>
+        <% }) %>
+
+        <%- include('./formButtons', {
+            buttonLabel: form.buttonLabel,
+            linkLabel: form.linkLabel,
+            idModal: form.idModal,
+            formViewMode: form.viewMode
+        }); %>
+    <% } %>
+</form>

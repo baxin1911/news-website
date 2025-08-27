@@ -1,32 +1,66 @@
-import { validateEmailFormat, validatePassowrdFormat } from "../helpers/validations/auth";
+import { encryptPassword } from "../helpers/encryption.js";
+import { validateEmail, validatePassowrd, validateRepeatedPassowrd, validateUsername } from "../helpers/validations/auth.js";
 
-export const login = (req, res) => {
-    const { email } = req.body || null;
-    const { password } = req.body || null;
+export const login = async (email, password) => {
 
-    if (!email || !password) {
-        req.flash('error', 'Llenar todos los campos');
-        return res.redirect('/modals/login');
-    }
+    const emailError = validateEmail(email);
+    const passwordError = validatePassowrd(password);
 
-    const isValidEmail = validateEmailFormat(email);
-    const isValidPassword = validatePassowrdFormat(password);
+    if (emailError || passwordError) return { error: 'Correo o contraseña incorrecto.' };
 
-    if (!isValidEmail || !isValidPassword) {
-        req.flash('error', 'Datos incorrectos');
-        return res.redirect('/modals/login');
-    }
+    // Get user and verify auth
 
-    // Get user and show success message
-
-    req.session.user = { email };
-    res.redirect('/');
+    return { message: '¡Inicio de sesión exitoso!' };
 }
 
-export const registerUser = (req, res) => {
+export const registerUser = async (username, email, password, repeatedPassword) => {
+
+    const errors = {
+        emailError: validateEmail(email),
+        passwordError: validatePassowrd(password),
+        repeatedPasswordError: validateRepeatedPassowrd(password, repeatedPassword),
+        usernameError: validateUsername(username)
+    };
+
+    const hasErrors = Object.values(errors).some(error => error);
+
+    if (hasErrors) return { errors };
+
+    const hashPassword = await encryptPassword(password);
+
+    // Save user and show errors for duplicate information
+
+    return { message: '¡Usuario registrado exitosamente!' };
+}
+
+export const recoverAccount = async (email) => {
+
+    const errors = {
+        emailError: validateEmail(email)
+    };
     
+    const hasErrors = Object.values(errors).some(error => error);
+
+    if (hasErrors) return { errors };
+
+    // Search email and send a message with token and link
+
+    return { message: 'Si el correo está registrado, recibirás un enlace para recuperar tu cuenta.' };
 }
 
-export const recoverPassword = (email) => {
+export const resetPassword = async (password) => {
 
+    const errors = {
+        passwordError: validatePassowrd(password)
+    };
+
+    const hasErrors = Object.values(errors).some(error => error);
+
+    if (hasErrors) return { errors };
+
+    const hashPassword = await encryptPassword(password);
+
+    // Update password and verify errors and token
+
+    return { message: 'Si el correo está registrado, la contraseña ha sido actualizada.' };
 }

@@ -5,16 +5,14 @@
 };
 
 const extraContent = {
-    withExtraContent: false,
-    title: null,
-    buttonLabel: null,
-    idModal: null
+    withExtraContent: false
 };
 
 const form = {
-    action: '/recover',
+    idForm: 'recoverForm',
+    viewMode: 'recover',
     inputs: [
-        { label: 'Correo electrónico:', name: 'email', type: 'email' }
+        { id: 'emailRecoverInput', label: 'Correo electrónico:', name: 'email', type: 'email' }
     ],
     idModal: '#loginModal',
     linkLabel: 'Cancelar',

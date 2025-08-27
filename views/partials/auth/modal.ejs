@@ -16,34 +16,10 @@
             </div>
 
             <div class="modal-body dark">
-                <form action="<%= form.action %>" method="post">
-                    <% if (error & error.length > 0) { %>
-                        <div class="alert alert-danger">
-                            <%= error %>
-                        </div>
-                    <% } %>
-
-                    <% form.inputs.forEach(input => { %>
-                        <div class="mb-3">
-                            <label for="<%= input.name %>" class="form-label">
-                                <%= input.label %>
-                            </label>
-
-                            <input id="<%= input.name %>" type="<%= input.type %>" 
-                                name="<%= input.name %>" class="form-control" required>
-                        </div>
-                    <% }); %>
-
-                    <div class="d-flex justify-content-between">
-                        <button type="submit" class="btn btn-primary"><%= form.buttonLabel %></button>
-
-                        <a href="#" class="align-content-center" data-bs-toggle="modal" 
-                            data-bs-target="<%= form.idModal %>" data-bs-dismiss="modal"
-                        >
-                            <%= form.linkLabel %>
-                        </a>
-                    </div>
-                </form>
+                <%- include('../shared/form', {
+                    formViewMode: form.viewMode,
+                    form
+                }); %>
 
                 <% if (extraContent.withExtraContent) { %>
                     <div class="text-center my-4">

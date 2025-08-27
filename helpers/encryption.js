@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import bcrypt from 'bcrypt';
 
 const algorithm = 'aes-256-cbc';
 
@@ -20,4 +21,8 @@ export const decryptId = (encryptedId, key) => {
     let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
     return decrypted;
+}
+
+export const encryptPassword = async (password) => {
+    return await bcrypt.hash(password, 10);
 }

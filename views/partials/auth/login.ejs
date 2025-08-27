@@ -12,10 +12,11 @@ const extraContent = {
 };
 
 const form = {
-    action: '/login',
+    idForm: 'loginForm',
+    viewMode: 'login',
     inputs: [
-        { label: 'Correo electrónico:', name: 'email', type: 'email' },
-        { label: 'Contraseña:', name: 'password', type: 'password' }
+        { id: 'emailLoginInput', label: 'Correo electrónico:', name: 'email', type: 'email' },
+        { id:'passwordLoginInput', label: 'Contraseña:', name: 'password', type: 'password' }
     ],
     idModal: '#recoverModal',
     linkLabel: 'Recuperar contraseña',

@@ -1,0 +1,10 @@
+<div class="mb-3">
+    <label for="<%= input.id %>" class="form-label"><%= input.label %></label>
+
+    <input id="<%= input.id %>" type="<%= input.type %>" name="<%= input.name %>" 
+        class="form-control mb-2" aria-describedby="<%= input.id %>Error">
+
+    <div id="<%= input.id %>Error" class="alert alert-danger" role="alert"
+        aria-live="assertive" aria-hidden="true" hidden>
+    </div>
+</div>

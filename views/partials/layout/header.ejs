@@ -9,17 +9,10 @@
     { content: 'Tecnología', slug: '#' },
     { content: 'General', slug: '#' },
     { content: '<i class="fas fa-envelope me-2"></i>Contacto', slug: '/contacto' }
-];
-
-const buttons = [
-    { content: '<i class="fa-solid fa-magnifying-glass me-2"></i>Buscar', toggle: 'offcanvas',target: '#searchMenu' },
-    { content: '<i class="fa fa-user me-2"></i>Iniciar sesión', toggle: 'modal', target: '#loginModal' }
 ]; %>
 
 <header class="dark">
-    <div class="top-bar text-center">
-        <%= todayFormatted %>
-    </div>
+    <div id="headerDate" class="top-bar text-center"></div>
 
     <nav class="navbar navbar-expand-xl p-0">
         <div class="container-fluid">
@@ -31,18 +24,22 @@ const buttons = [
                                 <%- link.content %>
                             </a>
                         </li>
-                    <% }) %>
+                    <% }); %>
                 </ul>
 
                 <div class="d-flex gap-2">
-                    <% buttons.forEach(button => { %>
-                        <button class="btn btn-outline-primary" type="button" 
-                                data-bs-toggle="<%= button.toggle %>" 
-                                data-bs-target="<%= button.target %>"
-                        >
-                            <%- button.content %>
-                        </button>
-                    <% }); %>
+                    <% if (pageViewMode !== 'search') { %>
+                        <a class="btn btn-outline-primary" href="/search">
+                            <i class="fa-solid fa-magnifying-glass me-2"></i>Buscar
+                        </a>
+                    <% } %>
+
+                    <%- include('../shared/button', {
+                        btnClass: 'btn btn-outline-primary',
+                        toggle: 'modal',
+                        target: '#loginModal',
+                        content: '<i class="fa fa-user me-2"></i>Iniciar sesión'
+                    }); %>
                 </div>
             </div>
         </div>
@@ -65,7 +62,5 @@ const buttons = [
                 <h1 class="title-style">Titulo</h1>
             </a>
         </div>
-
-        <%- include('../offcanvas/searchMenu'); %>
     </div>
 </header>
