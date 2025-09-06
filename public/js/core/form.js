@@ -1,5 +1,5 @@
-import { showSuccessMessage, showToast } from "../utils/messages.js";
-import { checkStatusCodes, toggleErrorMessages } from "../utils/utils.js";
+import { checkErrorStatusCodes, checkSuccessStatusCodes } from "../utils/httpStatus.js";
+import { toggleErrorMessages } from "../utils/utils.js";
 
 export const useForm = async ({ 
     idForm,
@@ -22,31 +22,28 @@ export const useForm = async ({
 
         const hasErrors = Object.values(errors).some(error => error);
 
-        if (!hasErrors) {
+        if (hasErrors) return;
 
-            try {
+        try {
 
-                applyBeforeRequest(data);
+            applyBeforeRequest(data);
 
-                const response = await sendRequest(data);
+            const response = await sendRequest(data);
 
-                showSuccessMessage(response);
-                applyAfterSuccess({ response, data, form });
+            checkSuccessStatusCodes(response);
+            applyAfterSuccess({ data, form });
 
-            } catch (err) {
+        } catch (err) {
 
-                checkStatusCodes(err, {
+            checkErrorStatusCodes(err, {
 
-                    showFormErrors: (data) => {
+                showFormErrors: (data) => {
 
-                        showToast(data);
+                    errors = validate(data);
 
-                        errors = validate(data);
-
-                        toggleErrorMessages(errors);
-                    }
-                });
-            }
+                    toggleErrorMessages(errors);
+                }
+            });
         }
     });
 }

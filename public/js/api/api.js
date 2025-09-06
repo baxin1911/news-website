@@ -1,5 +1,5 @@
 const api = axios.create({
-    baseURL: 'http://localhost:3000/api',
+    baseURL: 'http://localhost:3000',
     timeout: 5000
 });
 
@@ -25,7 +25,6 @@ api.interceptors.response.use(
 
         } else {
 
-            console.log('Error inesperado:   ' + error.message);
             return Promise.reject({
                 status: null,
                 data: null
@@ -37,7 +36,7 @@ api.interceptors.response.use(
 export const apiRequest = async ({ method, url, params, data }) =>{
     try {
         const response = await api({ method, url, params, data });
-        return response.data;
+        return response;
     } catch (error) {
         throw error;
     }

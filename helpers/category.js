@@ -5,16 +5,25 @@ export const getCategory = (categoryId) => {
         case 2:
             return 'Entretenimiento';
         case 3:
-            return 'Negocios'
-        case 4:
-            return 'Educación'
-        case 5:
-            return 'Streaming'
-        case 6:
             return 'Deportes'
-        case 7:
+        case 4:
             return 'Tecnología'
         default:
-            return 'General';
+            return 'Sin categoría';
+    }
+}
+
+export const getCategoryId = (categoryName) => {
+    switch (categoryName) {
+        case 'Gamming':
+            return 1;
+        case 'Entretenimiento':
+            return 2;
+        case 'Deportes':
+            return 3;
+        case 'Tecnología':
+            return 4;
+        default:
+            return 'Sin categoría';
     }
 }

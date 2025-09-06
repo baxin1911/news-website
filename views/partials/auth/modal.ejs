@@ -3,17 +3,13 @@
 >
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 id="<%= modal.idModalLabel %>" class="modal-title">
-                    <%= modal.modalTitle %>
-                </h5>
-
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" 
-                    aria-label="Cerrar"
-                >
-                    <i class="fa-solid fa-xmark fa-lg"></i>
-                </button>
-            </div>
+            <%- include('../shared/header', {
+                idTitle: modal.idModalLabel,
+                title: modal.modalTitle,
+                titleClass: 'modal-title',
+                headerClass: 'modal-header',
+                dismissTarget: 'modal'
+            }); %>
 
             <div class="modal-body dark">
                 <%- include('../shared/form', {
@@ -31,11 +27,16 @@
                     <div class="text-center my-4">
                         <h2 class="mb-2"><%= extraContent.title %></h2>
 
-                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" 
-                            data-bs-target="<%= extraContent.idModal %>" data-bs-dismiss="modal"
-                        >
-                            <%= extraContent.buttonLabel %>
-                        </button>
+                        <%- include('../shared/button', {
+                            btnClass: 'btn btn-outline-primary',
+                            withToggle: true,
+                            toggle: 'modal',
+                            withTarget: true,
+                            target: extraContent.idModal,
+                            withDismiss: false,
+                            withAria: false,
+                            content: extraContent.buttonLabel
+                        }); %>
                     </div>
                 <% } %>
             </div>

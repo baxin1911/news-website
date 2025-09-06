@@ -11,8 +11,9 @@
         Siguenos
     </h5>
 
-    <%- include('./buttonList', { 
-        buttons: links,
-        classContainer: isFooter ? 'bg-style d-flex gap-2' : 'social-links bg-style d-grid'
+    <%- include('./linkList', { 
+        links,
+        isHeader: false,
+        classContainer: isFooter ? '' : 'flex-column social-links'
     }); %>
 </section>

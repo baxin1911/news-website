@@ -1,5 +1,5 @@
 import { validateEmail } from "../../utils/validations/auth.js";
-import { useNewsletterForm } from "../../core/newsletter.js";
+import { useNewsletterForm } from "../../core/newsletterForm.js";
 
 useNewsletterForm({
     idForm: 'newsletterSidebarForm',

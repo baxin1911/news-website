@@ -1,0 +1,15 @@
+<div class="<%= headerClass %>">
+    <h5 id="<%= idTitle %>" class="<%= titleClass %>">
+        <%= title %>
+    </h5>
+
+    <%- include('./button', {
+        btnClass: 'btn btn-primary',
+        withToggle: false,
+        withTarget: false,
+        withDismiss: true,
+        dismiss: dismissTarget,
+        withAria: false,
+        content: '<i class="fa-solid fa-xmark fa-lg"></i>'
+    }); %>
+</div>

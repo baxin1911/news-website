@@ -1,8 +1,10 @@
 import express from 'express';
-import { getAllNotices } from '../../controllers/noticesController.js';
-import { getCategory } from '../../helpers/category.js';
+import { getAllNotices, getNoticesByCategory } from '../../controllers/noticesController.js';
+import { searchNotices } from '../../controllers/searchController.js';
+import { getCategory, getCategoryId } from '../../helpers/category.js';
 import { formatShortDate } from '../../helpers/formattedDate.js';
 import { getAllCategories } from '../../controllers/categoryController.js';
+import { buildPagination } from '../../helpers/pagination.js';
 
 const router = express.Router();
 
@@ -12,7 +14,7 @@ router.get('/', async (req, res) => {
 
     res.render('index', { 
         notices, 
-        pageViewMode: 'home',
+        currentRoute: '/',
         getCategory, 
         formatShortDate
     });
@@ -29,13 +31,35 @@ router.get('/reset-password', async (req, res) => {
 
 router.get('/search', async (req, res) => {
 
-    const notices = await getAllNotices();
-    const categories = await getAllCategories();
+    const { currentPage = 1, itemsPerPage = 10, q } = req.query;
 
-    res.render('search', { 
+    const { notices, errors } = await searchNotices(q);
+    const categories = await getAllCategories();
+    const pagination = buildPagination(notices.length, currentPage, itemsPerPage);
+
+    res.render('feed', { 
         notices, 
         categories,
-        pageViewMode: 'search',
+        currentRoute: '/search',
+        pagination,
+        getCategory, 
+        formatShortDate
+    });
+});
+
+router.get('/categories/:slug', async (req, res) => {
+    const { slug } = req.params;
+    const currentPage = 1, itemsPerPage = 10;
+
+    const notices = await getNoticesByCategory(getCategoryId(slug));
+    const categories = await getAllCategories();
+    const pagination = buildPagination(notices.length, currentPage, itemsPerPage);
+
+    res.render('feed', { 
+        notices, 
+        categories,
+        currentRoute: '/categories/' + slug,
+        pagination,
         getCategory, 
         formatShortDate
     });

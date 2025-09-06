@@ -1,0 +1,36 @@
+<div id="menuOffcanvas" tabindex="-1" class="offcanvas offcanvas-start" 
+    aria-labelledby="searchTitle"
+>
+    <%- include('../shared/header', {
+        idTitle: offcanvasHeader.idTitle,
+        title: offcanvasHeader.title,
+        titleClass: offcanvasHeader.titleClass,
+        headerClass: offcanvasHeader.headerClass,
+        dismissTarget: offcanvasHeader.dismissTarget
+    }); %>
+
+    <div class="offcanvas-body dark">
+        <div class="mb-3">
+            <%- include('../shared/form', {
+                form,
+                formViewMode: form.viewMode
+            }); %>
+        </div>
+
+        <%- include('../shared/linkList', { 
+            links,
+            isHeader: true
+        }); %>
+
+        <%- include('../shared/button', {
+            btnClass: 'btn btn-outline-primary',
+            withToggle: true,
+            toggle: 'modal',
+            withTarget: true,
+            target: '#loginModal',
+            withDismiss: false,
+            withAria: false,
+            content: '<i class="fa fa-user me-2"></i>Iniciar sesión'
+        }); %>
+    </div>
+</div>

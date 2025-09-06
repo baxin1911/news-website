@@ -1,6 +1,11 @@
 <% const form = {
     idForm: (isFooter) ? 'newsletterFooterForm' : 'newsletterSidebarForm',
-    idInput: (isFooter) ? 'emailNewsletterFooterInput' : 'emailNewsletterSidebarInput',
+    input: {
+        id: (isFooter) ? 'emailNewsletterFooterInput' : 'emailNewsletterSidebarInput',
+        label: 'Correo electrónico:',
+        placeholder: 'Ingresa tu correo electrónico',
+        name: 'email'
+    },
     buttonLabel: 'Suscribirse'
 }; %>
 

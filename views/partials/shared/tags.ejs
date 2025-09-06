@@ -1,4 +1,4 @@
-<% const tags = [
+<% const links = [
     { content: 'Xbox', slug: '#', style: 'btn btn-outline-secondary m-1' },
     { content: 'T1', slug: '#', style: 'btn btn-outline-secondary m-1' },
     { content: 'PlayStation', slug: '#', style: 'btn btn-outline-secondary m-1' },
@@ -11,8 +11,9 @@
         Tags
     </h5>
 
-    <%- include('./buttonList', { 
-        buttons: tags,
-        classContainer: 'bg-style container-flex-buttons'
+    <%- include('./linkList', { 
+        links,
+        isHeader: false,
+        classContainer: 'justify-content-center'
     }); %> 
 </section>

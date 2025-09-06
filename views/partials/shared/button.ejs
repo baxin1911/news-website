@@ -1,5 +1,8 @@
 <button class="<%= btnClass %>" type="button" 
-    data-bs-toggle="<%= toggle %>" data-bs-target="<%= target %>"
+    <% if (withToggle) { %> data-bs-toggle="<%= toggle %>" <% } %>
+    <% if (withTarget) { %> data-bs-target="<%= target %>" <% } %>
+    <% if (withDismiss) { %> data-bs-dismiss="<%= dismiss %>" <% } %>
+    <% if (withAria) { %> aria-controls="navbarNews" aria-expanded="false" <% } %>
 >
     <%- content %>
 </button>

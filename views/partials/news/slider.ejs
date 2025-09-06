@@ -1,10 +1,10 @@
 <div class="swiper <%= swiperClass %>">
     <div class="swiper-wrapper">
         <% notices.forEach(notice => {
-            const imageUrl = notice.imageUrls && notice.imageUrls.length > 0 ? notice.imageUrls[0] : '';
-            const shortTitle = notice.title.length > 50 ? `${notice.title.substring(0, 50)} ...` : notice.title;
-            const category = notice.category ? getCategory(notice.category) : '';
-            const date = notice.publicationDate ? formatShortDate(notice.publicationDate) : '';
+            const imageUrl = (notice.imageUrls && notice.imageUrls.length > 0) ? notice.imageUrls[0] : '';
+            const shortTitle = (notice.title.length > 50) ? `${notice.title.substring(0, 50)} ...` : notice.title;
+            const category = (notice.category) ? getCategory(notice.category) : '';
+            const date = (notice.publicationDate) ? formatShortDate(notice.publicationDate) : '';
         %>
             <div class="swiper-slide">
                 <%- include('./article', {

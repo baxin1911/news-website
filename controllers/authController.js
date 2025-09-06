@@ -13,6 +13,13 @@ export const login = async (email, password) => {
     return { message: '¡Inicio de sesión exitoso!' };
 }
 
+export const logout = async (userId) => {
+
+    // Invalidate tokens (from BD/Redis) and perform logout actions
+
+    return { message: '¡Has cerrado sesión exitosamente!' };
+}
+
 export const registerUser = async (username, email, password, repeatedPassword) => {
 
     const errors = {

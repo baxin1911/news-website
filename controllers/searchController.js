@@ -1,13 +1,9 @@
-import { validateDateRange, validateEndDate, validateSelectedOrdering, validateStartDate } from "../public/js/utils/validations/search.js";
+import { validateQuery } from '../helpers/validations/search.js';
 
-export const searchNews = async (params) => {
-    const { startDate, endDate, ordering } = params;
+export const searchNotices = async (q) => {
 
     const errors = {
-        startDateError: validateStartDate(startDate),
-        endDateError: validateEndDate(endDate),
-        orderingError: validateSelectedOrdering(ordering),
-        dateRangeError: validateDateRange(startDate, endDate)
+        textError: validateQuery(q),
     };
 
     const hasErrors = Object.values(errors).some(error => error);

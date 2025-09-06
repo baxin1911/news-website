@@ -10,8 +10,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
-import { checkContentType } from './middleware/contentType.js';
-
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,7 +21,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 //middleware
-// app.use(checkContentType);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.urlencoded({ extended: true }));
@@ -32,8 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', webRoutes);
 
 // api routes
+app.use('/auth', authApiRoutes);
 app.use(api + '/notices', noticesApiRoutes);
-app.use(api + '/auth', authApiRoutes);
 app.use(api + '/newsletter', newsletterApiRoutes);
 app.use(api + '/search', searchApiRoutes);
 

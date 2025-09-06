@@ -1,12 +1,13 @@
 import express from 'express';
-import { searchNews } from '../../controllers/searchController.js';
+import { searchNotices } from '../../controllers/searchController.js';
+import { buildPagination } from '../../helpers/pagination.js';
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
 
-    const { query } = req || null;
-    const result = await searchNews(query);
+    const { q } = req.query || null;
+    const result = await searchNotices(q);
 
     if (result.errors) return res.status(400).json({ 
         errors: result.errors,
@@ -15,21 +16,19 @@ router.get('/', async (req, res) => {
 
     //401, 403, 429, 500
 
-    const { page = 1, limit = 10, category } = query;
+    const { page = 1, limit = 20, category } = query;
     const { notices } = result;
 
-    const filteredNotices = notices.filter(notice => notice.category === Number(category));
+    let filteredNotices = notices.filter(notice => notice.category === Number(category));
 
-    const start = (page - 1) * limit;
-    const end = start + limit;
-    const paginatedNotices = filteredNotices.slice(start, end);
+    if (!category) filteredNotices = notices;
+
+    const pagination = buildPagination(filteredNotices.length, page, limit);
 
     return res.status(200).json({ 
         message: (filteredNotices.length > 0) ? 'Búsqueda exitosa' : 'No se encontraron resultados',
-        data: paginatedNotices,
-        total: filteredNotices.length,
-        page: Number(page),
-        limit: Number(limit)
+        notices: paginatedNotices,
+        pagination
     });
 });
 

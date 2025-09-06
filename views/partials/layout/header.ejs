@@ -1,60 +1,77 @@
 <% const links = [
-    { content: 'Inicio', slug: '/' },
-    { content: 'Gamming', slug: '#' },
-    { content: 'Entretenimiento', slug: '#' },
-    { content: 'Negocios', slug: '#' },
-    { content: 'Educación', slug: '#' },
-    { content: 'Streaming', slug: '#' },
-    { content: 'Deportes', slug: '#' },
-    { content: 'Tecnología', slug: '#' },
-    { content: 'General', slug: '#' },
-    { content: '<i class="fas fa-envelope me-2"></i>Contacto', slug: '/contacto' }
-]; %>
+    { content: 'Inicio', slug: '/', style: `nav-link ${ (currentRoute === '/') ? 'active' : '' }` },
+    { content: 'Gamming', slug: '/categories/gamming', style: `nav-link ${ (currentRoute === '/categories/gamming') ? 'active' : '' }` },
+    { content: 'Entretenimiento', slug: '/categories/entretenimiento', style: `nav-link ${ (currentRoute === '/categories/entretenimiento') ? 'active' : '' }` },
+    { content: 'Deportes', slug: '/categories/sports', style: `nav-link ${ (currentRoute === '/categories/sports') ? 'active' : '' }` },
+    { content: 'Tecnología', slug: '/categories/technology', style: `nav-link ${ (currentRoute === '/categories/technology') ? 'active' : '' }` },
+    { content: '<i class="fas fa-envelope me-2"></i>Contacto', slug: '/contacto', style: `nav-link ${ (currentRoute === '/contacto') ? 'active' : '' }` }
+]; 
+
+const offcanvasHeader = {
+    idTitle: 'searchTitle',
+    title: 'Menú',
+    titleClass: 'offcanvas-title',
+    headerClass: 'offcanvas-header',
+    dismissTarget: 'offcanvas'
+};
+
+const form = {
+    idForm: 'searchOffcanvasForm',
+    viewMode: 'search',
+    input: { 
+        id: 'textSearchOffcanvasInput', 
+        placeholder: 'Buscar noticias...',
+        label: 'Buscar:', 
+        name: 'q'
+    },
+    buttonLabel: 'Buscar'
+}; %>
 
 <header class="dark">
     <div id="headerDate" class="top-bar text-center"></div>
 
-    <nav class="navbar navbar-expand-xl p-0">
+    <nav class="navbar navbar-expand-lg p-0">
         <div class="container-fluid">
-            <div id="navbarNews" class="collapse navbar-collapse">
-                <ul class="navbar-nav me-auto">
-                    <% links.forEach(link => { %>
-                        <li class="nav-item py-1">
-                            <a class="nav-link text-light" href="<%= link.slug %>">
-                                <%- link.content %>
-                            </a>
-                        </li>
-                    <% }); %>
-                </ul>
+            <div class="collapse navbar-collapse d-none d-lg-flex">
+                <%- include('../shared/linkList', { 
+                    links,
+                    isHeader: true
+                }); %>
 
-                <div class="d-flex gap-2">
-                    <% if (pageViewMode !== 'search') { %>
-                        <a class="btn btn-outline-primary" href="/search">
-                            <i class="fa-solid fa-magnifying-glass me-2"></i>Buscar
-                        </a>
-                    <% } %>
-
-                    <%- include('../shared/button', {
-                        btnClass: 'btn btn-outline-primary',
-                        toggle: 'modal',
-                        target: '#loginModal',
-                        content: '<i class="fa fa-user me-2"></i>Iniciar sesión'
-                    }); %>
-                </div>
+                <%- include('../shared/button', {
+                    btnClass: 'btn btn-outline-primary',
+                    withToggle: true,
+                    toggle: 'modal',
+                    withTarget: true,
+                    target: '#loginModal',
+                    withDismiss: false,
+                    withAria: false,
+                    content: '<i class="fa fa-user me-2"></i>Iniciar sesión'
+                }); %>
             </div>
         </div>
     </nav>
 
+    <%- include('../shared/offcanvas', {
+        offcanvasHeader,
+        form, 
+        links
+    }); %>
+
     <div class="container-fluid bg-title py-3">
         <div class="d-flex align-items-center justify-content-center position-relative">
-            <div class="position-absolute start-0 d-xl-none">
+            <div class="position-absolute start-0">
                 <div class="btn btn-primary p-0">
-                    <button class="navbar-toggler p-2" type="button" 
-                        data-bs-toggle="collapse" data-bs-target="#navbarNews" 
-                        aria-controls="navbarNews" aria-expanded="false"
-                    >
-                        <i class="fas fa-bars me-2"></i>Menú
-                    </button>
+                    <%- include('../shared/button', {
+                        btnClass: 'navbar-toggler p-2',
+                        withToggle: true,
+                        toggle: 'offcanvas',
+                        withTarget: true,
+                        target: '#menuOffcanvas',
+                        withDismiss: false,
+                        withAria: true,
+                        content: '<i class="fas fa-bars me-2"></i>Menú'
+                    }); %>
                 </div>
             </div>
             

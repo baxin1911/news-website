@@ -1,4 +1,4 @@
-export const showToast = (data) => {
+export const showFormErrorToast = (data) => {
     Swal.fire({
         toast: true,
         position: 'top-end',
@@ -10,18 +10,29 @@ export const showToast = (data) => {
     });
 }
 
-export const showSuccessMessage = (data) => {
+export const showSuccessToast = (data) => {
     Swal.fire({
         toast: true,
         position: 'top-end',
-        icon: 'success',
         title: data.message,
+        icon: 'success',
         showConfirmButton: false,
         timer: 3000
     });
 }
 
-export const showServerErrorMessage = (data) => {
+export const showNoContentToast = (data) => {
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        title: 'Sin resultados encontrados',
+        icon: 'info',
+        showConfirmButton: false,
+        timer: 3000
+    });
+}
+
+export const showServerErrorToast = (data) => {
     Swal.fire({
         title: 'Error del servidor',
         text: data.message,
@@ -30,7 +41,7 @@ export const showServerErrorMessage = (data) => {
     });
 }
 
-export const showErrorMessage = () => {
+export const showErrorToast = () => {
     Swal.fire({
         title: 'Error del servidor',
         text: 'Error de conexión con el servidor',
