@@ -1,22 +1,28 @@
 /* color variables */
 
 :root {
-  --bs-primary: #0077B6; 
-  --bs-primary-rgb: 0, 119, 182;
+  --mdb-primary: #0077B6; 
+  --mdb-primary-rgb: 0, 119, 182;
 
-  --bs-secondary: #33415C; 
-  --bs-secondary-rgb: 51, 65, 92;
+  --mdb-secondary: #33415C; 
+  --mdb-secondary-rgb: 51, 65, 92;
 
-  --bs-accent: #FCA311;
-  --bs-accent-rgb: 252, 163, 17;
+  --mdb-accent: #FCA311;
+  --mdb-accent-rgb: 252, 163, 17;
 
-  --bs-light: #FFFFFF;
-  --bs-light-rgb: 255, 255, 255;
+  --mdb-light: #FFFFFF;
+  --mdb-light-rgb: 255, 255, 255;
 
-  --bs-dar-secondary: #84B3F0;
+  --mdb-dark: #1b1b20;
+  --mdb-dark-rgb: 27, 27, 32;
 
-  --bs-heading-color: var(--bs-secondary);
-  --bs-font-sans-serif: "Montserrat", sans-serif;
+  --mdb-dar-secondary: #84B3F0;
+
+  --mdb-highlight-bg-color: var(--mdb-primary);
+  --mdb-surface-color: var(--mdb-light);
+
+  --mdb-heading-color: var(--mdb-secondary);
+  --mdb-font-sans-serif: "Montserrat", sans-serif;
 
   --btn-color-facebook: #3b5998;
   --btn-color-instagram: #E1306C;
@@ -26,49 +32,53 @@
 }
 
 body {
-  --bs-body-color: #333333;
-  --bs-body-bg: #F5F7FA;
+  --mdb-body-color: #333333;
+  --mdb-body-bg: #F5F7FA;
 }
 
 .border-end {
-  --bs-border-color: #E4E7ED;
+  --mdb-border-color: #E4E7ED;
 }
 
 /* button styles */
 
 .btn-primary {
-  --bs-btn-color: var(--bs-light);
-  --bs-btn-bg: var(--bs-primary);
-  --bs-btn-border-color: var(--bs-primary);
-  --bs-btn-hover-color: var(--bs-light);
-  --bs-btn-hover-bg: var(--bs-secondary);
-  --bs-btn-hover-border-color: var(--bs-secondary);
+  --mdb-btn-color: var(--mdb-light);
+  --mdb-btn-bg: var(--mdb-primary);
+  --mdb-btn-border-color: var(--mdb-primary);
+  --mdb-btn-hover-color: var(--mdb-light);
+  --mdb-btn-hover-bg: var(--mdb-secondary);
+  --mdb-btn-hover-border-color: var(--mdb-secondary);
 }
 
 .btn-outline-primary {
-  --bs-btn-color: var(--bs-primary);
-  --bs-btn-border-color: var(--bs-primary);
-  --bs-btn-hover-color: var(--bs-light);
-  --bs-btn-hover-bg: var(--bs-primary);
-  --bs-btn-hover-border-color: var(--bs-primary);
+  --mdb-btn-color: var(--mdb-primary);
+  --mdb-btn-border-color: var(--mdb-primary);
+  --mdb-btn-hover-color: var(--mdb-light);
+  --mdb-btn-hover-bg: var(--mdb-primary);
+  --mdb-btn-hover-border-color: var(--mdb-primary);
 }
 
 .btn-secondary {
   --btn-color-hover-secondary: #0A1A2F;
-  --bs-btn-color: var(--bs-light);
-  --bs-btn-bg: var(--bs-secondary);
-  --bs-btn-border-color: var(--bs-secondary);
-  --bs-btn-hover-color: var(--bs-light);
-  --bs-btn-hover-bg: var(--btn-color-hover-secondary);
-  --bs-btn-hover-border-color: var(--btn-color-hover-secondary);
+  --mdb-btn-color: var(--mdb-light);
+  --mdb-btn-bg: var(--mdb-secondary);
+  --mdb-btn-border-color: var(--mdb-secondary);
+  --mdb-btn-hover-color: var(--mdb-light);
+  --mdb-btn-hover-bg: var(--btn-color-hover-secondary);
+  --mdb-btn-hover-border-color: var(--btn-color-hover-secondary);
 }
 
 .btn-outline-secondary {
-  --bs-btn-color: var(--bs-secondary);
-  --bs-btn-border-color: var(--bs-secondary);
-  --bs-btn-hover-color: var(--bs-light);
-  --bs-btn-hover-bg: var(--bs-secondary);
-  --bs-btn-hover-border-color: var(--bs-secondary);
+  --mdb-btn-color: var(--mdb-secondary);
+  --mdb-btn-border-color: var(--mdb-secondary);
+  --mdb-btn-hover-color: var(--mdb-light);
+  --mdb-btn-hover-bg: var(--mdb-secondary);
+  --mdb-btn-hover-border-color: var(--mdb-secondary);
+}
+
+.btn-dark {
+  --mdb-btn-bg: var(--mdb-dark);
 }
 
 .btn-fixed {
@@ -98,61 +108,124 @@ body {
 
 .btn-facebook {
   --btn-color-hover-facebook: #2d4373;
-  --bs-btn-color: var(--bs-light);
-  --bs-btn-bg: var(--btn-color-facebook);
-  --bs-btn-border-color: var(--btn-color-facebook);
-  --bs-btn-hover-color: var(--bs-light);
-  --bs-btn-hover-bg: var(--btn-color-hover-facebook);
-  --bs-btn-hover-border-color: var(--btn-color-hover-facebook);
+  --mdb-btn-color: var(--mdb-light);
+  --mdb-btn-bg: var(--btn-color-facebook);
+  --mdb-btn-border-color: var(--btn-color-facebook);
+  --mdb-btn-hover-color: var(--mdb-light);
+  --mdb-btn-hover-bg: var(--btn-color-hover-facebook);
+  --mdb-btn-hover-border-color: var(--btn-color-hover-facebook);
 }
 
 .btn-instagram {
   --btn-color-hover-instagram: #C13584;
-  --bs-btn-color: var(--bs-light);
-  --bs-btn-bg: var(--btn-color-instagram);
-  --bs-btn-border-color: var(--btn-color-instagram);
-  --bs-btn-hover-color: var(--bs-light);
-  --bs-btn-hover-bg: var(--btn-color-hover-instagram);
-  --bs-btn-hover-border-color: var(--btn-color-hover-instagram);
+  --mdb-btn-color: var(--mdb-light);
+  --mdb-btn-bg: var(--btn-color-instagram);
+  --mdb-btn-border-color: var(--btn-color-instagram);
+  --mdb-btn-hover-color: var(--mdb-light);
+  --mdb-btn-hover-bg: var(--btn-color-hover-instagram);
+  --mdb-btn-hover-border-color: var(--btn-color-hover-instagram);
 }
 
 .btn-tiktok {
   --btn-color-hover-tiktok: #333333;
-  --bs-btn-color: var(--bs-light);
-  --bs-btn-bg: var(--btn-color-tiktok);
-  --bs-btn-border-color: var(--btn-color-tiktok);
-  --bs-btn-hover-color: var(--bs-light);
-  --bs-btn-hover-bg: var(--btn-color-hover-tiktok);
-  --bs-btn-hover-border-color: var(--btn-color-hover-tiktok);
+  --mdb-btn-color: var(--mdb-light);
+  --mdb-btn-bg: var(--btn-color-tiktok);
+  --mdb-btn-border-color: var(--btn-color-tiktok);
+  --mdb-btn-hover-color: var(--mdb-light);
+  --mdb-btn-hover-bg: var(--btn-color-hover-tiktok);
+  --mdb-btn-hover-border-color: var(--btn-color-hover-tiktok);
 }
 
 .btn-twitter {
   --btn-color-hover-twitter: #0d8ddf;
-  --bs-btn-color: var(--bs-light);
-  --bs-btn-bg: var(--btn-color-twitter);
-  --bs-btn-border-color: var(--btn-color-twitter);
-  --bs-btn-hover-color: var(--bs-light);
-  --bs-btn-hover-bg: var(--btn-color-hover-twitter);
-  --bs-btn-hover-border-color: var(--btn-color-hover-twitter);
+  --mdb-btn-color: var(--mdb-light);
+  --mdb-btn-bg: var(--btn-color-twitter);
+  --mdb-btn-border-color: var(--btn-color-twitter);
+  --mdb-btn-hover-color: var(--mdb-light);
+  --mdb-btn-hover-bg: var(--btn-color-hover-twitter);
+  --mdb-btn-hover-border-color: var(--btn-color-hover-twitter);
 }
 
 .btn-youtube {
   --btn-color-hover-youtube: #CC0000;
-  --bs-btn-color: var(--bs-light);
-  --bs-btn-bg: var(--btn-color-youtube);
-  --bs-btn-border-color: var(--btn-color-youtube);
-  --bs-btn-hover-color: var(--bs-light);
-  --bs-btn-hover-bg: var(--btn-color-hover-youtube);
-  --bs-btn-hover-border-color: var(--btn-color-hover-youtube);
+  --mdb-btn-color: var(--mdb-light);
+  --mdb-btn-bg: var(--btn-color-youtube);
+  --mdb-btn-border-color: var(--btn-color-youtube);
+  --mdb-btn-hover-color: var(--mdb-light);
+  --mdb-btn-hover-bg: var(--btn-color-hover-youtube);
+  --mdb-btn-hover-border-color: var(--btn-color-hover-youtube);
+}
+
+/* dropdown menu styles */
+
+.dropdown-menu {
+  --mdb-dropdown-bg: var(--mdb-secondary);
+}
+
+form .dropdown-item {
+  --mdb-surface-color: var(--mdb-accent);
+  --mdb-highlight-bg-color: var(--mdb-dark);
+}
+
+/* accordion styles */
+
+.accordion {
+  --mdb-accordion-bg: var(--mdb-dark);
+  --mdb-accordion-active-color: var(--mdb-light);
+  --mdb-accordion-active-bg: var(--mdb-primary);
+  --mdb-accordion-border-color: var(--mdb-dark);
+  --mdb-accordion-border-radius: 0;
+}
+
+.accordion-item {
+  border-top: 3px var(--mdb-light) solid;
+  border-bottom: 3px var(--mdb-light) solid;
+}
+
+.accordion-header {
+  border-top: 1px var(--mdb-light) solid;
+  border-bottom: 1px var(--mdb-light) solid;
+}
+
+.accordion-button {
+  width: auto;
+}
+
+.accordion-button::after {
+  display: none;
+}
+
+.rotate-icon {
+  transition: transform 0.3s ease;
+}
+
+.accordion-button:not(.collapsed) .rotate-icon {
+  transform: rotate(180deg);
+}
+
+.list-group {
+  --mdb-list-group-color: var(--mdb-light);
+  --mdb-list-group-bg: var(--mdb-primary);
+  --mdb-list-group-action-hover-color: var(--mdb-light);
+  --mdb-list-group-action-hover-bg: var(--mdb-dark);
+  --mdb-list-group-action-active-color: var(--mdb-light);
+  --mdb-list-group-action-active-bg: var(--mdb-accent);
+}
+
+.list-group form {
+  --mdb-list-group-color: var(--mdb-light);
+  --mdb-list-group-bg: var(--mdb-secondary);
+  --mdb-list-group-action-hover-color: var(--mdb-accent);
+  --mdb-list-group-action-hover-bg: var(--mdb-dark);
 }
 
 /* navbar styles */
 
 .nav-link {
   position: relative;
-  --bs-nav-link-color: var(--bs-light);
-  --bs-nav-link-hover-color: var(--bs-accent);
-  --bs-navbar-active-color: var(--bs-accent);
+  --mdb-nav-link-color: var(--mdb-light);
+  --mdb-nav-link-hover-color: var(--mdb-accent);
+  --mdb-navbar-active-color: var(--mdb-accent);
   transition: color 0.3s ease;
 }
 
@@ -163,7 +236,7 @@ body {
   bottom: -5px;
   width: 0;
   height: 2px;
-  background: var(--bs-accent);
+  background: var(--mdb-accent);
   transition: width 0.3s ease;
 }
 
@@ -173,14 +246,14 @@ body {
 
 .nav-link.active::after {
   width: 100%;
-  background: var(--bs-accent);
+  background: var(--mdb-accent);
 }
 
 /* link styles */
 
 a {
-  --bs-link-color-rgb: var(--bs-primary-rgb);
-  --bs-link-hover-color-rgb: var(--bs-accent-rgb);
+  --mdb-link-color-rgb: var(--mdb-primary-rgb);
+  --mdb-link-hover-color-rgb: var(--mdb-accent-rgb);
   text-decoration: none;
 }
 
@@ -191,32 +264,32 @@ a:hover {
 /* overlay styles */
 
 .text-overlay {
-  color: var(--bs-light);
+  color: var(--mdb-light);
 }
 
 .text-overlay:hover {
-  color: var(--bs-accent);
+  color: var(--mdb-accent);
 }
 
 .badge-overlay, .badge-body {
-  background-color: var(--bs-primary);
+  background-color: var(--mdb-primary);
 }
 
 .badge-overlay:hover {
-  color: var(--bs-accent);
-  background-color: var(--bs-secondary);
+  color: var(--mdb-accent);
+  background-color: var(--mdb-secondary);
 }
 
 .badge-body:hover {
-  color: var(--bs-secondary);
-  background-color: var(--bs-light);
-  border: 1px solid var(--bs-secondary);
+  color: var(--mdb-secondary);
+  background-color: var(--mdb-light);
+  border: 1px solid var(--mdb-secondary);
 }
 
 .overlay {
-  --bs-gradient: linear-gradient(to bottom, rgba(var(--bs-light-rgb), 0), var(--bs-dark));
-  position: absolute;
-  background: var(--bs-gradient);
+  --mdb-gradient: linear-gradient(to bottom, rgba(var(--mdb-light-rgb), 0), var(--mdb-dark));
+  position: amdbolute;
+  background: var(--mdb-gradient);
   inset: 0;
 }
 
@@ -229,15 +302,15 @@ a:hover {
   border-top-right-radius: 10px;
   margin: 0;
   padding: 15px;
-  border-bottom: 1px solid var(--bs-body-color);
-  border-left: 5px solid var(--bs-primary);
+  border-bottom: 1px solid var(--mdb-body-color);
+  border-left: 5px solid var(--mdb-primary);
 }
 
 footer .title-style, header .title-style {
   background-color: inherit;
   border: none;
   box-shadow: none;
-  color: var(--bs-light);
+  color: var(--mdb-light);
 }
 
 /* slider styles */
@@ -248,7 +321,7 @@ footer .title-style, header .title-style {
 }
 
 .swiper-navigation-prev, .swiper-navigaton-next {
-  --swiper-theme-color: var(--bs-primary);
+  --swiper-theme-color: var(--mdb-primary);
 }
 
 /* text styles */
@@ -260,17 +333,17 @@ label {
 /* background styles */
 
 .dark {
-  --bs-heading-color: var(--bs-light);
-  background: var(--bs-dark);
-  color: var(--bs-light);
+  --mdb-heading-color: var(--mdb-light);
+  background: var(--mdb-dark);
+  color: var(--mdb-light);
 }
 
 body section {
-  background-color: var(--bs-light);
+  background-color: var(--mdb-light);
   border-radius: 10px;
   margin-bottom: 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-bottom: 5px solid var(--bs-accent);
+  border-bottom: 5px solid var(--mdb-accent);
 }
 
 footer section, .news-section {
@@ -284,18 +357,18 @@ footer section, .news-section {
 }
 
 .bg-title {
-  background: linear-gradient(215deg, var(--bs-primary), #14213D, var(--bs-primary));
-  border-bottom: 5px solid var(--bs-accent);
+  background: linear-gradient(215deg, var(--mdb-primary), #14213D, var(--mdb-primary));
+  border-bottom: 5px solid var(--mdb-accent);
   padding: 10px 20px;
   text-decoration: none;
 }
 
 .offcanvas-header, .modal-header {
   justify-content: space-between;
-  background: linear-gradient(215deg, var(--bs-primary), #14213D);
-  border-bottom: 5px solid var(--bs-accent);
+  background: linear-gradient(215deg, var(--mdb-primary), #14213D);
+  border-bottom: 5px solid var(--mdb-accent);
   padding: 10px 20px;
-  --bs-heading-color: var(--bs-light);
+  --mdb-heading-color: var(--mdb-light);
 }
 
 .bg-image {
@@ -333,22 +406,22 @@ footer section, .news-section {
 
 .social-links a.facebook-link {
   color: var(--btn-color-facebook);
-  background-color: var(--bs-light);
+  background-color: var(--mdb-light);
   border: 1px solid var(--btn-color-facebook);
 }
 
 .social-links a.facebook-link:hover {
-  color: var(--bs-light);
+  color: var(--mdb-light);
   background-color: var(--btn-color-facebook);
 }
 
 .social-links a.facebook-link i.fa-facebook-f {
-  color: var(--bs-light);
+  color: var(--mdb-light);
   background-color: var(--btn-color-facebook);
 }
 
 .social-links a.facebook-link:hover i.fa-facebook-f {
-  background-color: var(--bs-light);
+  background-color: var(--mdb-light);
   color: var(--btn-color-facebook);
 }
 
@@ -356,22 +429,22 @@ footer section, .news-section {
 
 .social-links a.instagram-link {
   color: var(--btn-color-instagram);
-  background-color: var(--bs-light);
+  background-color: var(--mdb-light);
   border: 1px solid var(--btn-color-instagram);
 }
 
 .social-links a.instagram-link:hover {
-  color: var(--bs-light);
+  color: var(--mdb-light);
   background-color: var(--btn-color-instagram);
 }
 
 .social-links a.instagram-link i.fa-instagram {
-  color: var(--bs-light);
+  color: var(--mdb-light);
   background-color: var(--btn-color-instagram);
 }
 
 .social-links a.instagram-link:hover i.fa-instagram {
-  background-color: var(--bs-light);
+  background-color: var(--mdb-light);
   color: var(--btn-color-instagram);
 }
 
@@ -379,22 +452,22 @@ footer section, .news-section {
 
 .social-links a.tiktok-link {
   color: var(--btn-color-tiktok);
-  background-color: var(--bs-light);
+  background-color: var(--mdb-light);
   border: 1px solid var(--btn-color-tiktok);
 }
 
 .social-links a.tiktok-link:hover {
-  color: var(--bs-light);
+  color: var(--mdb-light);
   background-color: var(--btn-color-tiktok);
 }
 
 .social-links a.tiktok-link i.fa-tiktok {
-  color: var(--bs-light);
+  color: var(--mdb-light);
   background-color: var(--btn-color-tiktok);
 }
 
 .social-links a.tiktok-link:hover i.fa-tiktok {
-  background-color: var(--bs-light);
+  background-color: var(--mdb-light);
   color: var(--btn-color-tiktok);
 }
 
@@ -402,22 +475,22 @@ footer section, .news-section {
 
 .social-links a.twitter-link {
   color: var(--btn-color-twitter);
-  background-color: var(--bs-light);
+  background-color: var(--mdb-light);
   border: 1px solid var(--btn-color-twitter);
 }
 
 .social-links a.twitter-link:hover {
-  color: var(--bs-light);
+  color: var(--mdb-light);
   background-color: var(--btn-color-twitter);
 }
 
 .social-links a.twitter-link i.fa-twitter {
-  color: var(--bs-light);
+  color: var(--mdb-light);
   background-color: var(--btn-color-twitter);
 }
 
 .social-links a.twitter-link:hover i.fa-twitter {
-  background-color: var(--bs-light);
+  background-color: var(--mdb-light);
   color: var(--btn-color-twitter);
 }
 
@@ -425,21 +498,21 @@ footer section, .news-section {
 
 .social-links a.youtube-link {
   color: var(--btn-color-youtube);
-  background-color: var(--bs-light);
+  background-color: var(--mdb-light);
   border: 1px solid var(--btn-color-youtube);
 }
 
 .social-links a.youtube-link:hover {
-  color: var(--bs-light);
+  color: var(--mdb-light);
   background-color: var(--btn-color-youtube);
 }
 
 .social-links a.youtube-link i.fa-youtube {
-  color: var(--bs-light);
+  color: var(--mdb-light);
   background-color: var(--btn-color-youtube);
 }
 
 .social-links a.youtube-link:hover i.fa-youtube {
-  background-color: var(--bs-light);
+  background-color: var(--mdb-light);
   color: var(--btn-color-youtube);
 }

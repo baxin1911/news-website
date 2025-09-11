@@ -1,16 +1,20 @@
+import 'dotenv/config.js';
+
 import noticesApiRoutes from './routes/api/notices.js';
 import authApiRoutes from './routes/api/auth.js';
 import newsletterApiRoutes from './routes/api/newsletter.js';
 import searchApiRoutes from './routes/api/search.js';
 
 import webRoutes from './routes/web/index.js';
+import authWebRoutes from './routes/web/auth.js';
+
+import { checkContentType } from './middleware/errorHandler.js';
+// import { apiLimiter } from './middleware/rateLimit.js';
+import cookieParser from 'cookie-parser';
 
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,12 +25,16 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 //middleware
+app.use(api, checkContentType);
+app.use(cookieParser());
+// app.use(api, apiLimiter);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.urlencoded({ extended: true }));
 
 // web routes
 app.use('/', webRoutes);
+app.use('/', authWebRoutes);
 
 // api routes
 app.use('/auth', authApiRoutes);

@@ -1,8 +1,8 @@
 <button class="<%= btnClass %>" type="button" 
-    <% if (withToggle) { %> data-bs-toggle="<%= toggle %>" <% } %>
-    <% if (withTarget) { %> data-bs-target="<%= target %>" <% } %>
-    <% if (withDismiss) { %> data-bs-dismiss="<%= dismiss %>" <% } %>
-    <% if (withAria) { %> aria-controls="navbarNews" aria-expanded="false" <% } %>
+    <% if (withToggle) { %> data-mdb-toggle="<%= toggle %>" <% } %>
+    <% if (withTarget) { %> data-mdb-target="<%= target %>" <% } %>
+    <% if (withDismiss) { %> data-mdb-dismiss="<%= dismiss %>" <% } %>
+    <% if (withAria) { %> aria-controls="<%= controls %>" aria-expanded="false" <% } %>
 >
     <%- content %>
 </button>

@@ -20,7 +20,7 @@ const form = {
     viewMode: 'search',
     input: { 
         id: 'textSearchOffcanvasInput', 
-        placeholder: 'Buscar noticias...',
+        placeholder: 'Buscar noticias, tags, etc...',
         label: 'Buscar:', 
         name: 'q'
     },
@@ -38,16 +38,23 @@ const form = {
                     isHeader: true
                 }); %>
 
-                <%- include('../shared/button', {
-                    btnClass: 'btn btn-outline-primary',
-                    withToggle: true,
-                    toggle: 'modal',
-                    withTarget: true,
-                    target: '#loginModal',
-                    withDismiss: false,
-                    withAria: false,
-                    content: '<i class="fa fa-user me-2"></i>Iniciar sesión'
-                }); %>
+                <% if (!user) { %>
+                    <%- include('../shared/button', {
+                        btnClass: 'btn btn-outline-primary',
+                        withToggle: true,
+                        toggle: 'modal',
+                        withTarget: true,
+                        target: '#loginModal',
+                        withDismiss: false,
+                        withAria: false,
+                        content: '<i class="fa fa-user me-2"></i>Iniciar sesión'
+                    }); %>
+                <% } else { %>
+                    <%- include('../shared/profileMenu', {
+                        user,
+                        profileMenuViewMode: 'header'
+                    }); %>
+                <% } %>
             </div>
         </div>
     </nav>
@@ -70,6 +77,7 @@ const form = {
                         target: '#menuOffcanvas',
                         withDismiss: false,
                         withAria: true,
+                        controls: 'navbarNews',
                         content: '<i class="fas fa-bars me-2"></i>Menú'
                     }); %>
                 </div>

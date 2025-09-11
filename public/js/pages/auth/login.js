@@ -1,6 +1,5 @@
 import { validateEmail, validatePassword } from "../../utils/validations/auth.js";
 import { useForm } from "../../core/form.js";
-import { closeModal } from "../../utils/utils.js";
 import { login } from "../../api/helpers/auth.js";
 
 useForm({
@@ -18,5 +17,5 @@ useForm({
         return errors;
     },
     sendRequest: (data) => login(data),
-    applyAfterSuccess: ({ form }) => closeModal('loginModal', form)
+    applyAfterSuccess: () => window.location.href = '/profile'
 });

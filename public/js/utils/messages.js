@@ -1,51 +1,52 @@
-export const showFormErrorToast = (data) => {
+const showToast = (title, text, icon) => {
+
     Swal.fire({
         toast: true,
         position: 'top-end',
-        title: 'Campos incorrectos',
-        text: data.message,
-        icon: 'warning',
+        title: title,
+        text: text,
+        icon: icon,
         showConfirmButton: false,
         timer: 3000
     });
+}
+
+const showErrorMessage = (text) => {
+
+    Swal.fire({
+        title: 'Error del servidor',
+        text: text || 'Error de conexión con el servidor',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+    });
+}
+
+export const showFormWarningToast = (data) => {
+
+    showToast('Campos incorrectos', data.message, 'warning');
+}
+
+export const showRateLimitWarningToast = (data) => {
+
+    showToast('Demasiados intentos', data.message, 'warning');
 }
 
 export const showSuccessToast = (data) => {
-    Swal.fire({
-        toast: true,
-        position: 'top-end',
-        title: data.message,
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 3000
-    });
+
+    showToast(data.message, null, 'success');
 }
 
 export const showNoContentToast = (data) => {
-    Swal.fire({
-        toast: true,
-        position: 'top-end',
-        title: 'Sin resultados encontrados',
-        icon: 'info',
-        showConfirmButton: false,
-        timer: 3000
-    });
+
+    showToast('Sin resultados encontrados', null, 'info');
 }
 
 export const showServerErrorToast = (data) => {
-    Swal.fire({
-        title: 'Error del servidor',
-        text: data.message,
-        icon: 'error',
-        confirmButtonText: 'Aceptar'
-    });
+
+    showErrorMessage(data.message);
 }
 
 export const showErrorToast = () => {
-    Swal.fire({
-        title: 'Error del servidor',
-        text: 'Error de conexión con el servidor',
-        icon: 'error',
-        confirmButtonText: 'Aceptar'
-    });
+
+    showErrorMessage(null);
 }

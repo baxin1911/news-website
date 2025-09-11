@@ -1,17 +1,16 @@
-import { showErrorToast, showFormErrorToast, showServerErrorToast, showSuccessToast, showNoContentToast } from "./messages.js";
+import { showErrorToast, showFormWarningToast, showServerErrorToast, showSuccessToast, showNoContentToast, showRateLimitWarningToast } from "./messages.js";
 
 export const checkSuccessStatusCodes = (response) => {
 
     const { status, data } = response;
 
-    if (status === 204 || data.notices.length === 0) {
+    if (status === 204 || data.notices?.length === 0) {
 
         showNoContentToast(data);
         return;
     }
 
     showSuccessToast(data);
-    return;
 }
 
 export const checkErrorStatusCodes = (err, options = {}) => {
@@ -22,7 +21,7 @@ export const checkErrorStatusCodes = (err, options = {}) => {
     
         if (status === 400) {
 
-            showFormErrorToast(data);
+            showFormWarningToast(data);
             options.showFormErrors(data);
             return;
             
@@ -30,10 +29,14 @@ export const checkErrorStatusCodes = (err, options = {}) => {
 
             options.showFormErrors(data);
             return;
+
+        } else if (status === 429) {
+
+            showRateLimitWarningToast(data);
+            return;
         }
 
         showServerErrorToast(data);
-
         return;
 
     }

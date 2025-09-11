@@ -55,7 +55,7 @@ export const recoverAccount = async (email) => {
     return { message: 'Si el correo está registrado, recibirás un enlace para recuperar tu cuenta.' };
 }
 
-export const resetPassword = async (password) => {
+export const resetPassword = async (password, id) => {
 
     const errors = {
         passwordError: validatePassowrd(password)

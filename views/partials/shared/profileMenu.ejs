@@ -1,0 +1,85 @@
+<% const links = [
+    { label: 'Mi perfil', slug: '/profile' },
+    { label: 'Siguiendo', slug: '/following' },
+    { label: 'Configuración', slug: '/settings' },
+]; %>
+
+<% if (profileMenuViewMode === 'header') { %>
+    <div class="btn-group mt-auto d-flex justify-content-end">
+        <a href="/profile" class="btn btn-dark d-flex align-items-center">
+            <img src="<%= user.profileImage %>" alt="Perfil" class="rounded-circle me-2" 
+                width="32" height="32"
+            >
+
+            <span><%= user.username %></span>
+        </a>
+
+        <button id="dropdownMenuButton" type="button" 
+            class="btn btn-dark dropdown-toggle-split"
+            data-mdb-toggle="dropdown"
+        >
+            <i class="fas fa-caret-down"></i>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-end w-100" aria-labelledby="dropdownMenuButton">
+            <% links.forEach(link => { %>
+                <li>
+                    <a href="<%= link.slug %>" class="dropdown-item"><%= link.label %></a>
+                </li>
+            <% }); %>
+
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            
+            <li>
+                <form method="post" action="/logout">
+                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+<% } else { %>
+    <div id="profileAccordion" class="accordion mt-auto">
+        <div class="accordion-item">
+            <h2 class="accordion-header d-flex align-items-center justify-content-between">
+                <a href="/profile" class="d-flex align-items-center text-decoration-none fw-bold ms-4 me-auto">
+                    <img src="<%= user.profileImage %>" alt="Perfil" class="rounded-circle me-2" 
+                        width="32" height="32"
+                    >
+
+                    <span><%= user.username %></span>
+                </a>
+                <%- include('../shared/button', {
+                    btnClass: 'accordion-button collapsed p-2 ps-2 flex-shrink-0',
+                    withToggle: true,
+                    toggle: 'collapse',
+                    withTarget: true,
+                    target: '#profileAccordionCollapse',
+                    withDismiss: false,
+                    withAria: true,
+                    controls: 'profileAccordionCollapse',
+                    content: '<i class="fas fa-chevron-down mx-auto rotate-icon"></i>'
+                }); %>
+            </h2>
+
+            <div id="profileAccordionCollapse" class="accordion-collpase collapse" 
+                data-mdb-parent="#profileAccordion"
+            >
+                <div class="accordion-body p-0">
+                    <div class="list-group list-group-flush">
+                        <% links.forEach(link => { %>
+                            <a href="<%= link.slug %>" class="list-group-item list-group-item-action w-100">
+                                <%= link.label %>
+                            </a>
+                        <% }); %>
+                        
+                        <form method="post" action="/logout" class="d-inline">
+                            <button type="submit" class="list-group-item list-group-item-action btn btn-link w-100 text-start">Cerrar sesión</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>

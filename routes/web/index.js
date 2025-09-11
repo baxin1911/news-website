@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
 
     res.render('index', { 
         notices, 
+        user: null,
         currentRoute: '/',
         getCategory, 
         formatShortDate
@@ -38,6 +39,7 @@ router.get('/search', async (req, res) => {
     const pagination = buildPagination(notices.length, currentPage, itemsPerPage);
 
     res.render('feed', { 
+        user: null,
         notices, 
         categories,
         currentRoute: '/search',
@@ -56,6 +58,7 @@ router.get('/categories/:slug', async (req, res) => {
     const pagination = buildPagination(notices.length, currentPage, itemsPerPage);
 
     res.render('feed', { 
+        user: null,
         notices, 
         categories,
         currentRoute: '/categories/' + slug,
