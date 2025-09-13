@@ -7,24 +7,41 @@ import searchApiRoutes from './routes/api/search.js';
 
 import webRoutes from './routes/web/index.js';
 import authWebRoutes from './routes/web/auth.js';
+import userWebRoutes from './routes/web/user.js';
 
 import { checkContentType } from './middleware/errorHandler.js';
 // import { apiLimiter } from './middleware/rateLimit.js';
 import cookieParser from 'cookie-parser';
+import { Strategy } from 'passport-google-oauth20';
 
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import passport from 'passport';
+
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 const api = '/api';
 
+passport.use(new Strategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: 'http://localhost:3000/auth/google/callback'
+}, (accessToken, refreshToken, profile, done) => {
+    // Save user
+    return done(null, profile);
+}));
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 //middleware
+app.use(passport.initialize());
 app.use(api, checkContentType);
 app.use(cookieParser());
 // app.use(api, apiLimiter);
@@ -34,10 +51,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // web routes
 app.use('/', webRoutes);
-app.use('/', authWebRoutes);
+app.use('/auth', authWebRoutes);
+app.use('/user', userWebRoutes);
 
 // api routes
-app.use('/auth', authApiRoutes);
+app.use(api + '/auth', authApiRoutes);
 app.use(api + '/notices', noticesApiRoutes);
 app.use(api + '/newsletter', newsletterApiRoutes);
 app.use(api + '/search', searchApiRoutes);

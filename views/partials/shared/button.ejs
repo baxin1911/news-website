@@ -1,8 +1,5 @@
 <button class="<%= btnClass %>" type="button" 
-    <% if (withToggle) { %> data-mdb-toggle="<%= toggle %>" <% } %>
-    <% if (withTarget) { %> data-mdb-target="<%= target %>" <% } %>
-    <% if (withDismiss) { %> data-mdb-dismiss="<%= dismiss %>" <% } %>
-    <% if (withAria) { %> aria-controls="<%= controls %>" aria-expanded="false" <% } %>
+    <% for (let key in attrs) { %> <%= key %>="<%= attrs[key] %>" <% } %>
 >
     <%- content %>
 </button>

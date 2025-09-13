@@ -4,8 +4,6 @@ import { resetPassword } from "../../api/helpers/auth.js";
 
 useForm({
     idForm: 'resetForm',
-    method: 'patch',
-    endpoint: '/auth/reset',
     validate: (data) => {
 
         const errors = {};

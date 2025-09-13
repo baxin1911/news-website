@@ -34,17 +34,17 @@
                 <%= form.buttonLabel %>
             </button>
 
-            <%- include('./button', {
-                btnClass: 'btn btn-link',
-                withToggle: true,
-                toggle: 'modal',
-                withTarget: true,
-                target: form.idModal,
-                withDismiss: true,
-                dismiss: 'modal',
-                withAria: false,
-                content: form.linkLabel
-            }); %>
+            <% if (formViewMode !== 'register') { %>
+                <%- include('./button', {
+                    btnClass: 'btn btn-link',
+                    attrs: {
+                        'data-mdb-toggle': 'modal',
+                        'data-mdb-target': form.idModal,
+                        'data-mdb-dismiss': 'modal'
+                    },
+                    content: form.linkLabel
+                }); %>
+            <% } %>
         </div>
     <% } %>
 </form>

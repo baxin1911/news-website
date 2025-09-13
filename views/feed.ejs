@@ -45,10 +45,10 @@
                             </div>
 
                             <nav aria-label="Paginación de resultados">
-                                <ul class="pagination">
+                                <ul class="pagination pagination-circle pagination-lg justify-content-center">
                                     <% if (pagination.hasPrevPage) { %>
                                         <li class="pagination-item">
-                                            <a class="pagination-link" href="#" 
+                                            <a class="page-link" href="#" 
                                                 data-page="<%= pagination.currentPage - 1 %>"
                                             >
                                                 Anterior
@@ -57,19 +57,25 @@
                                     <% } %>
 
                                     <% pagination.visiblePages.forEach(page => { %>
-                                        <li class="pagination-item">
-                                            <a class="pagination-link <%= (page === pagination.currentPage) ? 'active' : '' %>" 
-                                                href="#" data-page="<%= page %>"
-                                                <% if (page === pagination.currentPage) { %> aria-current="page" <% } %>
-                                            >
-                                                <%= page %>
-                                            </a>
+                                        <li class="page-item <%= (page === pagination.currentPage) ? 'active' : '' %>"
+                                            <% if (page === pagination.currentPage) { %> aria-current="page" <% } %>
+                                        >
+                                            <% if (page === pagination.currentPage) { %>
+                                                <span class="page-link">
+                                                    <%= page %>
+                                                    <span class="visually-hidden">(actual)</span>
+                                                </span>
+                                            <% } else { %>
+                                                <a class="page-link" href="#" data-page="<%= page %>">
+                                                    <%= page %>
+                                                </a>
+                                            <% } %>
                                         </li>
                                     <% }); %>
 
                                     <% if (pagination.hasNextPage) { %>
-                                        <li class="pagination-item">
-                                            <a class="pagination-link" href="#" 
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" 
                                                 data-page="<%= pagination.currentPage + 1 %>"
                                             >
                                                 Siguiente
@@ -91,12 +97,10 @@
         <div class="d-sm-none">
             <%- include('./partials/shared/button', {
                 btnClass: 'btn btn-outline-primary btn-filters',
-                withToggle: true,
-                toggle: 'offcanvas',
-                withTarget: true,
-                target: '#searchOffcanvas',
-                withDismiss: false,
-                withAria: false,
+                attrs: {
+                    'data-mdb-toggle': 'offcanvas',
+                    'data-mdb-target': '#searchOffcanvas'
+                },
                 content: '<i class="fa fa-filter me-2"></i>Filtros'
             }); %>
         </div>
@@ -108,7 +112,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         
-        <script src="/js/index.js"></script>
+        <script type="module" src="/js/index.js"></script>
         <script type="module" src="/js/pages/auth/login.js"></script>
         <script type="module" src="/js/pages/auth/register.js"></script>
         <script type="module" src="/js/pages/auth/recover.js"></script>

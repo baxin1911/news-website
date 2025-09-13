@@ -1,17 +1,17 @@
 <% const links = [
-    { label: 'Mi perfil', slug: '/profile' },
-    { label: 'Siguiendo', slug: '/following' },
-    { label: 'Configuración', slug: '/settings' },
+    { label: 'Mi perfil', slug: '/user/profile' },
+    { label: 'Siguiendo', slug: '/user/following' },
+    { label: 'Configuración', slug: '/user/settings' },
 ]; %>
 
 <% if (profileMenuViewMode === 'header') { %>
     <div class="btn-group mt-auto d-flex justify-content-end">
-        <a href="/profile" class="btn btn-dark d-flex align-items-center">
-            <img src="<%= user.profileImage %>" alt="Perfil" class="rounded-circle me-2" 
+        <a href="/user/profile" class="btn btn-dark d-flex align-items-center">
+            <img src="<%= user.picture %>" alt="Perfil" class="rounded-circle me-2" 
                 width="32" height="32"
             >
 
-            <span><%= user.username %></span>
+            <span><%= user.displayName %></span>
         </a>
 
         <button id="dropdownMenuButton" type="button" 
@@ -33,7 +33,7 @@
             </li>
             
             <li>
-                <form method="post" action="/logout">
+                <form method="post" action="/auth/logout">
                     <button type="submit" class="dropdown-item">Cerrar sesión</button>
                 </form>
             </li>
@@ -42,26 +42,26 @@
 <% } else { %>
     <div id="profileAccordion" class="accordion mt-auto">
         <div class="accordion-item">
-            <h2 class="accordion-header d-flex align-items-center justify-content-between">
-                <a href="/profile" class="d-flex align-items-center text-decoration-none fw-bold ms-4 me-auto">
-                    <img src="<%= user.profileImage %>" alt="Perfil" class="rounded-circle me-2" 
+            <h5 class="accordion-header d-flex align-items-center justify-content-between">
+                <a href="/user/profile" class="d-flex align-items-center text-decoration-none fw-bold ms-4 me-auto">
+                    <img src="<%= user.picture %>" alt="Perfil" class="rounded-circle me-2" 
                         width="32" height="32"
                     >
 
-                    <span><%= user.username %></span>
+                    <span><%= user.displayName %></span>
                 </a>
+
                 <%- include('../shared/button', {
                     btnClass: 'accordion-button collapsed p-2 ps-2 flex-shrink-0',
-                    withToggle: true,
-                    toggle: 'collapse',
-                    withTarget: true,
-                    target: '#profileAccordionCollapse',
-                    withDismiss: false,
-                    withAria: true,
-                    controls: 'profileAccordionCollapse',
+                    attrs: {
+                        'data-mdb-toggle': 'collapse',
+                        'data-mdb-target': '#profileAccordionCollapse',
+                        'aria-controls': 'profileAccordionCollapse',
+                        'aria-expanded': 'false'
+                    },
                     content: '<i class="fas fa-chevron-down mx-auto rotate-icon"></i>'
                 }); %>
-            </h2>
+            </h5>
 
             <div id="profileAccordionCollapse" class="accordion-collpase collapse" 
                 data-mdb-parent="#profileAccordion"
@@ -74,7 +74,7 @@
                             </a>
                         <% }); %>
                         
-                        <form method="post" action="/logout" class="d-inline">
+                        <form method="post" action="/auth/logout" class="d-inline">
                             <button type="submit" class="list-group-item list-group-item-action btn btn-link w-100 text-start">Cerrar sesión</button>
                         </form>
                     </div>

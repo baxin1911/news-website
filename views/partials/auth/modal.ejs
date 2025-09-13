@@ -1,5 +1,5 @@
 <div id="<%= modal.idModal %>" class="modal fade" tabindex="-1" 
-    aria-labelledby="<%= modal.idModalLabel %>" aria-hidden="true"
+    aria-labelledby="<%= modal.idModalLabel %>"
 >
     <div class="modal-dialog">
         <div class="modal-content">
@@ -19,9 +19,9 @@
 
                 <% if (extraContent.withExtraContent) { %>
                     <div class="text-center my-4">
-                        <button type="button" class="btn btn-outline-primary">
-                            Ingresa con Google
-                        </button>
+                        <a href="/auth/google" class="btn btn-outline-primary btn-rounded btn-google">
+                            Acceder con <i class="fab fa-google"></i>
+                        </a>
                     </div>
 
                     <div class="text-center my-4">
@@ -29,12 +29,10 @@
 
                         <%- include('../shared/button', {
                             btnClass: 'btn btn-outline-primary',
-                            withToggle: true,
-                            toggle: 'modal',
-                            withTarget: true,
-                            target: extraContent.idModal,
-                            withDismiss: false,
-                            withAria: false,
+                            attrs: {
+                                'data-mdb-toggle': 'modal',
+                                'data-mdb-target': extraContent.idModal
+                            },
                             content: extraContent.buttonLabel
                         }); %>
                     </div>

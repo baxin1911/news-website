@@ -1,3 +1,6 @@
+import { showLoginErrorToast } from "./utils/messages.js";
+import { showModal } from "./utils/utils.js";
+
 const swiper1 = new Swiper( '.main-slider', {
     loop: true,
     autoplay: {
@@ -68,4 +71,14 @@ document.querySelector('.back-to-top').addEventListener('click', (e) => {
 
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.has('loginError')) {
+
+        showModal('loginModal');
+        showLoginErrorToast('Inicio de sesión fallido.');
+    }
 });

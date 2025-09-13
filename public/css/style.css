@@ -29,6 +29,7 @@
   --btn-color-tiktok: #000000;
   --btn-color-twitter: #1DA1F2;
   --btn-color-youtube: #FF0000;
+  --btn-color-google: #dd4b39;
 }
 
 body {
@@ -154,6 +155,14 @@ body {
   --mdb-btn-hover-color: var(--mdb-light);
   --mdb-btn-hover-bg: var(--btn-color-hover-youtube);
   --mdb-btn-hover-border-color: var(--btn-color-hover-youtube);
+}
+
+.btn-google {
+  --mdb-btn-color: var(--mdb-light);
+  --mdb-btn-outline-border-color: var(--btn-color-google);
+  --mdb-btn-hover-color: var(--mdb-light);
+  --mdb-btn-hover-bg: var(--btn-color-google);
+  --mdb-btn-outline-hover-border-color: var(--btn-color-google);
 }
 
 /* dropdown menu styles */

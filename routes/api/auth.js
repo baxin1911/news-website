@@ -17,10 +17,10 @@ router.post('/login', async (req, res) => {
     // 429, 500
 
     const user = {
-        username: 'dersey',
+        displayName: 'dersey',
         code: 'AA000001',
         role: 1,
-        profileImage: '/img/ejemplo.png',
+        picture: '/img/ejemplo.png',
         totalPosts: 0,
         totalTopics: 0,
         following: 0,

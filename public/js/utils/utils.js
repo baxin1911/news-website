@@ -49,3 +49,11 @@ export const closeModal = (idModal, form) => {
     });
     modal.hide();
 }
+
+export const showModal = (idModal) => {
+
+    const modalHtml = document.getElementById(idModal);
+    const modal = new mdb.Modal(modalHtml);
+
+    modal.show();
+}

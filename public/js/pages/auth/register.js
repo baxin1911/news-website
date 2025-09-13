@@ -5,8 +5,6 @@ import { validateEmail, validatePassword, validateRepeatedPassword, validateUser
 
 useForm({
     idForm: 'registerForm',
-    method: 'post',
-    endpoint: '/auth/register',
     validate: (data) => {
 
         const errors = {};

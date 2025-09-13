@@ -6,13 +6,7 @@ const JWT_SECRET_RESET = process.env.JWT_SECRET_RESET;
 
 export const generateAccessToken = (user) => {
 
-    const payload = { id: user.id, email: user.email, role: user.role };
-
-    return jwt.sign(
-        payload, 
-        JWT_SECRET_ACCESS, 
-        { expiresIn: '1h' }
-    );
+    return jwt.sign(user, JWT_SECRET_ACCESS, { expiresIn: '1h' });
 }
 
 export const generateResetToken = (user) => {

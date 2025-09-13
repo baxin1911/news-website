@@ -5,8 +5,6 @@ import { validateEmail } from "../../utils/validations/auth.js";
 
 useForm({
     idForm: 'recoverForm',
-    method: 'post',
-    endpoint: '/auth/recover',
     validate: (data) => {
 
         const errors = {};

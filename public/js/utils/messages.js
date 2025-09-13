@@ -21,6 +21,11 @@ const showErrorMessage = (text) => {
     });
 }
 
+export const showLoginErrorToast = (message) => {
+
+    showToast(message, null, 'warning');
+}
+
 export const showFormWarningToast = (data) => {
 
     showToast('Campos incorrectos', data.message, 'warning');

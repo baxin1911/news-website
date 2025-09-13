@@ -5,11 +5,9 @@
 
     <%- include('./button', {
         btnClass: 'btn btn-primary',
-        withToggle: false,
-        withTarget: false,
-        withDismiss: true,
-        dismiss: dismissTarget,
-        withAria: false,
+        attrs: {
+            'data-mdb-dismiss': dismissTarget
+        },
         content: '<i class="fa-solid fa-xmark fa-lg"></i>'
     }); %>
 </div>

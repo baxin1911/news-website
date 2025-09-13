@@ -19,9 +19,5 @@ form.addEventListener('submit', async e => {
 
     const params = new URLSearchParams(data);
 
-    const offcanvasElement = document.getElementById('menuOffcanvas');
-    const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
-    offcanvas.hide();
-
     window.location.href = `/search?${ params.toString() }`;
 });

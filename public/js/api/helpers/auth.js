@@ -1,11 +1,11 @@
 import { apiRequest } from "../api.js";
 
-const auth = '/auth';
+const route = '/api/auth';
 
-export const login = (data) => apiRequest({ method: 'post', url: `${auth}/login`, data });
+export const login = (data) => apiRequest({ method: 'post', url: `${route}/login`, data });
 
-export const register = (data) => apiRequest({ method: 'post', url: `${auth}/register`, data });
+export const register = (data) => apiRequest({ method: 'post', url: `${route}/register`, data });
 
-export const recoverPassword = (data) => apiRequest({ method: 'post', url: `${auth}/recover`, data });
+export const recoverPassword = (data) => apiRequest({ method: 'post', url: `${route}/recover`, data });
 
-export const resetPassword = (data) => apiRequest({ method: 'post', url: `${auth}/reset`, data });
+export const resetPassword = (data) => apiRequest({ method: 'post', url: `${route}/reset`, data });

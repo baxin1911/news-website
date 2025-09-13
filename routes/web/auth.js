@@ -1,37 +1,57 @@
 import express from 'express';
-import { checkToken } from '../../middleware/errorHandler.js';
-import { getAllNotices } from '../../controllers/noticesController.js';
-import { getCategory } from '../../helpers/category.js';
-import { formatShortDate } from '../../helpers/formattedDate.js';
+import passport from 'passport';
+import { generateAccessToken, generateRefreshToken } from '../../config/jwt.js';
 
 const router = express.Router();
 
-router.get('/profile', checkToken, async (req, res) => {
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-    // Get user form BD
+router.get('/google/callback', passport.authenticate('google', { session: false }), 
+    (req, res) => {
 
-    const user = {
-        username: 'dersey',
-        code: 'AA000001',
-        profileImage: null,
-        totalPosts: 0,
-        totalTopics: 0,
-        following: 0,
-        followers: 0
-    };
+        if (req.query.error) return res.redirect('/?loginError=google');
+        
+        const { user } = req;
+        const { _json, provider } = user;
+        const userGoogle = { 
+            code: 'AA000001',
+            sub: _json.sub, 
+            provider, 
+            displayName: _json.name,
+            givenName: _json.given_name,
+            familyName: _json.familly_name,
+            picture: _json.picture,
+            email: _json.email,
+            emailVerified: _json.email_verified,
+            role: 1,
+            totalPosts: 0,
+            totalTopics: 0,
+            following: 0,
+            followers: 0
+        };
 
-    const notices = await getAllNotices();
+        const accessToken = generateAccessToken(userGoogle);
+        const refreshToken = generateRefreshToken(userGoogle);
 
-    res.render('profile', { 
-        user, 
-        notices, 
-        getCategory, 
-        currentRoute: '/profile',
-        formatShortDate
-    });
-});
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+            maxAge: 60 * 60 *1000
+        });
 
-router.post('/logout', checkToken, async (req, res) => {
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 1000
+        });
+
+        res.redirect('/user/profile');
+    }
+);
+
+router.post('/logout', async (req, res) => {
 
     // Delete refreshToken from DB
 
