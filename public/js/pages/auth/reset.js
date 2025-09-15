@@ -21,7 +21,6 @@ useForm({
         
         return errors;
     },
-    applyBeforeRequest: (data) => data.token = new URLSearchParams(window.location.search).get('token'),
     sendRequest: (data) => resetPassword(data),
     applyAfterSuccess: () => window.location.href = '/'
 });

@@ -1,18 +1,18 @@
 import express from 'express';
-import { verifyToken } from '../../middleware/web/auth.js';
-import { getAllNotices } from '../../controllers/noticesController.js';
+import { getAllArticles } from '../../services/articlesService.js';
 import { getCategory } from '../../helpers/category.js';
 import { formatShortDate } from '../../helpers/formattedDate.js';
+import { verifyWebAuthTokenRequired } from '../../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/profile', verifyToken, async (req, res) => {
+router.get('/profile', verifyWebAuthTokenRequired, async (req, res) => {
 
     // Get user form BD
 
     const { user } = req;
 
-    const notices = await getAllNotices();
+    const notices = await getAllArticles();
 
     res.render('profile', { 
         user, 

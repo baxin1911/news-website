@@ -1,116 +1,60 @@
 import express from 'express';
-import { login, recoverAccount, registerUser, resetPassword } from '../../controllers/authController.js';
-import { generateAccessToken, generateRefreshToken, generateResetToken, generateVerifyEmailToken, verifyAccessToken } from '../../config/jwt.js';
-import { sendEmail } from '../../helpers/sendEmail.js';
+import { verifyApiResetToken } from '../../middleware/auth.js';
+import { generateAccessToken, verifyAccessToken } from '../../config/jwt.js';
+import { loginController, recoverAccountController, registerController, resetPasswordController } from '../../controllers/api/authController.js';
+import { validateEmail, validatePassowrd, validateRepeatedPassowrd, validateUsername } from '../../helpers/validations/auth.js';
 // import { emailLimiter, loginLimiter, recoverLimiter, registerLimiter, resetLimiter } from '../../middleware/rateLimit.js';
 
 const router = express.Router();
 
-router.post('/login', async (req, res) => {
+router.post('/login',(req, res, next) => {
 
-    const { email } = req.body;
-    const { password } = req.body;
-    const result = await login(email, password);
+    const { email, password } = req.body || {};
+    const emailError = validateEmail(email);
+    const passwordError = validatePassowrd(password);
 
-    if (result.error) return res.status(401).json({ message: result.error });
+    if (emailError || passwordError) return res.status(401).json({ 
+        message: 'Correo o contraseña incorrecto.' 
+    });
 
-    // 429, 500
+    next();
 
-    const user = {
-        displayName: 'dersey',
-        code: 'AA000001',
-        role: 1,
-        picture: '/img/ejemplo.png',
-        totalPosts: 0,
-        totalTopics: 0,
-        following: 0,
-        followers: 0
+}, loginController);
+
+router.post('/register', (req, res, next) => {
+
+    const { email, password, repeatedPassword, username } = req.body || {};
+    const errors = {
+        emailError: validateEmail(email),
+        passwordError: validatePassowrd(password),
+        repeatedPasswordError: validateRepeatedPassowrd(password, repeatedPassword),
+        usernameError: validateUsername(username)
     };
+    const hasErrors = Object.values(errors).some(error => error);
 
-    const newRefreshToken = generateRefreshToken(user);
-    const newAccessToken = generateAccessToken(user);
+    if (hasErrors) return res.status(400).json({ errors, message: 'Errores de validación' });
 
-    //Save refreshToken in DB
+    next();
 
-    res.cookie('refreshToken', newRefreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-        maxAge: 60 * 60 * 1000
-    });
+}, registerController);
 
-    res.cookie('accessToken', newAccessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
-        maxAge: 60 * 60 *1000
-    });
+router.post('/recover', (req, res, next) => {
 
-    return res.status(200).json({ message: result.message });
-});
+    const { email } = req.body || {};
 
-router.post('/register', async (req, res) => {
+    const errors = { emailError: validateEmail(email) };
+    
+    const hasErrors = Object.values(errors).some(error => error);
 
-    const { email } = req.body || null;
-    const { password } = req.body || null;
-    const { repeatedPassword } = req.body || null;
-    const { username } = req.body || null;
-    const result = await registerUser(username, email, password, repeatedPassword);
+    if (hasErrors) return res.status(400).json({ errors, message: 'Errores de validación' });
 
-    if (result.errors) return res.status(400).json({ 
-        errors: result.errors,
-        message: 'Errores de validación'
-    });
+    next();
 
-    //409, 429, 500
-
-    const user = {
-        email,
-        idUser: 1,
-        role: 1
-    }
-
-    const token = generateVerifyEmailToken(user);
-
-    const verifyLink = `http://localhost:3000/auth/verify?token=${token}`;
-
-    await sendEmail(email, 'Verifica tu correo', `
-        <p>Has clic en el enlace para activar tu cuenta:</p>
-        <a href="${ verifyLink }">${ verifyLink }</a>
-    `);
-
-    return res.status(201).json({ message: result.message });
-});
-
-router.post('/recover', async (req, res) => {
-
-    const { email } = req.body || null;
-    const result = await recoverAccount(email);
-
-    if (result.errors) return res.status(400).json({ 
-        errors: result.errors,
-        message: 'Errores de validación'
-    });
-
-    //429, 500
-
-    const user = { id: 1 };
-
-    const token = generateResetToken(user);
-
-    const resetLink = `http://localhost:3000/reset-password?token=${token}`;
-
-    await sendEmail(email, 'Restablece tu contraseña', `
-        <p>Has clic en el enlace para restablecer tu contrsaeña:</p>
-        <a href="${ resetLink }">${ resetLink }</a>
-    `);
-
-    return res.status(200).json({ message: result.message });
-});
+}, recoverAccountController);
 
 router.post('/refresh', async (req, res) => {
 
-    const { token } = req.body;
+    const { token } = req.body || {};
 
     if (!token) return res.status(401).json({ message: 'Refresh token requerido' });
 
@@ -120,55 +64,23 @@ router.post('/refresh', async (req, res) => {
 
     if (!user) return res.status(403).json({ message: 'Refresh token expirado o inválido' });
 
-    const newAccessToken = generateAccessToken(user);
+    const accessToken = generateAccessToken(user);
 
-    return res.json({ accessToken: newAccessToken });
+    return res.json({ accessToken });
 });
 
-router.patch('/reset', async (req, res) => {
+router.patch('/reset', verifyApiResetToken, (req, res, next) => {
 
-    const { password } = req.body || null;
-    const { user } = req || null;
-    const result = await resetPassword(password, user?.id);
+    const { password, repeatedPassword } = req.body || {};
+    const errors = { 
+        passwordError: validatePassowrd(password),
+        repeatedPasswordError: validateRepeatedPassowrd(password, repeatedPassword),
+    };
+    const hasErrors = Object.values(errors).some(error => error);
 
-    if (result.errors) return res.status(400).json({ 
-        errors: result.errors,
-        message: 'Errores de validación'
-    });
+    if (hasErrors) return res.status(400).json({ errors, message: 'Errores de validación' });
 
-    //401, 403, 404, 429, 500
-
-    return res.status(200).json({ message: result.message });
-});
-
-router.patch('verify', async (req, res) => {
-
-    const { token } = req.query;
-
-    if (!token) return res.status(401).json({ message: 'Token de verificación requerido' });
-
-    const user = verifyAccessToken(token);
-
-    if (!user) return res.status(403).json({ message: 'Token de expiración expirado o inválido' });
-
-    //active account an get user from BD
-
-    const userBD = {
-        email,
-        idUser: 1,
-        role: 1
-    }
-
-    const newRefreshToken = generateRefreshToken(userBD);
-    const newAccessToken = generateAccessToken(userBD);
-
-    //Save refreshToken in DB
-
-    return res.status(200).json({ 
-        message: result.message, 
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken
-    });
-});
+    next();
+}, resetPasswordController);
 
 export default router;

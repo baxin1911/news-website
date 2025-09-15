@@ -3,9 +3,9 @@ const showToast = (title, text, icon) => {
     Swal.fire({
         toast: true,
         position: 'top-end',
-        title: title,
-        text: text,
-        icon: icon,
+        title,
+        text,
+        icon,
         showConfirmButton: false,
         timer: 3000
     });
@@ -21,37 +21,16 @@ const showErrorMessage = (text) => {
     });
 }
 
-export const showLoginErrorToast = (message) => {
+export const showWarningToast = (title) => showToast(title, null, 'warning');
 
-    showToast(message, null, 'warning');
-}
+export const showFormWarningToast = (data) => showToast('Campos incorrectos', data.message, 'warning');
 
-export const showFormWarningToast = (data) => {
+export const showRateLimitWarningToast = (data) => showToast('Demasiados intentos', data.message, 'warning');
 
-    showToast('Campos incorrectos', data.message, 'warning');
-}
+export const showSuccessToast = (title) => showToast(title, null, 'success');
 
-export const showRateLimitWarningToast = (data) => {
+export const showNoContentToast = (data) => showToast('Sin resultados encontrados', null, 'info');
 
-    showToast('Demasiados intentos', data.message, 'warning');
-}
+export const showServerErrorToast = (data) => showErrorMessage(data.message);
 
-export const showSuccessToast = (data) => {
-
-    showToast(data.message, null, 'success');
-}
-
-export const showNoContentToast = (data) => {
-
-    showToast('Sin resultados encontrados', null, 'info');
-}
-
-export const showServerErrorToast = (data) => {
-
-    showErrorMessage(data.message);
-}
-
-export const showErrorToast = () => {
-
-    showErrorMessage(null);
-}
+export const showErrorToast = () => showErrorMessage(null);

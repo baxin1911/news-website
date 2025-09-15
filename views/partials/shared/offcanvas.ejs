@@ -24,20 +24,22 @@
             }); %>
         </div>
 
-        <% if (!user) { %>
-            <%- include('../shared/button', {
-                btnClass: 'btn btn-outline-primary',
-                attrs: {
-                  'data-mdb-toggle': 'modal',
-                  'data-mdb-target': '#loginModal'
-                },
-                content: '<i class="fa fa-user me-2"></i>Iniciar sesión'
-            }); %>
-        <% } else { %>
-            <%- include('./profileMenu', {
-                user,
-                profileMenuViewMode: 'offcanvas'
-            }); %>
-        <% } %>
+        <div class="mt-auto">
+            <% if (!user) { %>
+                <%- include('../shared/button', {
+                    btnClass: 'btn btn-outline-primary btn-block',
+                    attrs: {
+                    'data-mdb-toggle': 'modal',
+                    'data-mdb-target': '#loginModal'
+                    },
+                    content: '<i class="fa fa-user me-2"></i>Iniciar sesión'
+                }); %>
+            <% } else { %>
+                <%- include('./profileMenu', {
+                    user,
+                    profileMenuViewMode: 'offcanvas'
+                }); %>
+            <% } %>
+        </div>
     </div>
 </div>

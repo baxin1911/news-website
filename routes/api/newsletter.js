@@ -1,21 +1,18 @@
 import express from 'express';
-import { subscribe } from '../../controllers/newsletterController.js';
+import { subscribeController } from '../../controllers/api/newsletterController.js';
 
 const router = express.Router();
 
-router.post('/subscribe', async (req, res) => {
+router.post('/subscribe', (req, res, next) => {
 
-    const { email } = req.body || null;
-    const result = await subscribe(email);
+    const { email } = req.body || {};
+    const errors = { emailError: validateEmail(email) };
+    const hasErrors = Object.values(errors).some(error => error);
 
-    if (result.errors) return res.status(400).json({ 
-        errors: result.errors,
-        message: 'Errores de validación'
-    });
+    if (hasErrors) return res.status(400).json({ errors, message: 'Errores de validación' });
 
-    //403, 429, 500
+    next();
 
-    return res.status(202).json({ message: result.message });
-});
+}, subscribeController);
 
 export default router;

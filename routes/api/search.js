@@ -1,35 +1,19 @@
 import express from 'express';
-import { searchNotices } from '../../controllers/searchController.js';
-import { buildPagination } from '../../helpers/pagination.js';
+import { searchArticleController } from '../../controllers/api/searchController.js';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
 
-    const { q } = req.query || null;
-    const result = await searchNotices(q);
+    const { q } = req.query || {};
+    const errors = { textError: validateQuery(q) };
 
-    if (result.errors) return res.status(400).json({ 
-        errors: result.errors,
-        message: 'Errores de validación'
-    });
+    const hasErrors = Object.values(errors).some(error => error);
 
-    //401, 403, 429, 500
+    if (hasErrors) return res.status(400).json( { errors, message: 'Errores de validación' });
 
-    const { page = 1, limit = 20, category } = query;
-    const { notices } = result;
+    next();
 
-    let filteredNotices = notices.filter(notice => notice.category === Number(category));
-
-    if (!category) filteredNotices = notices;
-
-    const pagination = buildPagination(filteredNotices.length, page, limit);
-
-    return res.status(200).json({ 
-        message: (filteredNotices.length > 0) ? 'Búsqueda exitosa' : 'No se encontraron resultados',
-        notices: paginatedNotices,
-        pagination
-    });
-});
+}, searchArticleController);
 
 export default router;

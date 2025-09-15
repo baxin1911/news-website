@@ -5,8 +5,8 @@
 ]; %>
 
 <% if (profileMenuViewMode === 'header') { %>
-    <div class="btn-group mt-auto d-flex justify-content-end">
-        <a href="/user/profile" class="btn btn-dark d-flex align-items-center">
+    <div class="btn-group d-flex justify-content-end">
+        <a href="/profile" class="btn btn-dark d-flex align-items-center">
             <img src="<%= user.picture %>" alt="Perfil" class="rounded-circle me-2" 
                 width="32" height="32"
             >
@@ -40,10 +40,10 @@
         </ul>
     </div>
 <% } else { %>
-    <div id="profileAccordion" class="accordion mt-auto">
+    <div id="profileAccordion" class="accordion">
         <div class="accordion-item">
             <h5 class="accordion-header d-flex align-items-center justify-content-between">
-                <a href="/user/profile" class="d-flex align-items-center text-decoration-none fw-bold ms-4 me-auto">
+                <a href="/profile" class="d-flex align-items-center text-decoration-none fw-bold ms-4 me-auto">
                     <img src="<%= user.picture %>" alt="Perfil" class="rounded-circle me-2" 
                         width="32" height="32"
                     >

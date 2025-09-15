@@ -17,5 +17,5 @@ useForm({
         return errors;
     },
     sendRequest: (data) => login(data),
-    applyAfterSuccess: () => window.location.href = '/user/profile'
+    applyAfterSuccess: () => window.location.href = '/profile'
 });

@@ -8,4 +8,4 @@ export const register = (data) => apiRequest({ method: 'post', url: `${route}/re
 
 export const recoverPassword = (data) => apiRequest({ method: 'post', url: `${route}/recover`, data });
 
-export const resetPassword = (data) => apiRequest({ method: 'post', url: `${route}/reset`, data });
+export const resetPassword = (data) => apiRequest({ method: 'patch', url: `${route}/reset`, data });

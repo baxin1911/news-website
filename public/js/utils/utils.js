@@ -42,9 +42,9 @@ export const toggleErrorMessages = (errors) => {
 export const closeModal = (idModal, form) => {
     
     const modalHtml = document.getElementById(idModal);
-    const modal = new mdb.Modal(modalHtml);
+    const modal = mdb.Modal.getInstance(modalHtml);
 
-    modalHtml.addEventListener('hidden.bs.modal', () => {
+    modalHtml.addEventListener('hidden.mdb.modal', () => {
         form.reset();
     });
     modal.hide();

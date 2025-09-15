@@ -12,18 +12,40 @@
             }); %>
 
             <div class="modal-body dark">
-                <%- include('../shared/form', {
-                    formViewMode: form.viewMode,
-                    form
-                }); %>
+                <% if (extraContent.withSocialLogin) { %>
+                    <p class="text-center">Accede con:</p>
 
-                <% if (extraContent.withExtraContent) { %>
                     <div class="text-center my-4">
                         <a href="/auth/google" class="btn btn-outline-primary btn-rounded btn-google">
                             Acceder con <i class="fab fa-google"></i>
                         </a>
                     </div>
 
+                    <p class="text-center">O con:</p>
+                <% } %>
+
+                <%- include('../shared/form', {
+                    formViewMode: form.viewMode,
+                    form
+                }); %>
+
+                <% if (form.viewMode === 'login') { %>
+                    <div class="d-flex justify-content-center align-items-center mt-3">
+                        <p class="mt-3 me-2">¿Olvidaste tu contraseña?</p>
+                        <%- include('../shared/button', {
+                            btnClass: 'btn btn-link',
+                            attrs: {
+                                'data-mdb-toggle': 'modal',
+                                'data-mdb-modal-init': '',
+                                'data-mdb-target': form.idModal,
+                                'data-mdb-dismiss': 'modal'
+                            },
+                            content: form.linkLabel
+                        }); %>
+                    </div>
+                <% } %>
+
+                <% if (extraContent.withExtraContent) { %>
                     <div class="text-center my-4">
                         <h2 class="mb-2"><%= extraContent.title %></h2>
 
@@ -31,6 +53,7 @@
                             btnClass: 'btn btn-outline-primary',
                             attrs: {
                                 'data-mdb-toggle': 'modal',
+                                'data-mdb-modal-init': '',
                                 'data-mdb-target': extraContent.idModal
                             },
                             content: extraContent.buttonLabel

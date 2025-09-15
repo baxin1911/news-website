@@ -1,4 +1,4 @@
-import { showLoginErrorToast } from "./utils/messages.js";
+import { showSuccessToast, showWarningToast } from "./utils/messages.js";
 import { showModal } from "./utils/utils.js";
 
 const swiper1 = new Swiper( '.main-slider', {
@@ -79,6 +79,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (params.has('loginError')) {
 
         showModal('loginModal');
-        showLoginErrorToast('Inicio de sesión fallido.');
+        showWarningToast('Requiere inicio de sesión.');
+
+    } else if (params.has('resetError')) {
+
+        showWarningToast('Token expirado. Vuelve a reenviar el correo.');
+
+    } else if (params.has('emailVerifyError')) {
+
+        showWarningToast('Token expirado. Vuelve a registrarte.');
+
+    } else if (params.has('verified')) {
+
+        showSuccessToast('Correo verificado exitosamente.');
     }
 });

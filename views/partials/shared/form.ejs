@@ -16,6 +16,10 @@
             aria-live="assertive" aria-hidden="true" hidden>
         </div>
     <% } else { %>
+        <% if (formViewMode === 'reset') { %>
+            <input type="hidden" name="token" value="<%= token %>">
+        <% } %>
+
         <% form.inputs.forEach( input => { %>
             <div class="mb-3">
                 <label for="<%= input.id %>" class="form-label"><%= input.label %></label>
@@ -29,22 +33,21 @@
             </div>
         <% }); %>
 
-        <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary">
-                <%= form.buttonLabel %>
-            </button>
+        <button type="submit" class="btn btn-primary">
+            <%= form.buttonLabel %>
+        </button>
 
-            <% if (formViewMode !== 'register') { %>
-                <%- include('./button', {
-                    btnClass: 'btn btn-link',
-                    attrs: {
-                        'data-mdb-toggle': 'modal',
-                        'data-mdb-target': form.idModal,
-                        'data-mdb-dismiss': 'modal'
-                    },
-                    content: form.linkLabel
-                }); %>
-            <% } %>
-        </div>
+        <% if (formViewMode === 'recover') { %>
+            <%- include('./button', {
+                btnClass: 'btn btn-link',
+                attrs: {
+                    'data-mdb-toggle': 'modal',
+                    'data-mdb-modal-init': '',
+                    'data-mdb-target': form.idModal,
+                    'data-mdb-dismiss': 'modal'
+                },
+                content: form.linkLabel
+            }); %>
+        <% } %>
     <% } %>
 </form>

@@ -1,11 +1,11 @@
 import 'dotenv/config.js';
 
-import noticesApiRoutes from './routes/api/notices.js';
 import authApiRoutes from './routes/api/auth.js';
 import newsletterApiRoutes from './routes/api/newsletter.js';
 import searchApiRoutes from './routes/api/search.js';
 
 import webRoutes from './routes/web/index.js';
+import feedWebRoutes from './routes/web/feed.js'; 
 import authWebRoutes from './routes/web/auth.js';
 import userWebRoutes from './routes/web/user.js';
 
@@ -21,7 +21,6 @@ import passport from 'passport';
 
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,12 +50,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // web routes
 app.use('/', webRoutes);
+app.use('/', feedWebRoutes);
 app.use('/auth', authWebRoutes);
-app.use('/user', userWebRoutes);
+app.use('/', userWebRoutes);
 
 // api routes
 app.use(api + '/auth', authApiRoutes);
-app.use(api + '/notices', noticesApiRoutes);
 app.use(api + '/newsletter', newsletterApiRoutes);
 app.use(api + '/search', searchApiRoutes);
 
