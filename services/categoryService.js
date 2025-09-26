@@ -1,14 +1,11 @@
 export const getAllCategories = async () => {
 
-    const categories = [
-        { id: null, name: 'Todas' }
-    ];
-
+    const categories = [];
     categories.push(...[
-        { id: 1, name: 'Gamming' },
-        { id: 2, name: 'Entretenimiento' },
-        { id: 3, name: 'Deportes' },
-        { id: 4, name: 'Tecnología' }
+        { id: 1, name: 'gamming' },
+        { id: 2, name: 'entertainment' },
+        { id: 3, name: 'sports' },
+        { id: 4, name: 'technology' }
     ]);
 
     return categories;

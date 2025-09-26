@@ -11,17 +11,17 @@ export const searchArticleController = async (req, res) => {
     //401, 403, 429, 500
 
     const { page = 1, limit = 20, category } = query;
-    const { notices } = result;
+    const { articles } = result;
 
-    let filteredNotices = notices.filter(notice => notice.category === Number(category));
+    let filteredArticles = articles.filter(article => article.category === Number(category));
 
-    if (!category) filteredNotices = notices;
+    if (!category) filteredArticles = articles;
 
-    const pagination = buildPagination(filteredNotices.length, page, limit);
+    const pagination = buildPagination(filteredArticles.length, page, limit);
 
     return res.status(200).json({ 
-        message: (filteredNotices.length > 0) ? 'Búsqueda exitosa' : 'No se encontraron resultados',
-        notices: paginatedNotices,
+        message: (filteredArticles.length > 0) ? 'Búsqueda exitosa' : 'No se encontraron resultados',
+        articles: filteredArticles,
         pagination
     });
 }

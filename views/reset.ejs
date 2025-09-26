@@ -1,11 +1,14 @@
-<% 
-const form = {
-    idForm: 'resetForm',
+<% const form = {
+    id: 'resetForm',
     inputs: [
         { id: 'passwordResetInput', label: 'Contraseña:', name: 'password', type: 'text' },
         { id: 'repeatedPasswordResetInput', label: 'Repetir contraseña:', name: 'repeatedPassword', type: 'text' }
     ],
-    buttonLabel: 'Reestablecer'
+    tokenInput: `<input type="hidden" name="token" value="${ token }">`,
+    submitButton: {
+        id: 'resetSuccessBtn',
+        content: 'Reestablecer'
+    }
 }; %>
 
 <!DOCTYPE html>
@@ -29,10 +32,7 @@ const form = {
 
     <body>
         <div class="container-fluid my-4">
-            <%- include('./partials/shared/form', {
-                formViewMode: 'reset',
-                form
-            }); %>
+            <%- include('./partials/auth/components/authForm', { form }); %>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/mdb-ui-kit/js/mdb.min.js"></script>

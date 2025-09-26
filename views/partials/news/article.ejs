@@ -1,45 +1,51 @@
-<% if (articleViewMode === 'overlay') { %>
-    <article class="bg-image" style="background-image: url('/img/ejemplo.png');">
-        <div class="overlay"></div>
-        
-        <div class="position-relative p-3">
-            <a class="mb-2 text-overlay" href="#">
-                <p class="fs-3 fw-semibold"><%= shortTitle %></p>
-            </a>
+<article class="card">
+    <%- article.grid ? `
+        <div class="${ article.grid.row }">
+            <div class="${ article.grid.colImg }">
+    ` : '' %>
 
-            <a class="badge badge-overlay" href="#"><%= category %></a>
-        </div>
-    </article>
-<% } else if (articleViewMode === 'vertical') { %>
-    <article class="bg-style">
-        <a href="#">
-            <img src="/img/ejemplo.png" alt="Imagen de la noticia" class="img-fluid mb-2">
-            <p class="fs-3 fw-bold"><%= shortTitle %></p>
-            <p class="small"><%= date %></p>
-        </a>
+                <img src="<%= article.img.src %>" class="<%= article.img.class %>" 
+                    alt="<%= article.img.alt %>"
+                >
 
-        <a class="badge badge-body" href="#"><%= category %></a>
-    </article>
-<% } else if (articleViewMode === 'horizontal') { %>
-    <article class="row bg-style">
-        <div class="col-12 col-md-4">
-            <img class="img-fluid" src="/img/ejemplo.png" width="300">
-        </div>
-        
-        <div class="col-12 col-md-8">
-            <a href="#">
-                <p class="fs-3 fw-bold"><%= shortTitle %></p>
-                <p class="small"><%= date %></p>
-            </a>
+    <%- article.grid ? `
+            </div>
+            
+            <div class="${ article.grid.colBody }">
+    ` : '' %>
 
-            <a class="badge badge-body" href="#"><%= category %></a>
+                <div class="<%= article.body.class %>">
+                    <h3 class="card-title">
+                        <a class="<%= article.body.title.class %>" 
+                            href="<%= article.body.title.link %>"
+                        >
+                            <%= article.body.title.content %>
+                        </a>
+
+                        <%- article.body.badge ? 
+                            `<a href="/categories/${ article.body.badge.link }" 
+                                class="badge badge-primary"
+                            >
+                                ${ article.body.badge.content }
+                            </a>` : '' 
+                        %>
+                    </h3>
+
+                    <%- article.shortDescription ? 
+                        `<p class="card-text">
+                            ${ article.shortDescription }
+                        </p>` : '' 
+                    %>
+
+                    <%- article.metadata ? 
+                        `<p class="card-text">
+                            <small class="text-muted">${ article.metadata.date }</small>
+                        </p>` : '' 
+                    %>
+                </div>
+
+    <%- article.grid ? `
+            </div>
         </div>
-    </article>
-<% } else { %>
-    <article class="bg-style">
-        <a href="#">
-            <img src="/img/ejemplo.png" alt="Imagen de la noticia" class="img-fluid mb-2">
-            <p class="fs-4 fw-medium"><%= shortTitle %></p>
-        </a>
-    </article>
-<% } %>
+    ` : '' %>
+</article>

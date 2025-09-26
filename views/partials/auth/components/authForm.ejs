@@ -1,0 +1,7 @@
+<form id="<%= form.id %>" novalidate>
+    <%- form.tokenInput || '' %>
+
+    <%- include('../../shared/outlineInput', { inputs: form.inputs }) %>
+
+    <%- include('../../shared/submit', { button: form.submitButton }) %>
+</form>

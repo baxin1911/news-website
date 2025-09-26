@@ -1,0 +1,42 @@
+<nav aria-label="Paginación de resultados">
+    <ul class="pagination pagination-circle pagination-lg justify-content-center">
+        <% pagination.hasPrevPage ? `
+            <li class="pagination-item">
+                <a href="/${ currentRoute }?q=${ q }&currentPage=${ pagination.currentPage - 1 }" 
+                    class="page-link"
+                >
+                    Anterior
+                </a>
+            </li>
+        ` : '' %>
+
+        <% pagination.visiblePages.forEach(page => { %>
+            <li class="page-item <%= (page === pagination.currentPage) ? 'active' : '' %>"
+                <% if (page === pagination.currentPage) { %> aria-current="page" <% } %>
+            >
+                <% if (page === pagination.currentPage) { %>
+                    <span class="page-link">
+                        <%= page %>
+                        <span class="visually-hidden">(actual)</span>
+                    </span>
+                <% } else { %>
+                    <a href="/${ currentRoute }?q=${ q }&currentPage=${ page }" 
+                        class="page-link"
+                    >
+                        <%= page %>
+                    </a>
+                <% } %>
+            </li>
+        <% }); %>
+
+        <% pagination.hasNextPage ? `
+            <li class="page-item">
+                <a href="/${ currentRoute }?q=${ q }&currentPage=${ pagination.currentPage + 1 }" 
+                    class="page-link"
+                >
+                    Siguiente
+                </a>
+            </li>
+        ` : '' %>
+    </ul>
+</nav>

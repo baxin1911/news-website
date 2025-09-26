@@ -1,0 +1,26 @@
+<% const header = {
+    button: {
+        id: modal.header.button.id,
+        dismissTarget: 'modal'
+    },
+    class: 'modal-header',
+    title: {
+        id: modal.header.title.id,
+        content: modal.header.title.content,
+        class: 'modal-title',
+    }
+}; %>
+
+<div id="<%= modal.id %>" class="modal fade" tabindex="-1" 
+    aria-labelledby="<%= modal.header.title.id %>"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <%- include('./header', { header }) %>
+
+            <div class="modal-body dark">
+                <%- include('./form', { form }) %>
+            </div>
+        </div>
+    </div>
+</div>

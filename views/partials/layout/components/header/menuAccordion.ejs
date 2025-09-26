@@ -1,0 +1,41 @@
+<% button = {
+    id: accordion.toggleButton.id,
+    class: 'accordion-button',
+    attrs: {
+        'data-mdb-collapse-init': '',
+        'data-mdb-toggle': 'collapse',
+        'data-mdb-target': `#${ accordion.body.idCollapse }`,
+        'aria-controls': accordion.body.idCollapse,
+        'aria-expanded': 'false'
+    },
+    content: accordion.toggleButton.content
+}; %>
+
+<div id="<%= accordion.id %>" class="accordion">
+    <div class="accordion-item">
+        <h3 id="<%= accordion.header.id %>" 
+            class="accordion-header"
+        >
+            <%- include('../../../shared/button', { button }); %>
+        </h3>
+
+        <div id="<%= accordion.body.idCollapse %>" class="accordion-collapse collapse" 
+            aria-labelledby="<%= accordion.header.id %>" 
+            data-mdb-parent="#<%= accordion.id %>"
+        >
+            <div class="accordion-body p-0">
+                <h4 class="visually-hidden"><%= accordion.body.title %></h4>
+                
+                <div class="list-group list-group-flush">
+                    <% links.forEach(link => { %>
+                        <a href="<%= link.slug %>" class="list-group-item list-group-item-action w-100">
+                            <%- link.content %>
+                        </a>
+                    <% }); %>
+                    
+                    <%- accordion.form ? include('./logoutForm', { form: accordion.form }) : '' %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

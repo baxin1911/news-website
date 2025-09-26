@@ -13,7 +13,7 @@ useNewsletterForm({
 
         } else {
             
-            errors.emailNewsletterSidebarInputError = data.errors.emailNewsletterSidebarInputError;
+            errors.emailNewsletterSidebarInputError = data.errors.emailError;
         }
 
         return errors;

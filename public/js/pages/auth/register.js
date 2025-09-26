@@ -12,16 +12,16 @@ useForm({
         if (!data.errors) {
 
             errors.emailRegisterInputError = validateEmail(data.email);
-            errors.usernameRegisterInputError = validateUsername(data.username);
             errors.passwordRegisterInputError = validatePassword(data.password);
             errors.repeatedPasswordRegisterInputError = validateRepeatedPassword(data.password, data.repeatedPassword);
+            errors.usernameRegisterInputError = validateUsername(data.username);
 
         } else {
 
-            errors.emailRegisterInputError = data.errors.emailRegisterInputError;
-            errors.usernameRegisterInputError = data.errors.usernameRegisterInputError;
-            errors.passwordRegisterInputError = data.errors.passwordRegisterInputError;
-            errors.repeatedPasswordRegisterInputError = data.errors.repeatedPasswordRegisterInputError;
+            errors.emailRegisterInputError = data.errors.emailError;
+            errors.passwordRegisterInputError = data.errors.passwordError;
+            errors.repeatedPasswordRegisterInputError = data.errors.repeatedPasswordError;
+            errors.usernameRegisterInputError = data.errors.usernameError;
         }
 
         return errors;

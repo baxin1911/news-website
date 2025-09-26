@@ -1,9 +1,0 @@
-<ul class="<%= (isHeader) ? 'navbar-nav me-auto' : 'nav gap-2 ' + classContainer + ' bg-style' %>">
-    <% links.forEach(link => { %>
-        <li class="nav-item py-1">
-            <a class="<%= link.style %>" href="<%= link.slug %>">
-                <%- link.content %>
-            </a>
-        </li>
-    <% }); %>
-</ul>

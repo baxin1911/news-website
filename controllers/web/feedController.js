@@ -14,6 +14,7 @@ export const searchFeedController = async (req, res) => {
     const pagination = buildPagination(articles.length, currentPage, itemsPerPage);
 
     res.render('feed', { 
+        q,
         user,
         articles, 
         categories,
@@ -27,16 +28,17 @@ export const searchFeedController = async (req, res) => {
 export const categoryFeedController = async (req, res) => {
 
     const { slug } = req.params;
+    const { currentPage = 1 } = req.query;
     const { user } = req;
-    const currentPage = 1, itemsPerPage = 10;
+    const itemsPerPage = 10;
 
-    const notices = await getArticlesByCategory(getCategoryId(slug));
+    const articles = await getArticlesByCategory(getCategoryId(slug));
     const categories = await getAllCategories();
-    const pagination = buildPagination(notices.length, currentPage, itemsPerPage);
+    const pagination = buildPagination(articles.length, currentPage, itemsPerPage);
 
     res.render('feed', { 
         user,
-        notices, 
+        articles, 
         categories,
         currentRoute: '/categories/' + slug,
         pagination,

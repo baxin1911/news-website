@@ -1,0 +1,32 @@
+<ul id="<%= containerTab.id %>Tab" class="nav nav-tabs nav-justified mb-3" role="tablist">
+    <% containerTab.tabs.forEach(tab => { %>
+        <li class="nav-item" role="presentation">
+            <%- include('./button', {
+                button: {
+                    id: `${ tab.id }-tab`,
+                    class: `nav-link${ (tab.active) ? ' active' : '' }`,
+                    attrs: {
+                        'data-mdb-tab-init': '',
+                        'data-mdb-toggle': 'tab',
+                        'data-mdb-target': `#${ tab.id }`,
+                        'role': 'tab',
+                        'aria-controls': tab.id,
+                        'aria-selected': `${ (tab.active) ? 'true' : 'false' }`
+                    },
+                    content: tab.title
+                }
+            }) %>
+        </li>
+    <% }); %>
+</ul>
+
+<div id="<%= containerTab.id %>TabPane" class="tab-content">
+    <% containerTab.tabs.forEach(tab => { %>
+        <div id="<%= tab.id %>" role="tabpanel" 
+            class="tab-pane fade <%= (tab.active) ? 'show active' : '' %>"
+            aria-labelledby="<%= `${ tab.id }-tab` %>"
+        >
+            <%- tab.content %>
+        </div>   
+    <% }); %> 
+</div>

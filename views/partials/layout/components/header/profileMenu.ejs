@@ -1,0 +1,63 @@
+<% const links = [
+    { content: 'Mi perfil', slug: '/profile#home-tab' },
+    { content: 'Seguimientos', slug: '/profile#following-tab' },
+    { content: 'Configuración', slug: '/profile#settings-tab' },
+];
+
+const profile = (btnClass) => `
+    <img src="${ user.picture }" alt="Perfil"  class="rounded-circle me-2" 
+    width="32" height="32">
+
+    <span class="${ btnClass }">${ user.displayName }</span>
+`;
+
+const accordion = {
+    id: 'profileAccordion',
+    header: {
+        id: 'menuHeaderAccordion',
+        link: {
+            slug: '/profile'
+        }
+    },
+    body: {
+        idCollapse: 'profileAccordionCollapse',
+        title: 'Menú de perfil'
+    },
+    form: {
+        buttonClass: 'list-group-item list-group-item-action btn btn-link w-100 text-start'
+    },
+    toggleButton: {
+        id: 'profileAccordionBtn',
+        content: profile('fw-bold fs-2')
+    }
+}; 
+
+const dropdown = {
+    link: `
+        <a href="/profile" class="btn btn-dark d-flex align-items-center">
+            ${ profile('fw-bold') }
+        </a>
+    `,
+    toggleButton: {
+        id: 'dropdownMenuButton',
+        class: 'btn btn-dark dropdown-toggle-split',
+        content: '<i class="fas fa-caret-down"></i>'
+    },
+    form: {
+        buttonClass: 'dropdown-item'
+    }
+}; %>
+
+<% if (profileMenuViewMode === 'header') { %>
+    <ul class="navbar-nav">
+        <%- include('./menuDropdown', { 
+            dropdown,
+            links
+        }) %>
+    </ul>
+<% } else { %>
+    <%- include('./menuAccordion', { 
+        accordion,
+        links
+    }) %>
+<% } %>

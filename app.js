@@ -15,6 +15,7 @@ import cookieParser from 'cookie-parser';
 import { Strategy } from 'passport-google-oauth20';
 
 import express from 'express';
+// import engine from 'ejs-mate';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import passport from 'passport';
@@ -36,6 +37,7 @@ passport.use(new Strategy({
     return done(null, profile);
 }));
 
+// app.engine('ejs', engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 

@@ -1,3 +1,21 @@
+<% const containerTab = {
+    id: 'profile',
+    tabs: [
+        { 
+            id: 'home', active: true, controls: 'home', title: 'Mi Perfil', 
+            content: 'Mi perfil' 
+        },
+        { 
+            id: 'following', active: false, controls: 'following', title: 'Siguiendo', 
+            content: 'Siguiendo' 
+        },
+        { 
+            id: 'settings', active: false, controls: 'settings', title: 'Configuración', 
+            content: 'Configuración' 
+        }
+    ]
+}; %>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -22,7 +40,7 @@
 
         <div class="container-fluid my-4">
             <main>
-                <p>Cuenta personal</p>
+                <%- include('./partials/shared/tab', { containerTab }); %>
             </main>
         </div>
 

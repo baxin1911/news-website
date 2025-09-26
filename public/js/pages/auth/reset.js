@@ -15,8 +15,8 @@ useForm({
 
         } else {
 
-            errors.passwordResetInputError = data.errors.passwordResetInputError;
-            errors.repeatedPasswordResetInputError = data.errors.repeatedPasswordResetInputError;
+            errors.passwordResetInputError = data.errors.passwordError;
+            errors.repeatedPasswordResetInputError = data.errors.repeatedPasswordError;
         }
         
         return errors;

@@ -1,31 +1,42 @@
 <% const modal = {
-    idModal: 'registerModal',
-    idModalLabel: 'registerModalLabel',
-    modalTitle: 'Registro para titulo'
-};
-
-const extraContent = {
-    withSocialLogin: false,
-    withExtraContent: true,
-    title: '¿Ya tienes una cuenta?',
-    buttonLabel: 'Inicia sesión',
-    idModal: '#loginModal'
+    id: 'registerModal',
+    header: {
+        button: {
+            id: 'registerCloseButton'
+        },
+        title: {
+            id: 'registerModalTitle',
+            content: 'Registro para titulo'
+        }
+    }
 };
 
 const form = {
-    idForm: 'registerForm',
-    viewMode: 'register',
+    id: 'registerForm',
     inputs: [
         { id: 'emailRegisterInput', label: 'Correo electrónico:', name: 'email', type: 'email' },
         { id: 'passwordRegisterInput', label: 'Contraseña:', name: 'password', type: 'password' },
         { id: 'repeatedPasswordRegisterInput', label: 'Repetir contraseña:', name: 'repeatedPassword', type: 'password' },
         { id: 'usernameRegisterInput', label: 'Nombre de usuario:', name: 'username', type: 'text' }
     ],
-    buttonLabel: 'Registrar'
+    submitButton: {
+        id: 'registerBtn',
+        content: 'Registrar'
+    },
+    cancelButton: {
+        id: 'registerCancelBtn',
+        class: 'btn btn-link',
+        attrs: {
+            'data-mdb-toggle': 'modal',
+            'data-mdb-modal-init': '',
+            'data-mdb-target': '#loginModal',
+            'data-mdb-dismiss': 'modal'
+        },
+        content: 'Cancelar'
+    }
 }; %>
 
-<%- include('./modal', {
+<%- include('../shared/modal', {
     modal,
-    extraContent,
     form
-}); %>
+}) %>

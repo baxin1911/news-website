@@ -5,10 +5,10 @@ import { formatShortDate } from '../../helpers/formattedDate.js';
 export const homeController = async (req, res) => {
 
     const { user } = req;
-    const notices = await getAllArticles();
+    const articles = await getAllArticles();
 
     res.render('index', { 
-        notices, 
+        articles, 
         user,
         currentRoute: '/',
         getCategory, 

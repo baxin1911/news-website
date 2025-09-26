@@ -15,7 +15,7 @@ useForm({
 
         } else {
 
-            errors.emailRecoverInputError = data.errors.emailRecoverInputError;
+            errors.emailRecoverInputError = data.errors.emailError;
         }
 
         return errors;

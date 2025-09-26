@@ -1,31 +1,55 @@
 <% const modal = {
-    idModal: 'loginModal',
-    idModalLabel: 'loginModalLabel',
-    modalTitle: 'Inicio de sesión'
-};
-
-const extraContent = {
-    withSocialLogin: true,
-    withExtraContent: true,
-    title: '¿Eres nuevo?',
-    buttonLabel: 'Regístrate',
-    idModal: '#registerModal'
+    id: 'loginModal',
+    socialLogin: {
+        links: [
+            { slug: '/auth/google', class: 'btn-google', content: 'Goggle <i class="fab fa-google"></i>' }
+        ],
+        toggleButton: {
+            id: 'registerBtn',
+            class: 'btn btn-outline-primary',
+            attrs: {
+                'data-mdb-toggle': 'modal',
+                'data-mdb-modal-init': '',
+                'data-mdb-target':'#registerModal'
+            },
+            content: 'Regístrate'
+        }
+    },
+    header: {
+        button: {
+            id: 'loginCloseButton'
+        },
+        title: {
+            id: 'loginModalTitle',
+            content: 'Inicio de sesión'
+        }
+    },
+    recoverToggleButton: {
+        id: 'recoverPasswordBtn',
+        class: 'btn btn-link',
+        attrs: {
+            'data-mdb-toggle': 'modal',
+            'data-mdb-modal-init': '',
+            'data-mdb-target': '#recoverModal',
+            'data-mdb-dismiss': 'modal'
+        },
+        content: 'Recuperar contraseña'
+    }
 };
 
 const form = {
-    idForm: 'loginForm',
-    viewMode: 'login',
+    id: 'loginForm',
     inputs: [
         { id: 'emailLoginInput', label: 'Correo electrónico:', name: 'email', type: 'email' },
         { id:'passwordLoginInput', label: 'Contraseña:', name: 'password', type: 'password' }
     ],
-    idModal: '#recoverModal',
-    linkLabel: 'Recuperar contraseña',
-    buttonLabel: 'Ingresar'
+    submitButton: {
+        id: 'loginBtn',
+        content: 'Ingresar'
+    }
 }; %>
 
-<%- include('./modal', {
+<%- include('./components/loginModal', {
     modal,
-    extraContent,
     form
-}); %>
+}) %>

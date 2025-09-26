@@ -10,7 +10,7 @@ export const checkSuccessStatusCodes = (response) => {
         return;
     }
 
-    showSuccessToast(data);
+    showSuccessToast(data.message);
 }
 
 export const checkErrorStatusCodes = (err, options = {}) => {

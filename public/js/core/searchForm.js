@@ -1,23 +1,13 @@
-import { toggleErrorMessages } from '../utils/utils.js';
+const input = document.getElementById('textSearchOffcanvasInput');
+const btn = document.getElementById('searchOffcanvasBtn');
 
-const form = document.getElementById('searchOffcanvasForm');
+input.addEventListener('input', () => {
+    btn.disabled = input.value.trim() === '';
+});
 
-form.addEventListener('submit', async e => {
+const input2 = document.getElementById('textSearchHeaderInput');
+const btn2 = document.getElementById('searchHeaderBtn');
 
-    e.preventDefault();
-
-    const data = Object.fromEntries(new FormData(form));
-    const errors = {};
-
-    if (!data.errors) errors.textSearchOffcanvasInputError = !data.q ? 'Este campo es obligatorio' : '';
-
-    toggleErrorMessages(errors);
-
-    const hasErrors = Object.values(errors).some(error => error);
-
-    if (hasErrors) return;
-
-    const params = new URLSearchParams(data);
-
-    window.location.href = `/search?${ params.toString() }`;
+input2.addEventListener('input', () => {
+    btn2.disabled = input2.value.trim() === '';
 });

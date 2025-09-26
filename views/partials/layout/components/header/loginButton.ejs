@@ -1,0 +1,12 @@
+<% const button = {
+    id: idLoginButton,
+    class: 'btn btn-outline-primary btn-block',
+    attrs: {
+        'data-mdb-toggle': 'modal',
+        'data-mdb-modal-init': '',
+        'data-mdb-target': '#loginModal'
+    },
+    content: '<i class="fa fa-user me-2"></i>Iniciar sesión'
+}; %>
+
+<%- include('../../../shared/button', { button }) %>

@@ -1,5 +1,7 @@
-<button class="<%= btnClass %>" type="button" 
-    <% for (let key in attrs) { %> <%= key %>="<%= attrs[key] %>" <% } %>
+<button id="<%= button.id %>" class="<%= button.class %>" type="button" 
+    <% for (let key in button.attrs) { %> 
+        <%= key %>="<%= button.attrs[key] %>" 
+    <% } %>
 >
-    <%- content %>
+    <%- button.content %>
 </button>

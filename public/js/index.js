@@ -1,7 +1,7 @@
 import { showSuccessToast, showWarningToast } from "./utils/messages.js";
 import { showModal } from "./utils/utils.js";
 
-const swiper1 = new Swiper( '.main-slider', {
+const swiper1 = new Swiper( '.main-news', {
     loop: true,
     autoplay: {
         delay: 5000,
@@ -10,14 +10,17 @@ const swiper1 = new Swiper( '.main-slider', {
     speed: 500,
     slidesPerView: 1,
     centeredSlides: true,
-    navigaton: true,
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+    },
     pagination: {
         el: '.swiper-pagination',
         clickable: true,
     }
 });
 
-const swiper2 = new Swiper( '.popular-news', {
+const swiper2 = new Swiper( '.latest-news', {
     loop: true,
     autoplay: {
         delay: 5000,
@@ -26,23 +29,10 @@ const swiper2 = new Swiper( '.popular-news', {
     speed: 500,
     slidesPerView: 1,
     centeredSlides: true,
-    navigation: true,
-    pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-    }
-});
-
-const swiper3 = new Swiper( '.latest-news', {
-    loop: true,
-    autoplay: {
-        delay: 5000,
-        disableOnInteraction: false
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
     },
-    speed: 500,
-    slidesPerView: 1,
-    centeredSlides: true,
-    navigation: true,
     pagination: {
         el: '.swiper-pagination',
         clickable: true,

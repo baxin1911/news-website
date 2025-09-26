@@ -1,14 +1,35 @@
 <section>
-    <h5 class="title-style">Noticias Populares</h5>
+    <h2 class="title-style">Noticias Populares</h2>
 
     <div class="py-3">
-        <% if (isFooter) { %>
-            <%- include('./slider', { 
-                swiperClass: 'swiper-popular-news', 
-                articleViewMode: 'overlay' 
-            }); %>
-        <%} else { %>
-            <%- include('./articleList', { isSidebar: true }); %>
-        <% } %>
+        <ul class="list-unstyled mb-0">
+            <% articles.forEach( article => { 
+                const category = (article.category) ? getCategory(article.category) : '';
+                const imageUrl = (article.imageUrls && article.imageUrls.length > 0) ? article.imageUrls[0] : '';
+                const shortDescription = (article.description.length > 100) ? `${article.description.substring(0, 100)} ...` : article.description;
+                const shortTitle = (article.title.length > 50) ? `${article.title.substring(0, 50)} ...` : article.title;
+                const date = (article.publicationDate) ? formatShortDate(article.publicationDate) : '';
+            %>
+                <li class="mb-3">
+                    <%- include('./article', {
+                        article: {
+                            img: {
+                                src: imageUrl,
+                                class: 'card-img-top',
+                                alt: 'Imagen de la noticia'
+                            },
+                            body: {
+                                class: 'card-body',
+                                title: {
+                                    class: '',
+                                    link: '#',
+                                    content: shortTitle
+                                }
+                            }
+                        }
+                    }) %>
+                </li>
+            <% }); %>
+        </ul>
     </div>
 </section>

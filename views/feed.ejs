@@ -1,8 +1,3 @@
-<% const buttons = [
-    { content: '<i class="fa-solid fa-magnifying-glass me-2"></i>Buscar', toggle: 'offcanvas',target: '#searchMenu' },
-    { content: '<i class="fa fa-user me-2"></i>Iniciar sesión', toggle: 'modal', target: '#loginModal' }
-]; %>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -36,54 +31,54 @@
                 <div class="col-12 col-md-8 col-lg-9">
                     <main class="my-4">
                         <section>
-                            <h5 class="title-style">Resultados de búsqueda</h5>
+                            <h2 class="title-style">Resultados de búsqueda</h2>
 
                             <div id="searchResults" class="list-group">
-                                <%- include('./partials/news/articleList', { 
-                                    isSidebar: false 
-                                }); %>
-                            </div>
-
-                            <nav aria-label="Paginación de resultados">
-                                <ul class="pagination pagination-circle pagination-lg justify-content-center">
-                                    <% if (pagination.hasPrevPage) { %>
-                                        <li class="pagination-item">
-                                            <a class="page-link" href="#" 
-                                                data-page="<%= pagination.currentPage - 1 %>"
-                                            >
-                                                Anterior
-                                            </a>
-                                        </li>
-                                    <% } %>
-
-                                    <% pagination.visiblePages.forEach(page => { %>
-                                        <li class="page-item <%= (page === pagination.currentPage) ? 'active' : '' %>"
-                                            <% if (page === pagination.currentPage) { %> aria-current="page" <% } %>
-                                        >
-                                            <% if (page === pagination.currentPage) { %>
-                                                <span class="page-link">
-                                                    <%= page %>
-                                                    <span class="visually-hidden">(actual)</span>
-                                                </span>
-                                            <% } else { %>
-                                                <a class="page-link" href="#" data-page="<%= page %>">
-                                                    <%= page %>
-                                                </a>
-                                            <% } %>
+                                <ul class="list-unstyled">
+                                    <% articles.forEach( article => { 
+                                        const category = (article.category) ? getCategory(article.category) : '';
+                                        const imageUrl = (article.imageUrls && article.imageUrls.length > 0) ? article.imageUrls[0] : '';
+                                        const shortDescription = (article.description.length > 100) ? `${article.description.substring(0, 100)} ...` : article.description;
+                                        const shortTitle = (article.title.length > 50) ? `${article.title.substring(0, 50)} ...` : article.title;
+                                        const date = (article.publicationDate) ? formatShortDate(article.publicationDate) : '';
+                                    %>
+                                        <li class="mb-3">
+                                            <%- include('./partials/news/article', {
+                                                article: {
+                                                    grid: {
+                                                        row: 'row g-0',
+                                                        colImg: 'col-md-4',
+                                                        colBody: 'col-md-8'
+                                                    },
+                                                    img: {
+                                                        src: imageUrl,
+                                                        class: 'img-fluid rounded-start',
+                                                        alt: 'Imagen de la noticia'
+                                                    },
+                                                    body: {
+                                                        class: 'card-body',
+                                                        title: {
+                                                            class: 'me-3',
+                                                            link: '#',
+                                                            content: shortTitle
+                                                        },
+                                                        badge: {
+                                                            link: category,
+                                                            content: category
+                                                        }
+                                                    },
+                                                    metadata: {
+                                                        date
+                                                    },
+                                                    shortDescription
+                                                }
+                                            }) %>
                                         </li>
                                     <% }); %>
-
-                                    <% if (pagination.hasNextPage) { %>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" 
-                                                data-page="<%= pagination.currentPage + 1 %>"
-                                            >
-                                                Siguiente
-                                            </a>
-                                        </li>
-                                    <% } %>
                                 </ul>
-                            </nav>
+                            </div>
+
+                            <%- include('./partials/shared/pagination', { pagination }) %>
                         </section>
                     </main>
                 </div>
@@ -92,17 +87,6 @@
                     <%- include('./partials/layout/sidebar'); %>
                 </div>
             </div>
-        </div>
-
-        <div class="d-sm-none">
-            <%- include('./partials/shared/button', {
-                btnClass: 'btn btn-outline-primary btn-filters',
-                attrs: {
-                    'data-mdb-toggle': 'offcanvas',
-                    'data-mdb-target': '#searchOffcanvas'
-                },
-                content: '<i class="fa fa-filter me-2"></i>Filtros'
-            }); %>
         </div>
 
         <%- include('./partials/layout/footer'); %>

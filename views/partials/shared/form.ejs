@@ -1,53 +1,9 @@
-<form id="<%= form.idForm %>" novalidate>
-    <% if (formViewMode === 'search' || formViewMode === 'newsletter') { %>
-        <label for="<%= form.input.id %>" class="form-label">
-            <%= form.input.label %>
-        </label>
+<form id="<%= form.id %>" novalidate>
+    <%- include('./outlineInput', { inputs: form.inputs }) %>
 
-        <div class="input-group">
-            <input id="<%= form.input.id %>" type="text" name="<%= form.input.name %>" 
-                class="form-control" placeholder="<%= form.input.placeholder %>"
-                aria-describedby="<%= form.input.id %>Error">
+    <%- form.cancelButton ? 
+        include('./button', { button: form.cancelButton }) : '' 
+    %>
 
-            <button type="submit" class="btn btn-primary"><%- form.buttonLabel %></button>
-        </div>
-
-        <div id="<%= form.input.id %>Error" class="alert alert-danger" role="alert"
-            aria-live="assertive" aria-hidden="true" hidden>
-        </div>
-    <% } else { %>
-        <% if (formViewMode === 'reset') { %>
-            <input type="hidden" name="token" value="<%= token %>">
-        <% } %>
-
-        <% form.inputs.forEach( input => { %>
-            <div class="mb-3">
-                <label for="<%= input.id %>" class="form-label"><%= input.label %></label>
-
-                <input id="<%= input.id %>" type="<%= input.type %>" name="<%= input.name %>" 
-                    class="form-control mb-2" aria-describedby="<%= input.id %>Error">
-
-                <div id="<%= input.id %>Error" class="alert alert-danger" role="alert"
-                    aria-live="assertive" aria-hidden="true" hidden>
-                </div>
-            </div>
-        <% }); %>
-
-        <button type="submit" class="btn btn-primary">
-            <%= form.buttonLabel %>
-        </button>
-
-        <% if (formViewMode === 'recover') { %>
-            <%- include('./button', {
-                btnClass: 'btn btn-link',
-                attrs: {
-                    'data-mdb-toggle': 'modal',
-                    'data-mdb-modal-init': '',
-                    'data-mdb-target': form.idModal,
-                    'data-mdb-dismiss': 'modal'
-                },
-                content: form.linkLabel
-            }); %>
-        <% } %>
-    <% } %>
+    <%- include('./submit', { button: form.submitButton }) %>
 </form>

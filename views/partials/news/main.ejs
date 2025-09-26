@@ -1,6 +1,45 @@
 <section class="news-section">
-    <%- include('./slider', {
-        swiperClass: 'main-news',
-        articleViewMode: 'overlay'
-    }); %>
+    <div class="swiper main-news">
+        <div class="swiper-wrapper">
+            <% articles.forEach(article => {
+                const imageUrl = (article.imageUrls && article.imageUrls.length > 0) ? article.imageUrls[0] : '';
+                const shortTitle = (article.title.length > 50) ? `${article.title.substring(0, 50)} ...` : article.title;
+                const shortDescription = (article.description.length > 100) ? `${article.description.substring(0, 100)} ...` : article.description;
+                const category = article.category ? getCategory(article.category) : '';
+                const date = article.publicationDate ? formatShortDate(article.publicationDate) : '';
+            %>
+                <div class="swiper-slide">
+                    <%- include('./article', {
+                        article: {
+                            img: {
+                                src: imageUrl,
+                                class: 'card-img',
+                                alt: 'Imagen de la noticia'
+                            },
+                            body: {
+                                class: 'card-img-overlay overlay',
+                                title: {
+                                    class: 'me-3',
+                                    link: '#',
+                                    content: shortTitle
+                                },
+                                badge: {
+                                    link: category,
+                                    content: category
+                                }
+                            },
+                            metadata: {
+                                date
+                            },
+                            shortDescription
+                        }
+                    }) %>
+                </div>
+            <% }); %>
+        </div>
+
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
 </section>

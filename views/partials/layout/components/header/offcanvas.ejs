@@ -1,0 +1,53 @@
+<% const header = {
+    button: {
+        id: 'menuCloseBtn',
+        dismissTarget: 'offcanvas'
+    },
+    class: 'offcanvas-header',
+    title: {
+        id: 'menuTitle',
+        content: 'Menú de navegación',
+        class: 'offcanvas-title'
+    }
+};
+
+const list = {
+    class: 'navbar-nav',
+    links: [
+        { content: 'Inicio', slug: '/', class: `nav-link ${ (currentRoute === '/') ? 'active' : '' }` },
+        { content: 'Gamming', slug: '/categories/gamming', class: `nav-link ${ (currentRoute === '/categories/gamming') ? 'active' : '' }` },
+        { content: 'Entretenimiento', slug: '/categories/entretenimiento', class: `nav-link ${ (currentRoute === '/categories/entretenimiento') ? 'active' : '' }` },
+        { content: 'Deportes', slug: '/categories/sports', class: `nav-link ${ (currentRoute === '/categories/sports') ? 'active' : '' }` },
+        { content: 'Tecnología', slug: '/categories/technology', class: `nav-link ${ (currentRoute === '/categories/technology') ? 'active' : '' }` },
+        { content: '<i class="fas fa-envelope me-2"></i>Contacto', slug: '/contacto', class: `nav-link ${ (currentRoute === '/contacto') ? 'active' : '' }` }
+    ]
+};
+
+const searchForm = {
+    idInput: 'textSearchOffcanvasInput',
+    idButton: 'searchOffcanvasBtn'
+}; %>
+
+<div id="menuOffcanvas" tabindex="-1" class="offcanvas offcanvas-start w-md-50" 
+    aria-labelledby="<%= header.title.id %>"
+>
+    <%- include('../../../shared/header', { header }) %>
+
+    <div class="offcanvas-body d-flex flex-column dark">
+        <div class="flex-grow-1">
+            <%- include('./searchForm', { searchForm }) %>
+        </div>
+
+        <div class="flex-grow-1">
+            <%- include('../linkList', { list }) %>
+        </div>
+
+        <div>
+            <% if (!user) { %>
+                <%- include('./loginButton', { idLoginButton: 'profileOffcanvasBtn' }) %>
+            <% } else { %>
+                <%- include('./profileMenu', { profileMenuViewMode: 'offcanvas' }) %>
+            <% } %>
+        </div>
+    </div>
+</div>

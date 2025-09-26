@@ -18,7 +18,7 @@ export const useForm = async ({
         const data = Object.fromEntries(new FormData(form));
         let errors = validate(data);
 
-        toggleErrorMessages(errors);
+        toggleErrorMessages(form, errors);
 
         const hasErrors = Object.values(errors).some(error => error);
 
@@ -41,7 +41,7 @@ export const useForm = async ({
 
                     errors = validate(data);
 
-                    toggleErrorMessages(errors);
+                    toggleErrorMessages(form, errors);
                 }
             });
         }

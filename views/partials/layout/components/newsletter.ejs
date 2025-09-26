@@ -1,0 +1,43 @@
+<% const form = {
+    attrs: {
+        'id': (isFooter) ? 'newsletterFooterForm' : 'newsletterSidebarForm'
+    },
+    input: {
+        id: (isFooter) ? 'emailNewsletterFooterInput' : 'emailNewsletterSidebarInput',
+        type: 'email',
+        name: 'email',
+        attrs: {
+            'placeholder': 'Ingresa tu correo electrónico.'
+        }
+    },
+    label: {
+        content: 'Correo electrónico:'
+    },
+    submitButton: {
+        id: (isFooter) ? 'newsletterFooterBtn' : 'newsletterSidebarBtn',
+        content: 'Suscribirse'
+    }
+};
+
+form.input.attrs = {
+    ...form.input.attrs,
+    'aria-describedby': `${ form.input.id }Error`
+}; %>
+
+<section>
+    <h2 class="title-style">Suscríbete a nuestro boletín</h2>
+
+    <%- !isFooter ? `
+        <div class="card">
+            <div class="card-body">
+    ` : '' %>
+
+                <p class="card-text">No te pierdas ninguna noticia: suscríbete a nuestro boletín.</p>
+
+                <%- include('../../shared/groupInputForm', { form }) %>
+
+    <%- !isFooter ? `
+            </div>
+        </div>
+    ` : '' %>
+</section>

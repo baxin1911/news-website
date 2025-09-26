@@ -18,23 +18,23 @@ export const getCategory = (categoryId) => {
     }
 }
 
-export const toggleErrorMessages = (errors) => {
+export const toggleErrorMessages = (form, errors) => {
 
-    Object.entries(errors).forEach(([id, message]) => {
+    const inputs = form.querySelectorAll('input');
+
+    Object.entries(errors).forEach(([id, message], index) => {
 
         const element = document.getElementById(id);
 
         if (message) {
 
             element.textContent = message;
-            element.hidden = false;
-            element.ariaHidden = false;
+            inputs[index].classList.add('is-invalid');
 
         } else {
 
             element.textContent = null;
-            element.hidden = true;
-            element.ariaHidden = true;
+            inputs[index].classList.remove('is-invalid');
         }
     });
 }

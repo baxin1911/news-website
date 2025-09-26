@@ -1,5 +1,6 @@
 import express from 'express';
 import { subscribeController } from '../../controllers/api/newsletterController.js';
+import { validateEmail } from '../../helpers/validations/auth.js';
 
 const router = express.Router();
 

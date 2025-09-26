@@ -40,7 +40,7 @@ export const authGoogleController = async (req, res) => {
         maxAge: 60 * 60 * 1000
     });
 
-    res.redirect('/user/profile');
+    res.redirect('/profile');
 }
 
 export const resetPasswordController = async (req, res) => {
