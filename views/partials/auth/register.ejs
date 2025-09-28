@@ -8,35 +8,58 @@
             id: 'registerModalTitle',
             content: 'Registro para titulo'
         }
-    }
-};
-
-const form = {
-    id: 'registerForm',
-    inputs: [
-        { id: 'emailRegisterInput', label: 'Correo electrónico:', name: 'email', type: 'email' },
-        { id: 'passwordRegisterInput', label: 'Contraseña:', name: 'password', type: 'password' },
-        { id: 'repeatedPasswordRegisterInput', label: 'Repetir contraseña:', name: 'repeatedPassword', type: 'password' },
-        { id: 'usernameRegisterInput', label: 'Nombre de usuario:', name: 'username', type: 'text' }
-    ],
-    submitButton: {
-        id: 'registerBtn',
-        content: 'Registrar'
     },
-    cancelButton: {
-        id: 'registerCancelBtn',
-        class: 'btn btn-link',
-        attrs: {
-            'data-mdb-toggle': 'modal',
-            'data-mdb-modal-init': '',
-            'data-mdb-target': '#loginModal',
-            'data-mdb-dismiss': 'modal'
+    form: {
+        id: 'registerForm',
+        inputs: [
+            { 
+                id: 'emailRegisterInput', 
+                label: {
+                    content: 'Correo electrónico:'
+                },
+                name: 'email', 
+                type: 'email' 
+            },
+            { 
+                id: 'passwordRegisterInput', 
+                label: {
+                    content: 'Contraseña:'
+                },
+                name: 'password', 
+                type: 'password' 
+            },
+            { 
+                id: 'repeatedPasswordRegisterInput', 
+                label: {
+                    content: 'Repetir contraseña:'
+                },
+                name: 'repeatedPassword', 
+                type: 'password' 
+            },
+            { 
+                id: 'usernameRegisterInput', 
+                label: {
+                    content: 'Nombre de usuario:'
+                },
+                name: 'username', 
+                type: 'text' 
+            }
+        ],
+        submitButton: {
+            id: 'registerBtn',
+            content: 'Registrar'
         },
-        content: 'Cancelar'
+        cancelButton: {
+            id: 'registerCancelBtn',
+            class: 'btn btn-link',
+            attrs: {
+                'data-mdb-modal-init': '',
+                'data-mdb-target': '#loginModal',
+                'data-mdb-dismiss': 'modal'
+            },
+            content: 'Cancelar'
+        }
     }
 }; %>
 
-<%- include('../shared/modal', {
-    modal,
-    form
-}) %>
+<%- include('./components/authModal', { modal }) %>

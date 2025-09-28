@@ -16,10 +16,18 @@
 >
     <div class="modal-dialog">
         <div class="modal-content">
-            <%- include('./header', { header }) %>
+            <%- include('../../shared/header', { header }) %>
 
             <div class="modal-body dark">
-                <%- include('./form', { form }) %>
+                <%- modal.socialLogin ? 
+                    include('./login/socialLogin', { socialLogin: modal.socialLogin }) : '' 
+                %>
+
+                <%- include('./authForm', { form: modal.form }) %>
+
+                <%- modal.recoverButton ? 
+                    include('./login/recoverButton', { id: modal.recoverButton.id }) : ''
+                %>
             </div>
         </div>
     </div>

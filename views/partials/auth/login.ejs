@@ -2,13 +2,16 @@
     id: 'loginModal',
     socialLogin: {
         links: [
-            { slug: '/auth/google', class: 'btn-google', content: 'Goggle <i class="fab fa-google"></i>' }
+            { 
+                slug: '/auth/google', 
+                class: 'btn-google', 
+                content: 'Goggle <i class="fab fa-google"></i>' 
+            }
         ],
         toggleButton: {
             id: 'registerBtn',
             class: 'btn btn-outline-primary',
             attrs: {
-                'data-mdb-toggle': 'modal',
                 'data-mdb-modal-init': '',
                 'data-mdb-target':'#registerModal'
             },
@@ -24,32 +27,34 @@
             content: 'Inicio de sesión'
         }
     },
-    recoverToggleButton: {
-        id: 'recoverPasswordBtn',
-        class: 'btn btn-link',
-        attrs: {
-            'data-mdb-toggle': 'modal',
-            'data-mdb-modal-init': '',
-            'data-mdb-target': '#recoverModal',
-            'data-mdb-dismiss': 'modal'
-        },
-        content: 'Recuperar contraseña'
-    }
-};
-
-const form = {
-    id: 'loginForm',
-    inputs: [
-        { id: 'emailLoginInput', label: 'Correo electrónico:', name: 'email', type: 'email' },
-        { id:'passwordLoginInput', label: 'Contraseña:', name: 'password', type: 'password' }
-    ],
-    submitButton: {
-        id: 'loginBtn',
-        content: 'Ingresar'
+    recoverButton: {
+        id: 'recoverPasswordBtn'
+    },
+    form: {
+        id: 'loginForm',
+        inputs: [
+            { 
+                id: 'emailLoginInput', 
+                label: {
+                    content: 'Correo electrónico:'
+                },
+                name: 'email', 
+                type: 'email'
+            },
+            { 
+                id:'passwordLoginInput', 
+                label: {
+                    content: 'Contraseña:'
+                },
+                name: 'password', 
+                type: 'password' 
+            }
+        ],
+        submitButton: {
+            id: 'loginBtn',
+            content: 'Ingresar'
+        }
     }
 }; %>
 
-<%- include('./components/loginModal', {
-    modal,
-    form
-}) %>
+<%- include('./components/authModal', { modal }) %>

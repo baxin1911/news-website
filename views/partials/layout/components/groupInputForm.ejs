@@ -1,0 +1,15 @@
+<% form.input.label.class = ' visually-hidden';
+
+form.input.errorClass = 'invalid-tooltip'; %>
+
+<form <% for (let key in form.attrs) { %> 
+        <%= key %>="<%= form.attrs[key] %>" 
+    <% } %>
+    novalidate
+>
+    <div class="input-group">
+        <%- include('../../shared/input', { input: form.input }) %>
+
+        <%- include('../../shared/submit', { button: form.submitButton }); %>
+    </div>
+</form>

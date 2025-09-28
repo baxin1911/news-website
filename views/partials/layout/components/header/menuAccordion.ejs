@@ -1,41 +1,44 @@
-<% button = {
-    id: accordion.toggleButton.id,
-    class: 'accordion-button',
-    attrs: {
-        'data-mdb-collapse-init': '',
-        'data-mdb-toggle': 'collapse',
-        'data-mdb-target': `#${ accordion.body.idCollapse }`,
-        'aria-controls': accordion.body.idCollapse,
-        'aria-expanded': 'false'
-    },
-    content: accordion.toggleButton.content
-}; %>
-
 <div id="<%= accordion.id %>" class="accordion">
-    <div class="accordion-item">
-        <h3 id="<%= accordion.header.id %>" 
-            class="accordion-header"
-        >
-            <%- include('../../../shared/button', { button }); %>
-        </h3>
+    <% accordion.items.forEach(item => { %>
+        <div class="accordion-item">
+            <h3 id="<%= item.ids.idHeader %>" 
+                class="accordion-header"
+            >
+                <%- include('../../../shared/button', { 
+                    button: {
+                        id: item.toggleButton.id,
+                        class: 'accordion-button',
+                        attrs: {
+                            'data-mdb-collapse-init': '',
+                            'data-mdb-target': `#${ item.ids.idCollapse }`,
+                            'aria-controls': item.ids.idCollapse,
+                            'aria-expanded': 'false'
+                        },
+                        content: item.toggleButton.content
+                    }
+                }) %>
+            </h3>
 
-        <div id="<%= accordion.body.idCollapse %>" class="accordion-collapse collapse" 
-            aria-labelledby="<%= accordion.header.id %>" 
-            data-mdb-parent="#<%= accordion.id %>"
-        >
-            <div class="accordion-body p-0">
-                <h4 class="visually-hidden"><%= accordion.body.title %></h4>
-                
-                <div class="list-group list-group-flush">
-                    <% links.forEach(link => { %>
-                        <a href="<%= link.slug %>" class="list-group-item list-group-item-action w-100">
-                            <%- link.content %>
-                        </a>
-                    <% }); %>
+            <div id="<%= item.ids.idCollapse %>" class="accordion-collapse collapse" 
+                aria-labelledby="<%= item.ids.idHeader %>" 
+                data-mdb-parent="#<%= accordion.id %>"
+            >
+                <div class="accordion-body p-0">
+                    <h4 class="visually-hidden"><%= item.body.title %></h4>
                     
-                    <%- accordion.form ? include('./logoutForm', { form: accordion.form }) : '' %>
+                    <div class="list-group list-group-flush">
+                        <% item.body.links.forEach(link => { %>
+                            <a href="<%= link.slug %>" class="list-group-item list-group-item-action w-100">
+                                <%- link.content %>
+                            </a>
+                        <% }); %>
+
+                        <%- item.body.form ? 
+                            include('./logoutForm', { form: item.body.form }) : '' 
+                        %>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    <% }); %>
 </div>

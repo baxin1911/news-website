@@ -107,6 +107,10 @@ body {
   bottom: 30px;
 }
 
+.bg-sticky button {
+  width: 100% !important;
+}
+
 .btn-facebook {
   --btn-color-hover-facebook: #2d4373;
   --mdb-btn-color: var(--mdb-light);
@@ -202,13 +206,16 @@ form .dropdown-item {
   --mdb-list-group-bg: var(--mdb-secondary);
   --mdb-list-group-action-hover-color: var(--mdb-accent);
   --mdb-list-group-action-hover-bg: var(--mdb-dark);
+}
+
+.accordion-item:last-of-type .list-group-item:last-child {
   border-bottom-left-radius: var(--mdb-accordion-inner-border-radius);
   border-bottom-right-radius: var(--mdb-accordion-inner-border-radius);
 }
 
 /* navbar styles */
 
-.nav-link {
+nav .nav-link, .offcanvas .nav-link {
   position: relative;
   --mdb-nav-link-color: var(--mdb-light);
   --mdb-nav-link-hover-color: var(--mdb-accent);
@@ -216,7 +223,7 @@ form .dropdown-item {
   transition: color 0.3s ease;
 }
 
-.nav-link::after {
+nav .nav-link::after, .offcanvas .nav-link::after {
   content: '';
   position: absolute;
   left: 0;
@@ -227,13 +234,17 @@ form .dropdown-item {
   transition: width 0.3s ease;
 }
 
-.nav-link:hover::after {
+nav .nav-link:hover::after, .offcanvas .nav-link:hover::after {
   width: 100%;
 }
 
-.nav-link.active::after {
+nav .nav-link.active::after, .offcanvas .nav-link.active::after {
   width: 100%;
   background: var(--mdb-accent);
+}
+
+.nav-justified button {
+  width: 100% !important;
 }
 
 /* link styles */
@@ -326,6 +337,19 @@ body section {
 
 footer section, .news-section {
   background-color: inherit;
+}
+
+#settingsForm {
+  position: relative;
+}
+
+.bg-sticky {
+  position: sticky;
+  z-index: 5;
+  bottom: 4%;
+  padding-top: 30px;
+  padding-bottom: 40px;
+  background: linear-gradient(to bottom, var(--mdb-dark), transparent 100px);
 }
 
 .bg-style {

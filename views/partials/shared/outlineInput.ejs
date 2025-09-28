@@ -1,13 +1,5 @@
-<% inputs.forEach( input => { %>
-    <div class="mb-4">
-        <div class="form-outline" data-mdb-input-init>
-            <input id="<%= input.id %>" type="<%= input.type %>" name="<%= input.name %>" 
-                class="form-control mb-2" aria-describedby="<%= input.id %>Error"
-            >
-
-            <label for="<%= input.id %>" class="form-label"><%= input.label %></label>
-
-            <div id="<%= input.id %>Error" class="invalid-feedback"></div>
-        </div>
+<div class="col-12">
+    <div class="form-outline" data-mdb-input-init>
+        <%- include('./input', { input }) %>
     </div>
-<% }); %>
+</div>

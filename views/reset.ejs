@@ -4,7 +4,11 @@
         { id: 'passwordResetInput', label: 'Contraseña:', name: 'password', type: 'text' },
         { id: 'repeatedPasswordResetInput', label: 'Repetir contraseña:', name: 'repeatedPassword', type: 'text' }
     ],
-    tokenInput: `<input type="hidden" name="token" value="${ token }">`,
+    tokenInput: `
+        <div class="col-12">
+            <input type="hidden" name="token" value="${ token }">
+        </div>
+    `,
     submitButton: {
         id: 'resetSuccessBtn',
         content: 'Reestablecer'
@@ -20,7 +24,7 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
         <!-- <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet"/> -->
-        <link href="https://cdn.jsdelivr.net/npm/mdb-ui-kit/css/mdb.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/9.2.0/mdb.min.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -35,7 +39,7 @@
             <%- include('./partials/auth/components/authForm', { form }); %>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/mdb-ui-kit/js/mdb.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/9.2.0/mdb.umd.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

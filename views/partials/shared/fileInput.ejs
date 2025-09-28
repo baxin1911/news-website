@@ -1,0 +1,13 @@
+<%- include('./labelInput', { 
+    id: input.id, 
+    label: input.label 
+}) %>
+
+<input id="<%= input.id %>" type="file" name="<%= input.name %>" 
+    class="form-control form-control-lg" aria-describedby="<%= `${ input.id }Error` %>"
+>
+
+<%- include('./validationMessage', { 
+    id: input.id, 
+    errorClass: 'invalid-feedback' 
+}) %>

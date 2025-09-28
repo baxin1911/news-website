@@ -1,7 +1,16 @@
 <% const links = [
-    { content: 'Mi perfil', slug: '/profile#home-tab' },
-    { content: 'Seguimientos', slug: '/profile#following-tab' },
-    { content: 'Configuración', slug: '/profile#settings-tab' },
+    { 
+        content: 'Mi perfil', 
+        slug: '/profile#home-tab' 
+    },
+    { 
+        content: 'Seguimientos', 
+        slug: '/profile#following-tab' 
+    },
+    { 
+        content: 'Configuración', 
+        slug: '/profile#settings-tab' 
+    },
 ];
 
 const profile = (btnClass) => `
@@ -13,24 +22,26 @@ const profile = (btnClass) => `
 
 const accordion = {
     id: 'profileAccordion',
-    header: {
-        id: 'menuHeaderAccordion',
-        link: {
-            slug: '/profile'
+    items: [
+        { 
+            toggleButton: { 
+                id: 'profileAccordionToggle', 
+                content: profile('fw-bold fs-2') 
+            },
+            ids: { 
+                idHeader: 'profileAccordionHeader', 
+                idCollapse: 'profileAccordionCollapse' 
+            }, 
+            body: { 
+                title: 'Menú de perfil', 
+                links, 
+                form: {
+                    buttonClass: 'list-group-item list-group-item-action btn btn-link w-100 text-start'
+                }
+            }
         }
-    },
-    body: {
-        idCollapse: 'profileAccordionCollapse',
-        title: 'Menú de perfil'
-    },
-    form: {
-        buttonClass: 'list-group-item list-group-item-action btn btn-link w-100 text-start'
-    },
-    toggleButton: {
-        id: 'profileAccordionBtn',
-        content: profile('fw-bold fs-2')
-    }
-}; 
+    ]
+};
 
 const dropdown = {
     link: `
@@ -56,8 +67,5 @@ const dropdown = {
         }) %>
     </ul>
 <% } else { %>
-    <%- include('./menuAccordion', { 
-        accordion,
-        links
-    }) %>
+    <%- include('./menuAccordion', { accordion }) %>
 <% } %>

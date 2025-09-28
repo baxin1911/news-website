@@ -8,32 +8,34 @@
             id: 'recoverModalTitle',
             content: 'Recuperar Contraseña'
         }
-    }
-};
-
-const form = {
-    id: 'recoverForm',
-    inputs: [
-        { id: 'emailRecoverInput', label: 'Correo electrónico:', name: 'email', type: 'email' }
-    ],
-    submitButton: {
-        id: 'recoverBtn',
-        content: 'Recuperar'
     },
-    cancelButton: {
-        id: 'recoverCancelBtn',
-        class: 'btn btn-link',
-        attrs: {
-            'data-mdb-toggle': 'modal',
-            'data-mdb-modal-init': '',
-            'data-mdb-target': '#loginModal',
-            'data-mdb-dismiss': 'modal'
+    form: {
+        id: 'recoverForm',
+        inputs: [
+            { 
+                id: 'emailRecoverInput', 
+                label: {
+                    content: 'Correo electrónico:'
+                },
+                name: 'email', 
+                type: 'email' 
+            }
+        ],
+        submitButton: {
+            id: 'recoverBtn',
+            content: 'Recuperar'
         },
-        content: 'Cancelar'
+        cancelButton: {
+            id: 'recoverCancelBtn',
+            class: 'btn btn-link',
+            attrs: {
+                'data-mdb-modal-init': '',
+                'data-mdb-target': '#loginModal',
+                'data-mdb-dismiss': 'modal'
+            },
+            content: 'Cancelar'
+        }
     }
 }; %>
 
-<%- include('../shared/modal', {
-    modal,
-    form
-}) %>
+<%- include('./components/authModal', { modal }) %>

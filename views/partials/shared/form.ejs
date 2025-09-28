@@ -1,9 +1,0 @@
-<form id="<%= form.id %>" novalidate>
-    <%- include('./outlineInput', { inputs: form.inputs }) %>
-
-    <%- form.cancelButton ? 
-        include('./button', { button: form.cancelButton }) : '' 
-    %>
-
-    <%- include('./submit', { button: form.submitButton }) %>
-</form>

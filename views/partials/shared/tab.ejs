@@ -7,7 +7,6 @@
                     class: `nav-link${ (tab.active) ? ' active' : '' }`,
                     attrs: {
                         'data-mdb-tab-init': '',
-                        'data-mdb-toggle': 'tab',
                         'data-mdb-target': `#${ tab.id }`,
                         'role': 'tab',
                         'aria-controls': tab.id,
@@ -26,7 +25,7 @@
             class="tab-pane fade <%= (tab.active) ? 'show active' : '' %>"
             aria-labelledby="<%= `${ tab.id }-tab` %>"
         >
-            <%- tab.content %>
+            <%- include(tab.route) %>
         </div>   
     <% }); %> 
 </div>

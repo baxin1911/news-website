@@ -11,15 +11,89 @@
     }
 };
 
+const accordion = {
+    id: 'navbarAccordion',
+    items: [
+        { 
+            toggleButton: { 
+                id: 'gamingAccordionToggle', 
+                content: 'Gaming' 
+            },
+            ids: {
+                idHeader: 'gamingAccordionHeader',
+                idCollapse: 'gamingAccordionCollapse'
+            }, 
+            body: {
+                title: 'Tags de Gaming',
+                links: [
+                    { content: 'Gaming', slug: '/categories/gaming' }
+                ]
+            }
+        },
+        { 
+            toggleButton: { 
+                id: 'entertainmentAccordionToggle', 
+                content: 'Entretenimiento' 
+            },
+            ids: {
+                idHeader: 'entertainmentAccordionHeader',
+                idCollapse: 'entertainmentAccordionCollapse'
+            }, 
+            body: {
+                title: 'Tags de Entretenimiento',
+                links: [
+                    { content: 'Entretenimiento', slug: '/categories/entertainment' }
+                ]
+            }
+        },
+        { 
+            toggleButton: { 
+                id: 'sportsAccordionToggle', 
+                content: 'Deportes' 
+            },
+            ids: {
+                idHeader: 'sportsAccordionHeader',
+                idCollapse: 'sportsAccordionCollapse'
+            }, 
+            body: {
+                title: 'Tags de Deportes',
+                links: [
+                    { content: 'Deportes', slug: '/categories/sports' }
+                ]
+            }
+        },
+        { 
+            toggleButton: { 
+                id: 'technologyAccordionToggle', 
+                content: 'Tecnología' 
+            },
+            ids: {
+                idHeader: 'technologyAccordionHeader',
+                idCollapse: 'technologyAccordionCollapse'
+            }, 
+            body: {
+                title: 'Tags de Tecnología',
+                links: [
+                    { content: 'Tecnología', slug: '/categories/technology' }
+                ]
+            }
+        }
+    ]
+};
+
 const list = {
     class: 'navbar-nav',
     links: [
-        { content: 'Inicio', slug: '/', class: `nav-link ${ (currentRoute === '/') ? 'active' : '' }` },
-        { content: 'Gamming', slug: '/categories/gamming', class: `nav-link ${ (currentRoute === '/categories/gamming') ? 'active' : '' }` },
-        { content: 'Entretenimiento', slug: '/categories/entretenimiento', class: `nav-link ${ (currentRoute === '/categories/entretenimiento') ? 'active' : '' }` },
-        { content: 'Deportes', slug: '/categories/sports', class: `nav-link ${ (currentRoute === '/categories/sports') ? 'active' : '' }` },
-        { content: 'Tecnología', slug: '/categories/technology', class: `nav-link ${ (currentRoute === '/categories/technology') ? 'active' : '' }` },
-        { content: '<i class="fas fa-envelope me-2"></i>Contacto', slug: '/contacto', class: `nav-link ${ (currentRoute === '/contacto') ? 'active' : '' }` }
+        { 
+            content: 'Inicio', 
+            slug: '/', 
+            class: `nav-link ${ (currentRoute === '/') ? 'active' : '' }` 
+        },
+        { 
+            content: '<i class="fas fa-envelope me-2"></i>Contacto', 
+            slug: '/contacto', 
+            class: `nav-link ${ (currentRoute === '/contacto') ? 'active' : '' }` 
+        }
     ]
 };
 
@@ -34,12 +108,16 @@ const searchForm = {
     <%- include('../../../shared/header', { header }) %>
 
     <div class="offcanvas-body d-flex flex-column dark">
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 mb-5">
             <%- include('./searchForm', { searchForm }) %>
         </div>
 
-        <div class="flex-grow-1">
-            <%- include('../linkList', { list }) %>
+        <div class="flex-grow-1 mb-5">
+            <div class="mb-5">
+                <%- include('../linkList', { list }) %>
+            </div>
+
+            <%- include('./menuAccordion', { accordion }) %>
         </div>
 
         <div>

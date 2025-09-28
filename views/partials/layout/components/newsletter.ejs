@@ -8,20 +8,15 @@
         name: 'email',
         attrs: {
             'placeholder': 'Ingresa tu correo electrónico.'
+        },
+        label: {
+            content: 'Correo electrónico:'
         }
-    },
-    label: {
-        content: 'Correo electrónico:'
     },
     submitButton: {
         id: (isFooter) ? 'newsletterFooterBtn' : 'newsletterSidebarBtn',
         content: 'Suscribirse'
     }
-};
-
-form.input.attrs = {
-    ...form.input.attrs,
-    'aria-describedby': `${ form.input.id }Error`
 }; %>
 
 <section>
@@ -32,9 +27,9 @@ form.input.attrs = {
             <div class="card-body">
     ` : '' %>
 
-                <p class="card-text">No te pierdas ninguna noticia: suscríbete a nuestro boletín.</p>
+                <p class="card-text text-center">No te pierdas ninguna noticia: suscríbete a nuestro boletín.</p>
 
-                <%- include('../../shared/groupInputForm', { form }) %>
+                <%- include('./groupInputForm', { form }) %>
 
     <%- !isFooter ? `
             </div>
