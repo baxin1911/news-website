@@ -1,6 +1,8 @@
-import { getCategory } from "../../helpers/category.js";
-import { formatShortDate } from "../../helpers/formattedDate.js";
-import { getAllArticles } from "../../services/articlesService.js";
+import { getAuthorsByIdUser } from "../../services/authorService.js";
+import { getUsersByIdUser } from "../../services/userService.js";
+import { getTagsByIdUser } from "../../services/tagService.js";
+import { getCommentsByIdUser } from "../../services/commentService.js";
+
 
 export const profileController = async (req, res) => {
 
@@ -8,13 +10,17 @@ export const profileController = async (req, res) => {
 
     const { user } = req;
 
-    const articles = await getAllArticles();
+    const authors = await getAuthorsByIdUser(user.id);
+    const users = await getUsersByIdUser(user.id);
+    const tags = await getTagsByIdUser(user.id);
+    const comments = await getCommentsByIdUser(user.id);
 
     res.render('profile', { 
         user, 
-        articles, 
-        getCategory, 
-        currentRoute: '/profile',
-        formatShortDate
+        comments,
+        users,
+        authors, 
+        tags,
+        currentRoute: '/profile'
     });
 }

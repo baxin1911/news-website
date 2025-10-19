@@ -3,6 +3,7 @@ import 'dotenv/config.js';
 import authApiRoutes from './routes/api/auth.js';
 import newsletterApiRoutes from './routes/api/newsletter.js';
 import searchApiRoutes from './routes/api/search.js';
+import profileApiRoutes from './routes/api/user.js';
 
 import webRoutes from './routes/web/index.js';
 import feedWebRoutes from './routes/web/feed.js'; 
@@ -60,6 +61,7 @@ app.use('/', userWebRoutes);
 app.use(api + '/auth', authApiRoutes);
 app.use(api + '/newsletter', newsletterApiRoutes);
 app.use(api + '/search', searchApiRoutes);
+app.use(api + '/profile', profileApiRoutes);
 
 app.use((req, res, next) => {
     res.status(405).json({ message: 'Método HTTP no permitido.' });

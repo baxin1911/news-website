@@ -11,7 +11,7 @@ export const validateEmail = (email) => {
     return null;
 }
 
-export const validatePassowrd = (password) => {
+export const validatePassword = (password) => {
     const regex = /^[A-Za-z0-9!@#\$%\^&\*]+$/;
 
     if (!password) return 'La contraseña es requerida';
@@ -25,7 +25,7 @@ export const validatePassowrd = (password) => {
     return null;
 }
 
-export const validateRepeatedPassowrd = (password, repeatedPassword) => {
+export const validateRepeatedPassword = (password, repeatedPassword) => {
 
     if (repeatedPassword !== password) return 'La contraseña no coincide';
 

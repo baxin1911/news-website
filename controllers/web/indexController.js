@@ -1,4 +1,4 @@
-import { getAllArticles } from '../../services/articlesService.js';
+import { getAllArticles } from '../../services/articleService.js';
 import { getCategory } from '../../helpers/category.js';
 import { formatShortDate } from '../../helpers/formattedDate.js';
 

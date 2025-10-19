@@ -2,16 +2,16 @@ import express from 'express';
 import { verifyApiResetToken } from '../../middleware/auth.js';
 import { generateAccessToken, verifyAccessToken } from '../../config/jwt.js';
 import { loginController, recoverAccountController, registerController, resetPasswordController } from '../../controllers/api/authController.js';
-import { validateEmail, validatePassowrd, validateRepeatedPassowrd, validateUsername } from '../../helpers/validations/auth.js';
+import { validateEmail, validatePassword, validateRepeatedPassword, validateUsername } from '../../helpers/validations/auth.js';
 // import { emailLimiter, loginLimiter, recoverLimiter, registerLimiter, resetLimiter } from '../../middleware/rateLimit.js';
 
 const router = express.Router();
 
-router.post('/login',(req, res, next) => {
+router.post('/login', (req, res, next) => {
 
     const { email, password } = req.body || {};
     const emailError = validateEmail(email);
-    const passwordError = validatePassowrd(password);
+    const passwordError = validatePassword(password);
 
     if (emailError || passwordError) return res.status(401).json({ 
         message: 'Correo o contraseña incorrecto.' 
@@ -26,8 +26,8 @@ router.post('/register', (req, res, next) => {
     const { email, password, repeatedPassword, username } = req.body || {};
     const errors = {
         emailError: validateEmail(email),
-        passwordError: validatePassowrd(password),
-        repeatedPasswordError: validateRepeatedPassowrd(password, repeatedPassword),
+        passwordError: validatePassword(password),
+        repeatedPasswordError: validateRepeatedPassword(password, repeatedPassword),
         usernameError: validateUsername(username)
     };
     const hasErrors = Object.values(errors).some(error => error);
@@ -73,8 +73,8 @@ router.patch('/reset', verifyApiResetToken, (req, res, next) => {
 
     const { password, repeatedPassword } = req.body || {};
     const errors = { 
-        passwordError: validatePassowrd(password),
-        repeatedPasswordError: validateRepeatedPassowrd(password, repeatedPassword),
+        passwordError: validatePassword(password),
+        repeatedPasswordError: validateRepeatedPassword(password, repeatedPassword),
     };
     const hasErrors = Object.values(errors).some(error => error);
 

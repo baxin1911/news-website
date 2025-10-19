@@ -6,7 +6,7 @@
             active: true, 
             controls: 'home', 
             title: 'Mi Perfil', 
-            route: '../profile/homeProfile'
+            route: '../profile/profileHome'
         },
         { 
             id: 'following', 
@@ -20,7 +20,7 @@
             active: false, 
             controls: 'settings', 
             title: 'Preferencias', 
-            route: '../profile/settingsForm' 
+            route: '../profile/settings' 
         }
     ]
 }; %>
@@ -49,7 +49,7 @@
 
         <div class="container-fluid my-4">
             <main>
-                <%- include('./partials/shared/tab', { containerTab }) %>
+                <%- include('./partials/shared/tabList', { containerTab }) %>
             </main>
         </div>
 
@@ -61,10 +61,10 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         
         <script type="module" src="/js/index.js"></script>
-        <script type="module" src="/js/pages/auth/login.js"></script>
+        <!-- <script type="module" src="/js/pages/auth/login.js"></script>
         <script type="module" src="/js/pages/auth/register.js"></script>
         <script type="module" src="/js/pages/auth/recover.js"></script>
-        <script type="module" src="/js/pages/newsletters/sidebar.js"></script>
+        <script type="module" src="/js/pages/newsletters/sidebar.js"></script> -->
         <script type="module" src="/js/pages/newsletters/footer.js"></script>
         <script type="module" src="/js/core/searchForm.js"></script>
     </body>

@@ -22,7 +22,7 @@ export const loginController = async (req, res) => {
         picture: '/img/ejemplo.png',
         totalPosts: 0,
         totalTopics: 0,
-        following: 0,
+        totalAuthors: 0,
         followers: 0
     };
     const newRefreshToken = generateRefreshToken(user);

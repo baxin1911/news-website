@@ -1,0 +1,29 @@
+<ul class="list-group list-group-light">
+    <% comments.forEach( comment => { %>
+        <li class="list-group-item px-3 border-0 rounded-3 list-group-item-primary mb-2">
+            <h4><%= comment.article.title %></h4>
+
+            <p class="text-dark py-1 px-3 px-md-4 px-lg-5"><%= comment.description %></p>
+
+            <p class="d-flex flex-wrap justify-content-between">
+                <span class="fs-6 me-3">Comentado el <%= comment.created_at %></span>
+
+                <span class="me-3">
+                    <%= comment.likeCount %><i class="fas fa-thumbs-up ms-2"></i>
+                </span>
+
+                <span class="me-3">
+                    <%= comment.dislikeCount %><i class="fas fa-thumbs-down ms-2"></i>
+                </span>
+
+                <span class="me-3">
+                    <%= comment.replyCount %> Respuestas
+                </span>
+
+                <span>
+                    <a href="#" class="btn btn-link">Ver más</a>
+                </span>
+            </p>
+        </li>
+    <% }); %>
+</ul>

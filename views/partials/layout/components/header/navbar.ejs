@@ -39,17 +39,17 @@ const searchForm = {
     idButton: 'searchHeaderBtn'
 }; %>
 
-<nav class="navbar navbar-expand-lg p-0">
+<nav class="navbar navbar-expand-lg bg-dark p-0">
     <div class="container-fluid justify-content-between">
-        <div class="d-none d-sm-flex">
+        <div class="d-none d-sm-flex" role="navigation">
             <%- include('./searchForm', { searchForm }) %>
         </div>
 
-        <div class="d-none d-lg-flex">
+        <div class="d-none d-lg-flex" role="navigation">
             <%- include('../linkList', { list }) %>
         </div>
 
-        <div class="d-none d-sm-flex">
+        <div class="d-none d-sm-flex" role="navigation">
             <% if (!user) { %>
                 <%- include('./loginButton', { idLoginButton: 'profileHeaderBtn' }) %>
             <% } else { %>

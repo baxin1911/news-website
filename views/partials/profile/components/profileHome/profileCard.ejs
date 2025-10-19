@@ -1,0 +1,27 @@
+<div class="card mb-4">
+    <div class="position-relative">
+        <img src="https://mdbcdn.b-cdn.net/img/new/slides/017.webp" alt="Portada" class="card-img-top" height="200">
+        <div class="card-img-overlay overlay">
+            <img src="<%= user.picture %>" alt="Foto de Perfil" 
+                class="rounded-circle mb-3 avatar"
+            >
+            <p class="fs-4 text-white"><span class="fs-1 fw-bold"><%= user.displayName %></span> <%= user.code %></p>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <p class="profile-content">
+            <span class="d-flex flex-wrap justify-content-start gap-3">
+                <span>Siguiendo:</span>
+
+                <span class="fw-semibold"><%= user.totalAuthors %> Autores</span>
+
+                <span class="fw-semibold"><%= user.totalTopics %> Tags</span>
+            </span>
+
+            <span class="fs-2 fw-bold posts-count-content text-end">
+                <%= user.totalPosts %> Posts
+            </span>
+        </p>
+    </div>
+</div>

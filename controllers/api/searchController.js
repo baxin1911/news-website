@@ -1,5 +1,5 @@
 import { buildPagination } from "../../helpers/pagination.js";
-import { searchArticles } from "../../services/articlesService.js";
+import { searchArticles } from "../../services/articleService.js";
 
 export const searchArticleController = async (req, res) => {
 

@@ -1,7 +1,7 @@
 import { getCategory, getCategoryId } from '../../helpers/category.js';
 import { formatShortDate } from '../../helpers/formattedDate.js';
 import { buildPagination } from '../../helpers/pagination.js';
-import { getArticlesByCategory, searchArticles } from "../../services/articlesService.js";
+import { getArticlesByCategory, searchArticles } from "../../services/articleService.js";
 import { getAllCategories } from "../../services/categoryService.js";
 
 export const searchFeedController = async (req, res) => {
