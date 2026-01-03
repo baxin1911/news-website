@@ -1,17 +1,17 @@
 import 'dotenv/config.js';
 
-import authApiRoutes from './routes/api/auth.js';
-import newsletterApiRoutes from './routes/api/newsletter.js';
-import searchApiRoutes from './routes/api/search.js';
-import profileApiRoutes from './routes/api/profile.js';
+import authApiRoutes from './routes/api/authApiRoute.js';
+import newsletterApiRoutes from './routes/api/newsletterApiRoute.js';
+import searchApiRoutes from './routes/api/searchApiRoute.js';
+import profileApiRoutes from './routes/api/profileApiRoute.js';
 
-import webRoutes from './routes/web/index.js';
-import feedWebRoutes from './routes/web/feed.js'; 
-import authWebRoutes from './routes/web/auth.js';
-import profileWebRoutes from './routes/web/profile.js';
+import indexWebRoutes from './routes/web/indexWebRoute.js';
+import feedWebRoutes from './routes/web/feedWebRoute.js'; 
+import authWebRoutes from './routes/web/authWebRoute.js';
+import profileWebRoutes from './routes/web/profileWebRoute.js';
 
-import { checkContentType } from './middleware/errorHandler.js';
-// import { apiLimiter } from './middleware/rateLimit.js';
+import { checkContentType } from './middleware/errorHandlerMiddleware.js';
+// import { apiLimiter } from './middleware/rateLimitMiddleware.js';
 import cookieParser from 'cookie-parser';
 import { Strategy } from 'passport-google-oauth20';
 
@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.urlencoded({ extended: true }));
 
 // web routes
-app.use('/', webRoutes);
+app.use('/', indexWebRoutes);
 app.use('/', feedWebRoutes);
 app.use('/auth', authWebRoutes);
 app.use('/', profileWebRoutes);

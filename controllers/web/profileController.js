@@ -1,8 +1,8 @@
-import { getAuthorsByIdUser } from "../../services/authorService.js";
-import { getUsersByIdUser } from "../../services/userService.js";
-import { getTagsByIdUser } from "../../services/tagService.js";
-import { getCommentsByIdUser } from "../../services/commentService.js";
-import { getProfileByIdUser, getProfilePreferencesByIdUser } from "../../services/profileService.js";
+import { getAuthorsByIdUserService } from "../../services/authorService.js";
+import { getUsersByIdUserService } from "../../services/userService.js";
+import { getTagsByIdUserService } from "../../services/tagService.js";
+import { getCommentsByIdUserService } from "../../services/commentService.js";
+import { getProfileByIdUserService, getProfilePreferencesByIdUserService } from "../../services/profileService.js";
 
 
 export const profileController = async (req, res) => {
@@ -10,15 +10,15 @@ export const profileController = async (req, res) => {
     // Get user form BD
 
     const { user } = req;
-    const profile = await getProfileByIdUser(user.id);
+    const profile = await getProfileByIdUserService(user.id);
 
     if (!profile) return res.redirect('/?profileError=notFound');
 
-    const authors = await getAuthorsByIdUser(user.id);
-    const users = await getUsersByIdUser(user.id);
-    const tags = await getTagsByIdUser(user.id);
-    const comments = await getCommentsByIdUser(user.id);
-    const preferences = await getProfilePreferencesByIdUser(user.id);
+    const authors = await getAuthorsByIdUserService(user.id);
+    const users = await getUsersByIdUserService(user.id);
+    const tags = await getTagsByIdUserService(user.id);
+    const comments = await getCommentsByIdUserService(user.id);
+    const preferences = await getProfilePreferencesByIdUserService(user.id);
 
     res.render('profile', { 
         profile, 

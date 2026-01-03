@@ -1,17 +1,17 @@
-import { getCategory, getCategoryId } from '../../helpers/category.js';
-import { formatShortDate } from '../../helpers/formattedDate.js';
-import { buildPagination } from '../../helpers/pagination.js';
-import { getArticlesByCategory, searchArticles } from "../../services/articleService.js";
-import { getAllCategories } from "../../services/categoryService.js";
-import { getProfileByIdUser } from '../../services/profileService.js';
+import { getCategory, getCategoryId } from '../../utils/categoryUtils.js';
+import { formatShortDate } from '../../utils/formattedDateUtils.js';
+import { buildPagination } from '../../utils/paginationUtils.js';
+import { getArticlesByCategoryService, searchArticlesService } from "../../services/articleService.js";
+import { getAllCategoriesService } from "../../services/categoryService.js";
+import { getProfileByIdUserService } from '../../services/profileService.js';
 
 export const searchFeedController = async (req, res) => {
 
     const { currentPage = 1, itemsPerPage = 10, q } = req.query;
     const { user } = req;
-    const profile = await getProfileByIdUser(user.id); 
-    const articles = await searchArticles(q);
-    const categories = await getAllCategories();
+    const profile = await getProfileByIdUserService(user.id); 
+    const articles = await searchArticlesService(q);
+    const categories = await getAllCategoriesService();
     const pagination = buildPagination(articles.length, currentPage, itemsPerPage);
 
     res.render('feed', { 
@@ -32,9 +32,9 @@ export const categoryFeedController = async (req, res) => {
     const { currentPage = 1 } = req.query;
     const { user } = req;
     const itemsPerPage = 10;
-    const profile = await getProfileByIdUser(user.id);    
-    const articles = await getArticlesByCategory(getCategoryId(slug));
-    const categories = await getAllCategories();
+    const profile = await getProfileByIdUserService(user.id);    
+    const articles = await getArticlesByCategoryService(getCategoryId(slug));
+    const categories = await getAllCategoriesService();
     const pagination = buildPagination(articles.length, currentPage, itemsPerPage);
 
     res.render('feed', { 

@@ -1,6 +1,6 @@
-import { generateAccessToken, generateOneTimeToken, generateRefreshToken } from "../../config/jwt.js";
-import { encryptPassword } from "../../helpers/encryption.js";
-import { sendEmail } from "../../helpers/sendEmail.js";
+import { generateAccessToken, generateOneTimeToken, generateRefreshToken } from "../../config/jwtlConfig.js";
+import { encryptPassword } from "../../utils/encryptionUtils.js";
+import { sendEmail } from "../../utils/sendEmailUtils.js";
 
 export const loginController = async (req, res) => {
 

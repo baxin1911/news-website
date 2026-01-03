@@ -1,4 +1,4 @@
-export const getAllArticles = async () => {
+export const getAllArticlesService = async () => {
 
     const articles = [
         { idArticle: 1, category: 1, description: 'Esta descripcin es un ejemplo de texto largo', publicationDate: new Date(), title: 'Este título es un ejemplo de texto largo', imageUrls: ['/img/ejemplo.png'], status: 1 },
@@ -10,12 +10,12 @@ export const getAllArticles = async () => {
     return articles;
 }
 
-export const getArticlesByCategory = async (categoryId) => {
-    const allArticles = await getAllArticles();
+export const getArticlesByCategoryService = async (categoryId) => {
+    const allArticles = await getAllArticlesService();
     return allArticles.filter(article => article.category === categoryId);
 }
 
-export const searchArticles = async (q) => {
+export const searchArticlesService = async (q) => {
 
     const articles = [
         { idArticle: 1, category: 1, description: 'Esta descripcin es un ejemplo de texto largo', publicationDate: new Date(), title: 'Este título es un ejemplo de texto largo', imageUrls: ['/img/ejemplo.png'], status: 1 },

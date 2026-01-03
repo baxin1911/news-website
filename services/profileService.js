@@ -6,16 +6,16 @@ let preferences = {
     userId: 1
 };
 
-export const getProfileByIdUser = async (userId) => {
+export const getProfileByIdUserService = async (userId) => {
     return profiles.find(p => p.id === userId) || null;
 }
 
-export const createProfile = async (userData) => {
+export const createProfileService = async (userData) => {
     
     profiles.push(userData);
 }
 
-export const updateProfileInfo = async (displayName, profilePicture, coverPicture, name, lastName, userId) => {
+export const updateProfileInfoService = async (displayName, profilePicture, coverPicture, name, lastName, userId) => {
 
     const profile = profiles.find(p => p.id === userId);
 
@@ -28,7 +28,7 @@ export const updateProfileInfo = async (displayName, profilePicture, coverPictur
     }
 }
 
-export const updateProfilePreferences = async (commentNotifications, followingNotifications, newsletterNotifications, userId) => {
+export const updateProfilePreferencesService = async (commentNotifications, followingNotifications, newsletterNotifications, userId) => {
 
     preferences.commentNotifications = commentNotifications;
     preferences.followingNotifications = followingNotifications;
@@ -36,7 +36,7 @@ export const updateProfilePreferences = async (commentNotifications, followingNo
     preferences.userId = userId;
 }
 
-export const getProfilePreferencesByIdUser = async (userId) => {
+export const getProfilePreferencesByIdUserService = async (userId) => {
     if (preferences.userId === userId) {
         return preferences;
     }

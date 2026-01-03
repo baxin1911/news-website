@@ -1,4 +1,4 @@
-export const getCommentsByIdUser = async (id) => {
+export const getCommentsByIdUserService = async (id) => {
 
     const comments = [
         { id: 1, replyCount: 0, dislikeCount: 0, likeCount: 0, description: 'Meh', article: { title: 'Nuevo lanzamiento de OverWatch' }, created_at: '22/10/2025 18:45:33' },

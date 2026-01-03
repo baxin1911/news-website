@@ -1,4 +1,4 @@
-export const getAuthorsByIdUser = async (id) => {
+export const getAuthorsByIdUserService = async (id) => {
 
     const authors = [
         { id: 1, name: 'John', lastName: 'Doe', picture: 'https://mdbootstrap.com/img/new/avatars/8.jpg' },

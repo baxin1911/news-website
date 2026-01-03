@@ -1,5 +1,5 @@
-import { generateAccessToken, generateRefreshToken } from '../../config/jwt.js';
-import { createProfile } from '../../services/profileService.js';
+import { generateAccessToken, generateRefreshToken } from '../../config/jwtlConfig.js';
+import { createProfileService } from '../../services/profileService.js';
 
 export const authGoogleController = async (req, res) => {
 
@@ -30,7 +30,7 @@ export const authGoogleController = async (req, res) => {
     const refreshToken = generateRefreshToken(userGoogle);
 
     // Save refresh token in DB
-    await createProfile(userGoogle);
+    await createProfileService(userGoogle);
 
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
@@ -80,7 +80,7 @@ export const verifyEmailController = async (req, res) => {
 
     user.id = 1;
 
-    await createProfile(user);
+    await createProfileService(user);
 
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
