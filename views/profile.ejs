@@ -16,11 +16,25 @@
             route: '../profile/following' 
         },
         { 
-            id: 'settings', 
+            id: 'account', 
             active: false, 
-            controls: 'settings', 
+            controls: 'account', 
+            title: 'Cuenta', 
+            route: '../profile/account'
+        },
+        { 
+            id: 'preferences', 
+            active: false, 
+            controls: 'preferences', 
             title: 'Preferencias', 
-            route: '../profile/settings' 
+            route: '../profile/preferences' 
+        },
+        {
+            id: 'security', 
+            active: false,
+            controls: 'security', 
+            title: 'Seguridad',
+            route: '../profile/security'
         }
     ]
 }; %>
@@ -66,6 +80,9 @@
         <script type="module" src="/js/pages/auth/recover.js"></script>
         <script type="module" src="/js/pages/newsletters/sidebar.js"></script> -->
         <script type="module" src="/js/pages/newsletters/footer.js"></script>
+        <script type="module" src="/js/pages/profile/account.js"></script>
+        <script type="module" src="/js/pages/profile/security/passwordSecurity.js"></script>
+        <script type="module" src="/js/pages/profile/preferences.js"></script>
         <script type="module" src="/js/core/searchForm.js"></script>
     </body>
 </html>

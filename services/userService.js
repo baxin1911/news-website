@@ -1,6 +1,8 @@
+let users = [];
+
 export const getUsersByIdUser = async (id) => {
 
-    const users = [
+    users = [
         { id: 1, displayName: 'dsV45-sf', picture: 'https://i.pravatar.cc/45' },
         { id: 2, displayName: 'niTso_ef', picture: 'https://i.pravatar.cc/45' },
         { id: 3, displayName: '124_Dfrtrt', picture: 'https://i.pravatar.cc/45' },

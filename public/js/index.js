@@ -71,13 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
         showModal('loginModal');
         showWarningToast('Requiere inicio de sesión.');
 
-    } else if (params.has('resetError')) {
+    } else if (params.has('profileError')) {
 
-        showWarningToast('Token expirado. Vuelve a reenviar el correo.');
+        showWarningToast('Sesión no válida.');
 
-    } else if (params.has('emailVerifyError')) {
+    } else if (params.has('emailVerifyError') || params.has('resetError')) {
 
-        showWarningToast('Token expirado. Vuelve a registrarte.');
+        showWarningToast('Sesión expirada.');
 
     } else if (params.has('verified')) {
 

@@ -3,8 +3,9 @@ import { toggleErrorMessages } from "../utils/utils.js";
 
 export const useForm = async ({ 
     idForm,
-    validate, 
-    applyBeforeRequest = () => {}, 
+    normalizeCheckboxData = () => {},
+    validate,
+    applyBeforeRequest = () => {},
     sendRequest,
     applyAfterSuccess = () => {}
 }) => {
@@ -16,6 +17,9 @@ export const useForm = async ({
         e.preventDefault();
 
         const data = Object.fromEntries(new FormData(form));
+
+        normalizeCheckboxData(form, data);
+
         let errors = validate(data);
 
         toggleErrorMessages(form, errors);

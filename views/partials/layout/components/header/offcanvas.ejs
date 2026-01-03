@@ -121,7 +121,7 @@ const searchForm = {
         </div>
 
         <div>
-            <% if (!user) { %>
+            <% if (!profile) { %>
                 <%- include('./loginButton', { idLoginButton: 'profileOffcanvasBtn' }) %>
             <% } else { %>
                 <%- include('./profileMenu', { profileMenuViewMode: 'offcanvas' }) %>

@@ -3,12 +3,12 @@ import 'dotenv/config.js';
 import authApiRoutes from './routes/api/auth.js';
 import newsletterApiRoutes from './routes/api/newsletter.js';
 import searchApiRoutes from './routes/api/search.js';
-import profileApiRoutes from './routes/api/user.js';
+import profileApiRoutes from './routes/api/profile.js';
 
 import webRoutes from './routes/web/index.js';
 import feedWebRoutes from './routes/web/feed.js'; 
 import authWebRoutes from './routes/web/auth.js';
-import userWebRoutes from './routes/web/user.js';
+import profileWebRoutes from './routes/web/profile.js';
 
 import { checkContentType } from './middleware/errorHandler.js';
 // import { apiLimiter } from './middleware/rateLimit.js';
@@ -55,7 +55,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', webRoutes);
 app.use('/', feedWebRoutes);
 app.use('/auth', authWebRoutes);
-app.use('/', userWebRoutes);
+app.use('/', profileWebRoutes);
 
 // api routes
 app.use(api + '/auth', authApiRoutes);

@@ -19,7 +19,7 @@ export const loginController = async (req, res) => {
         displayName: 'dersey',
         code: 'AA000001',
         role: 1,
-        picture: '/img/ejemplo.png',
+        profilePicture: '/img/ejemplo.png',
         totalPosts: 0,
         totalTopics: 0,
         totalAuthors: 0,
@@ -28,7 +28,10 @@ export const loginController = async (req, res) => {
     const newRefreshToken = generateRefreshToken(user);
     const newAccessToken = generateAccessToken(user);
 
+    user.id = 1;
+
     // Save refreshToken in DB
+    await createUser(user);
 
     res.cookie('refreshToken', newRefreshToken, {
         httpOnly: true,

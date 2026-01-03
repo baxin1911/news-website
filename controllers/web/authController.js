@@ -1,4 +1,5 @@
 import { generateAccessToken, generateRefreshToken } from '../../config/jwt.js';
+import { createProfile } from '../../services/profileService.js';
 
 export const authGoogleController = async (req, res) => {
 
@@ -11,9 +12,9 @@ export const authGoogleController = async (req, res) => {
         sub: _json.sub, 
         provider, 
         displayName: _json.name,
-        givenName: _json.given_name,
-        familyName: _json.familly_name,
-        picture: _json.picture,
+        name: _json.given_name,
+        lastName: _json.family_name,
+        profilePicture: _json.picture,
         email: _json.email,
         emailVerified: _json.email_verified,
         role: 1,
@@ -23,8 +24,13 @@ export const authGoogleController = async (req, res) => {
         followers: 0
     };
 
+    userGoogle.id = 1; // Simulate DB ID
+
     const accessToken = generateAccessToken(userGoogle);
     const refreshToken = generateRefreshToken(userGoogle);
+
+    // Save refresh token in DB
+    await createProfile(userGoogle);
 
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
@@ -71,6 +77,10 @@ export const verifyEmailController = async (req, res) => {
     };
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
+
+    user.id = 1;
+
+    await createProfile(user);
 
     res.cookie('accessToken', accessToken, {
         httpOnly: true,

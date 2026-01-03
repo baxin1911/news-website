@@ -1,9 +1,9 @@
 import express from 'express';
 import { profileController } from '../../controllers/web/profileController.js';
-import { verifyWebAuthTokenRequired } from '../../middleware/auth.js';
+import { verifyCookiesAuthTokenRequired } from '../../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/profile', verifyWebAuthTokenRequired, profileController);
+router.get('/profile', verifyCookiesAuthTokenRequired, profileController);
 
 export default router;

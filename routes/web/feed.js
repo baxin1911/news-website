@@ -1,11 +1,10 @@
 import express from 'express';
 import { categoryFeedController, searchFeedController } from '../../controllers/web/feedController.js';
-import { verifyWebAuthTokenOptional } from '../../middleware/auth.js';
+import { verifyCookiesAuthTokenOptional } from '../../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/search', verifyWebAuthTokenOptional, searchFeedController);
-
-router.get('/categories/:slug', verifyWebAuthTokenOptional, categoryFeedController);
+router.get('/search', verifyCookiesAuthTokenOptional, searchFeedController);
+router.get('/categories/:slug', verifyCookiesAuthTokenOptional, categoryFeedController);
 
 export default router;

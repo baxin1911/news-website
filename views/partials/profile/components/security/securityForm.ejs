@@ -1,0 +1,41 @@
+<% const form = {
+    id: 'passwordSecurityForm',
+    passwordInput: {
+        id: 'passwordSecurityInput',
+        label: {
+            content: 'Contraseña',
+        },
+        type: 'password',
+        name: 'password'
+    },
+    repeatPasswordInput: {
+        id: 'repeatPasswordSecurityInput',
+        label: {
+            content: 'Repetir Contraseña',
+        },
+        type: 'password',
+        name: 'repeatedPassword'
+    },
+    submitButton: {
+        id: 'changePasswordSubmitButton', 
+        content: 'Cambiar contraseña',
+    }
+}; %>
+
+<form id="<%= form.id %>" class="row g-3">
+    <div class="row mb-3">
+        <%- include('../secondaryTitle', { title: 'Cambiar contraseña' }) %>
+
+        <div class="col-md-6 mb-3">
+            <%- include('../../../shared/outlineInput', { input: form.passwordInput }) %>
+        </div>
+    
+        <div class="col-md-6 mb-3">
+            <%- include('../../../shared/outlineInput', { input: form.repeatPasswordInput }) %>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center bg-sticky rounded-3">
+        <%- include('../../../shared/submit', { button: form.submitButton }) %>
+    </div>
+</form>

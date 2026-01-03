@@ -50,7 +50,7 @@ const searchForm = {
         </div>
 
         <div class="d-none d-sm-flex" role="navigation">
-            <% if (!user) { %>
+            <% if (!profile) { %>
                 <%- include('./loginButton', { idLoginButton: 'profileHeaderBtn' }) %>
             <% } else { %>
                 <%- include('./profileMenu', { profileMenuViewMode: 'header' }) %>

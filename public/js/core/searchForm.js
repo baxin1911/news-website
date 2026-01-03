@@ -1,13 +1,11 @@
-const input = document.getElementById('textSearchOffcanvasInput');
-const btn = document.getElementById('searchOffcanvasBtn');
+const inputs = ['textSearchOffcanvasInput', 'textSearchHeaderInput'];
+const buttons = ['searchOffcanvasBtn', 'searchHeaderBtn'];
 
-input.addEventListener('input', () => {
-    btn.disabled = input.value.trim() === '';
-});
+inputs.forEach((inputId, index) => {
+    const inputElement = document.getElementById(inputId);
+    const buttonElement = document.getElementById(buttons[index]);
 
-const input2 = document.getElementById('textSearchHeaderInput');
-const btn2 = document.getElementById('searchHeaderBtn');
-
-input2.addEventListener('input', () => {
-    btn2.disabled = input2.value.trim() === '';
+    inputElement.addEventListener('input', () => {
+        buttonElement.disabled = inputElement.value.trim() === '';
+    });
 });

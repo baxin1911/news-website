@@ -13,11 +13,11 @@
     },
 ];
 
-const profile = (displayNameClass) => `
-    <img src="${ user.picture }" alt="Perfil"  class="rounded-circle me-2" 
+const profileElement = (displayNameClass) => `
+    <img src="${ profile.profilePicture }" alt="Perfil"  class="rounded-circle me-2" 
     width="32" height="32">
 
-    <span class="${ displayNameClass }">${ user.displayName }</span>
+    <span class="${ displayNameClass }">${ profile.displayName }</span>
 `;
 
 const accordion = {
@@ -26,7 +26,7 @@ const accordion = {
         { 
             toggleButton: { 
                 id: 'profileAccordionToggle', 
-                content: profile('fw-bold fs-2') 
+                content: profileElement('fw-bold fs-2') 
             },
             ids: { 
                 idHeader: 'profileAccordionHeader', 
@@ -46,7 +46,7 @@ const accordion = {
 const dropdown = {
     link: `
         <a href="/profile" class="btn btn-dark d-flex align-items-center">
-            ${ profile('fw-bold') }
+            ${ profileElement('fw-bold') }
         </a>
     `,
     toggleButton: {
