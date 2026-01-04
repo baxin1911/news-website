@@ -1,10 +1,18 @@
 import { verifyAccessToken, verifyOneTimeToken } from "../config/jwtlConfig.js";
+import { messages } from "../config/messagesConfig.js";
+import { redirectWithFlash } from "../utils/flashUtils.js";
 
 export const verifyCookiesAuthTokenRequired = (req, res, next) => {
 
     const { accessToken } = req.cookies;
 
-    if (!accessToken) return res.redirect('/?loginError=session');
+    if (!accessToken) {
+        
+        res.clearCookie('accessToken');
+        res.clearCookie('refreshToken');
+
+        return redirectWithFlash(res, messages.AUTH_INVALID, 'AUTH_INVALID', 'error');
+    }
 
     const user = verifyAccessToken(accessToken);
 
@@ -12,8 +20,8 @@ export const verifyCookiesAuthTokenRequired = (req, res, next) => {
 
         res.clearCookie('accessToken');
         res.clearCookie('refreshToken');
-        
-        return res.redirect('/?loginError=session');
+
+        return redirectWithFlash(res, messages.AUTH_INVALID, 'AUTH_INVALID', 'error');
     }
 
     req.user = user;
@@ -35,7 +43,7 @@ export const verifyCookiesAuthTokenOptional = (req, res, next) => {
             res.clearCookie('accessToken');
             res.clearCookie('refreshToken');
 
-            return res.redirect('/?loginError=session');
+            return redirectWithFlash(res, messages.AUTH_INVALID, 'AUTH_INVALID', 'error');
         }
     }
 
@@ -51,15 +59,15 @@ export const verifyApiResetToken = (req, res, next) => {
     
     const tokenInfo = verifyOneTimeToken(token);
 
-    if (!tokenInfo) return res.status(403).json({ message: 'Token inválido' });
+    if (!tokenInfo) return res.status(403).json({ message: 'Enlace inválido.' });
 
     const { id, purpose } = tokenInfo;
 
     if (!purpose || purpose !== 'password-reset') return res.status(403).json({ 
-        message: 'Propósito incorrecto' 
+        message: 'Enlace inválido.' 
     });
 
-    if (!id) return res.status(401).json({ message: 'Usuario no identificado' });
+    if (!id) return res.status(401).json({ message: 'Enlace inválido.' });
 
     req.id = id;
 
@@ -71,13 +79,12 @@ export const verifyWebResetToken = (req, res, next) => {
     const { token } = req.query;
     const tokenInfo = verifyOneTimeToken(token);
 
-    if (!tokenInfo) return res.redirect('/?resetError=token');
+    if (!tokenInfo) return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
 
     const { id, purpose } = tokenInfo;
 
-    if (!purpose || purpose !== 'password-reset') return res.redirect('/?resetError=purpose');
-
-    if (!id) return res.redirect('/?resetError=user');
+    if (!purpose || purpose !== 'password-reset')  return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
+    if (!id)  return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
 
     req.token = token;
 
@@ -89,13 +96,12 @@ export const verifyWebEmailToken = (req, res, next) => {
     const { token } = req.query;
     const tokenInfo = verifyOneTimeToken(token);
 
-    if (!tokenInfo) return res.redirect('/?emailVerifyError=token');
+    if (!tokenInfo)  return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
 
     const { id, purpose } = tokenInfo;
 
-    if (!purpose || purpose !== 'email-verify') return res.redirect('/?emailVerifyError=purpose');
-
-    if (!id) return res.redirect('/?emailVerifyError=user');
+    if (!purpose || purpose !== 'email-verify')  return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
+    if (!id)  return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
 
     req.id = id;
 

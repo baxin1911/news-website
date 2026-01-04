@@ -3,6 +3,8 @@ import { getUsersByIdUserService } from "../../services/userService.js";
 import { getTagsByIdUserService } from "../../services/tagService.js";
 import { getCommentsByIdUserService } from "../../services/commentService.js";
 import { getProfileByIdUserService, getProfilePreferencesByIdUserService } from "../../services/profileService.js";
+import { redirectWithFlash } from "../../utils/flashUtils.js";
+import { messages } from "../../config/messagesConfig.js";
 
 
 export const profileController = async (req, res) => {
@@ -12,7 +14,7 @@ export const profileController = async (req, res) => {
     const { user } = req;
     const profile = await getProfileByIdUserService(user.id);
 
-    if (!profile) return res.redirect('/?profileError=notFound');
+    if (!profile)  return redirectWithFlash(res, messages.AUTH_INVALID, 'AUTH_INVALID', 'error');
 
     const authors = await getAuthorsByIdUserService(user.id);
     const users = await getUsersByIdUserService(user.id);
@@ -20,7 +22,7 @@ export const profileController = async (req, res) => {
     const comments = await getCommentsByIdUserService(user.id);
     const preferences = await getProfilePreferencesByIdUserService(user.id);
 
-    res.render('profile', { 
+    return res.render('profile', { 
         profile, 
         comments,
         users,

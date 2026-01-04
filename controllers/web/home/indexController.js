@@ -6,10 +6,13 @@ import { getProfileByIdUserService } from '../../../services/profileService.js';
 export const homeController = async (req, res) => {
 
     const { user } = req;
-    const profile = await getProfileByIdUserService(user.id);
+    let profile = null;
+
+    if (user) profile = await getProfileByIdUserService(user.id);
+
     const articles = await getAllArticlesService();
 
-    res.render('index', { 
+    return res.render('index', { 
         articles, 
         profile,
         currentRoute: '/',

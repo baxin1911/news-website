@@ -1,3 +1,6 @@
+import { messages } from "../core/messages.js";
+import { showModal } from "./modalUI.js";
+
 const showToast = (title, text, icon) => {
 
     Swal.fire({
@@ -31,9 +34,11 @@ export const showSuccessToast = (title) => showToast(title, null, 'success');
 
 export const showNoContentToast = (data) => showToast('Sin resultados encontrados', null, 'info');
 
+export const showLoginRequiredToast = (title) => showToast(title, null, 'error');
+
 export const showServerErrorToast = (data) => showErrorMessage(data.message);
 
-export const showErrorToast = () => showErrorMessage(null);
+export const showErrorToast = (title) => showErrorMessage(null);
 
 export const toggleErrorMessages = (form, errors) => {
 
@@ -54,4 +59,25 @@ export const toggleErrorMessages = (form, errors) => {
             inputs[index].classList.remove('is-invalid');
         }
     });
+}
+
+export const handlerFlashMessage = (flash) => {
+    
+    if (!flash) return;
+
+    const { message, type, code } = flash;
+
+    switch (type) {
+        case 'success':
+            showSuccessToast(message || messages[code]);
+            break;
+        case 'warning':
+            showWarningToast(message || messages[code]);
+            break;
+        case 'error':
+            showLoginRequiredToast(message || messages[code]);
+            break;
+        default:
+            break;
+    }
 }

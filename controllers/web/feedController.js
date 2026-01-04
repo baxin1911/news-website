@@ -14,7 +14,7 @@ export const searchFeedController = async (req, res) => {
     const categories = await getAllCategoriesService();
     const pagination = buildPagination(articles.length, currentPage, itemsPerPage);
 
-    res.render('feed', { 
+    return res.render('feed', { 
         q,
         profile,
         articles, 
@@ -37,7 +37,7 @@ export const categoryFeedController = async (req, res) => {
     const categories = await getAllCategoriesService();
     const pagination = buildPagination(articles.length, currentPage, itemsPerPage);
 
-    res.render('feed', { 
+    return res.render('feed', { 
         profile,
         articles, 
         categories,

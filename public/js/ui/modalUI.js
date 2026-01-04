@@ -16,3 +16,18 @@ export const showModal = (idModal) => {
 
     modal.show();
 }
+
+export const handlerModalWithFlashMessage = (flash) => {
+
+    if (!flash) return;
+
+    const { code } = flash;
+
+    switch (code) {
+        case 'LOGIN_ERROR_GOOGLE':
+            showModal('loginModal');
+            break;
+        default:
+            break;
+    }
+}

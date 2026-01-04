@@ -1,9 +1,11 @@
 import { generateAccessToken, generateRefreshToken } from '../../config/jwtlConfig.js';
+import { messages } from '../../config/messagesConfig.js';
 import { createProfileService } from '../../services/profileService.js';
+import { redirectWithFlash } from '../../utils/flashUtils.js';
 
 export const authGoogleController = async (req, res) => {
 
-    if (req.query.error) return res.redirect('/?loginError=google');
+    if (req.query.error) return redirectWithFlash(res, messages.LOGIN_ERROR_GOOGLE, 'LOGIN_ERROR_GOOGLE', 'error');
     
     const { user } = req;
     const { _json, provider } = user;
@@ -46,14 +48,14 @@ export const authGoogleController = async (req, res) => {
         maxAge: 60 * 60 * 1000
     });
 
-    res.redirect('/profile');
+    return res.redirect('/profile');
 }
 
 export const resetPasswordController = async (req, res) => {
 
     const { token } = req;
 
-    res.render('reset', { token });
+    return res.render('reset', { token });
 }
 
 export const verifyEmailController = async (req, res) => {
@@ -98,7 +100,7 @@ export const verifyEmailController = async (req, res) => {
 
     // Save refresh token in BD
 
-    res.redirect('/?verified=success');
+    return redirectWithFlash(res, 'Correo verificado correctamente.', 'EMAIL_VERIFIED', 'success');
 }
 
 export const logoutController = async (req, res) => {
@@ -107,5 +109,6 @@ export const logoutController = async (req, res) => {
 
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
-    res.redirect("/");
+
+    return redirectWithFlash(res, 'Has cerrado sesión correctamente.', 'LOGOUT_SUCCESS', 'info');
 }

@@ -1,5 +1,5 @@
-import { showSuccessToast, showWarningToast } from "../ui/swalUI.js";
-import { showModal } from "../ui/modalUI.js";
+import { handlerModalWithFlashMessage } from "../ui/modalUI.js";
+import { handlerFlashMessage } from "../ui/swalUI.js";
 
 const swiper1 = new Swiper( '.main-news', {
     loop: true,
@@ -64,23 +64,7 @@ document.querySelector('.back-to-top').addEventListener('click', (e) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
 
-    if (params.has('loginError')) {
-
-        showModal('loginModal');
-        showWarningToast('Requiere inicio de sesión.');
-
-    } else if (params.has('profileError')) {
-
-        showWarningToast('Sesión no válida.');
-
-    } else if (params.has('emailVerifyError') || params.has('resetError')) {
-
-        showWarningToast('Sesión expirada.');
-
-    } else if (params.has('verified')) {
-
-        showSuccessToast('Correo verificado exitosamente.');
-    }
+    handlerFlashMessage(window.FLASH_MESSAGE || null);
+    handlerModalWithFlashMessage(window.FLASH_MESSAGE || null);
 });
