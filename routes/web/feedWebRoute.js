@@ -4,7 +4,15 @@ import { verifyCookiesAuthTokenOptional } from '../../middleware/authMiddleware.
 
 const router = express.Router();
 
-router.get('/search', verifyCookiesAuthTokenOptional, searchFeedController);
-router.get('/categories/:slug', verifyCookiesAuthTokenOptional, categoryFeedController);
+router.get(
+    '/search', 
+    verifyCookiesAuthTokenOptional, 
+    searchFeedController
+);
+router.get(
+    '/categories/:slug', 
+    verifyCookiesAuthTokenOptional, 
+    categoryFeedController
+);
 
 export default router;

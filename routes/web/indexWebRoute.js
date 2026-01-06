@@ -4,6 +4,10 @@ import { verifyCookiesAuthTokenOptional } from '../../middleware/authMiddleware.
 
 const router = express.Router();
 
-router.get('/', verifyCookiesAuthTokenOptional, homeController);
+router.get(
+    '/', 
+    verifyCookiesAuthTokenOptional, 
+    homeController
+);
 
 export default router;

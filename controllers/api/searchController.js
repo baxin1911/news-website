@@ -1,5 +1,6 @@
 import { buildPagination } from "../../utils/paginationUtils.js";
 import { searchArticlesService } from "../../services/articleService.js";
+import { infoCodeMessages, successCodeMessages } from "../../messages/codeMessages.js";
 
 export const searchArticleController = async (req, res) => {
 
@@ -20,7 +21,7 @@ export const searchArticleController = async (req, res) => {
     const pagination = buildPagination(filteredArticles.length, page, limit);
 
     return res.status(200).json({ 
-        message: (filteredArticles.length > 0) ? 'Búsqueda exitosa' : 'No se encontraron resultados',
+        message: (filteredArticles.length > 0) ? successCodeMessages.SEARCH_SUCCESS : infoCodeMessages.NO_CONTENT_SEARCH,
         articles: filteredArticles,
         pagination
     });

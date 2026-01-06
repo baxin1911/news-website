@@ -1,4 +1,4 @@
-import { includeSpace, isEmptyOrNull, isLengthInRangeMax, isLengthInRangeMin, isRegex, isString } from "./validations.js";
+import { includeSpace, includeUppercase, isEmptyOrNull, isLengthInRangeMax, isLengthInRangeMin, isRegex, isString } from "./validations.js";
 
 export const validateEmail = (email) => {
 

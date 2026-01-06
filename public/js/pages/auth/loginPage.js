@@ -1,21 +1,15 @@
-import { validateEmail, validatePassword } from "../../core/validations/authValidations.js";
 import { useForm } from "../../core/forms/form.js";
 import { login } from "../../api/authApi.js";
 
 useForm({
     idForm: 'loginForm',
-    validate: (data) => {
+    normalizeLoginError: (errors) => {
 
-        const errors = {};
-
-        if (!data.message) {
-
-            errors.emailLoginInputError = validateEmail(data.email) !== null ? 'Correo incorrecto' : null;
-            errors.passwordLoginInputError = validatePassword(data.password) !== null ? 'Contraseña incorrecta' : null;
-        }
+        errors.email = errors.email !== null ? 'Correo incorrecto' : null;
+        errors.password = errors.password !== null ? 'Contraseña incorrecta' : null;
 
         return errors;
     },
-    sendRequest: (data) => login(data),
+    sendRequest: (data, options) => login(data, options),
     applyAfterSuccess: () => window.location.href = '/profile'
 });

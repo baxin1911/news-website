@@ -1,19 +1,15 @@
 import express from 'express';
 import { searchArticleController } from '../../controllers/api/searchController.js';
+import { validate } from '../../middleware/validatorMiddleware.js';
+import { genericTextValidation } from '../../validators/forms/validations.js';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-
-    const { q } = req.query || {};
-    const errors = { textError: validateQuery(q) };
-
-    const hasErrors = Object.values(errors).some(error => error);
-
-    if (hasErrors) return res.status(400).json( { errors, message: 'Errores de validación' });
-
-    next();
-
-}, searchArticleController);
+router.get(
+    '/', 
+    genericTextValidation, 
+    validate, 
+    searchArticleController
+);
 
 export default router;

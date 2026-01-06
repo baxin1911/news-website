@@ -1,5 +1,4 @@
-import { handlerModalWithFlashMessage } from "../ui/modalUI.js";
-import { handlerFlashMessage } from "../ui/swalUI.js";
+import { handleFlashMessage, handleModalWithFlashMessage } from "../handlers/flashMessageHandler.js";
 
 const swiper1 = new Swiper( '.main-news', {
     loop: true,
@@ -65,6 +64,6 @@ document.querySelector('.back-to-top').addEventListener('click', (e) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    handlerFlashMessage(window.FLASH_MESSAGE || null);
-    handlerModalWithFlashMessage(window.FLASH_MESSAGE || null);
+    handleFlashMessage(window.FLASH_MESSAGE || null);
+    handleModalWithFlashMessage(window.FLASH_MESSAGE || null);
 });

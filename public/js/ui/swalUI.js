@@ -1,5 +1,4 @@
-import { messages } from "../core/messages.js";
-import { showModal } from "./modalUI.js";
+import { getErrorMessage, getSuccessMessage } from "../constants/apiMessages.js";
 
 const showToast = (title, text, icon) => {
 
@@ -32,52 +31,10 @@ export const showRateLimitWarningToast = (data) => showToast('Demasiados intento
 
 export const showSuccessToast = (title) => showToast(title, null, 'success');
 
-export const showNoContentToast = (data) => showToast('Sin resultados encontrados', null, 'info');
+export const showNoContentToast = () => showToast('Sin contenido', null, 'info');
 
 export const showLoginRequiredToast = (title) => showToast(title, null, 'error');
 
 export const showServerErrorToast = (data) => showErrorMessage(data.message);
 
 export const showErrorToast = (title) => showErrorMessage(null);
-
-export const toggleErrorMessages = (form, errors) => {
-
-    const inputs = form.querySelectorAll('input');
-
-    Object.entries(errors).forEach(([id, message], index) => {
-
-        const element = document.getElementById(id);
-
-        if (message) {
-
-            element.textContent = message;
-            inputs[index].classList.add('is-invalid');
-
-        } else {
-
-            element.textContent = null;
-            inputs[index].classList.remove('is-invalid');
-        }
-    });
-}
-
-export const handlerFlashMessage = (flash) => {
-    
-    if (!flash) return;
-
-    const { message, type, code } = flash;
-
-    switch (type) {
-        case 'success':
-            showSuccessToast(message || messages[code]);
-            break;
-        case 'warning':
-            showWarningToast(message || messages[code]);
-            break;
-        case 'error':
-            showLoginRequiredToast(message || messages[code]);
-            break;
-        default:
-            break;
-    }
-}

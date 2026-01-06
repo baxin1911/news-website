@@ -1,56 +1,34 @@
 import express from 'express';
 import { verifyApiResetToken } from '../../middleware/authMiddleware.js';
 import { generateAccessToken, verifyAccessToken } from '../../config/jwtlConfig.js';
-import { loginController, recoverAccountController, registerController, resetPasswordController } from '../../controllers/api/authController.js';
-import { validateEmail, validatePassword, validateRepeatedPassword, validateUsername } from '../../utils/validations/authValitdations.js';
+import { loginController, recoverAccountController, registerAccountController, resetPasswordController } from '../../controllers/api/authController.js';
+import { authRegisterValidation, loginValidation } from '../../validators/forms/authValitdations.js';
+import { emailValidation, passwordValidation } from '../../validators/forms/validations.js';
+import { validate, validateLogin } from '../../middleware/validatorMiddleware.js';
 // import { emailLimiter, loginLimiter, recoverLimiter, registerLimiter, resetLimiter } from '../../middleware/rateLimit.js';
 
 const router = express.Router();
 
-router.post('/login', (req, res, next) => {
+router.post(
+    '/login', 
+    loginValidation, 
+    validateLogin, 
+    loginController
+);
 
-    const { email, password } = req.body || {};
-    const emailError = validateEmail(email);
-    const passwordError = validatePassword(password);
+router.post(
+    '/register', 
+    authRegisterValidation, 
+    validate, 
+    registerAccountController
+);
 
-    if (emailError || passwordError) return res.status(401).json({ 
-        message: 'Correo o contraseña incorrecto.' 
-    });
-
-    next();
-
-}, loginController);
-
-router.post('/register', (req, res, next) => {
-
-    const { email, password, repeatedPassword, username } = req.body || {};
-    const errors = {
-        emailError: validateEmail(email),
-        passwordError: validatePassword(password),
-        repeatedPasswordError: validateRepeatedPassword(password, repeatedPassword),
-        usernameError: validateUsername(username)
-    };
-    const hasErrors = Object.values(errors).some(error => error);
-
-    if (hasErrors) return res.status(400).json({ errors, message: 'Errores de validación' });
-
-    next();
-
-}, registerController);
-
-router.post('/recover', (req, res, next) => {
-
-    const { email } = req.body || {};
-
-    const errors = { emailError: validateEmail(email) };
-    
-    const hasErrors = Object.values(errors).some(error => error);
-
-    if (hasErrors) return res.status(400).json({ errors, message: 'Errores de validación' });
-
-    next();
-
-}, recoverAccountController);
+router.post(
+    '/recover', 
+    emailValidation, 
+    validate, 
+    recoverAccountController
+);
 
 router.post('/refresh', async (req, res) => {
 
@@ -69,18 +47,12 @@ router.post('/refresh', async (req, res) => {
     return res.json({ accessToken });
 });
 
-router.patch('/reset', verifyApiResetToken, (req, res, next) => {
-
-    const { password, repeatedPassword } = req.body || {};
-    const errors = { 
-        passwordError: validatePassword(password),
-        repeatedPasswordError: validateRepeatedPassword(password, repeatedPassword),
-    };
-    const hasErrors = Object.values(errors).some(error => error);
-
-    if (hasErrors) return res.status(400).json({ errors, message: 'Errores de validación' });
-
-    next();
-}, resetPasswordController);
+router.patch(
+    '/reset', 
+    verifyApiResetToken, 
+    passwordValidation, 
+    validate, 
+    resetPasswordController
+);
 
 export default router;

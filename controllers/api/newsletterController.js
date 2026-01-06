@@ -1,3 +1,5 @@
+import { successCodeMessages } from "../../messages/codeMessages.js";
+
 export const subscribeController = async (req, res) => {
 
     const { email } = req.body || {};
@@ -9,5 +11,5 @@ export const subscribeController = async (req, res) => {
 
     // 403, 429, 500
 
-    return res.status(202).json({ message: '¡Gracias por suscribirte al boletín!' });
+    return res.status(202).json({ code: successCodeMessages.NEWSLETTER_EMAIL_SENDED });
 }

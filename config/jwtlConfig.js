@@ -6,7 +6,7 @@ const JWT_SECRET_ONE_TIME = process.env.JWT_SECRET_ONE_TIME;
 
 export const generateAccessToken = (user) => {
 
-    return jwt.sign(user, JWT_SECRET_ACCESS, { expiresIn: '1s' });
+    return jwt.sign(user, JWT_SECRET_ACCESS, { expiresIn: '1h' });
 }
 
 export const generateOneTimeToken = (user, purpose) => {

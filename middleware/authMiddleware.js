@@ -1,5 +1,6 @@
 import { verifyAccessToken, verifyOneTimeToken } from "../config/jwtlConfig.js";
-import { messages } from "../config/messagesConfig.js";
+import { errorCodeMessages } from "../messages/codeMessages.js";
+import { errorMessages } from "../messages/messages.js";
 import { redirectWithFlash } from "../utils/flashUtils.js";
 
 export const verifyCookiesAuthTokenRequired = (req, res, next) => {
@@ -11,7 +12,7 @@ export const verifyCookiesAuthTokenRequired = (req, res, next) => {
         res.clearCookie('accessToken');
         res.clearCookie('refreshToken');
 
-        return redirectWithFlash(res, messages.AUTH_INVALID, 'AUTH_INVALID', 'error');
+        return redirectWithFlash(res, errorMessages.AUTH_INVALID, errorCodeMessages.AUTH_INVALID, 'error');
     }
 
     const user = verifyAccessToken(accessToken);
@@ -21,7 +22,7 @@ export const verifyCookiesAuthTokenRequired = (req, res, next) => {
         res.clearCookie('accessToken');
         res.clearCookie('refreshToken');
 
-        return redirectWithFlash(res, messages.AUTH_INVALID, 'AUTH_INVALID', 'error');
+        return redirectWithFlash(res, errorMessages.AUTH_INVALID, errorCodeMessages.AUTH_INVALID, 'error');
     }
 
     req.user = user;
@@ -43,7 +44,7 @@ export const verifyCookiesAuthTokenOptional = (req, res, next) => {
             res.clearCookie('accessToken');
             res.clearCookie('refreshToken');
 
-            return redirectWithFlash(res, messages.AUTH_INVALID, 'AUTH_INVALID', 'error');
+            return redirectWithFlash(res, errorMessages.AUTH_INVALID, errorCodeMessages.AUTH_INVALID, 'error');
         }
     }
 
@@ -59,15 +60,15 @@ export const verifyApiResetToken = (req, res, next) => {
     
     const tokenInfo = verifyOneTimeToken(token);
 
-    if (!tokenInfo) return res.status(403).json({ message: 'Enlace inválido.' });
+    if (!tokenInfo) return res.status(403).json({ message: errorMessages.LINK_INVALID });
 
     const { id, purpose } = tokenInfo;
 
     if (!purpose || purpose !== 'password-reset') return res.status(403).json({ 
-        message: 'Enlace inválido.' 
+        message: errorMessages.LINK_INVALID 
     });
 
-    if (!id) return res.status(401).json({ message: 'Enlace inválido.' });
+    if (!id) return res.status(401).json({ message: errorMessages.LINK_INVALID });
 
     req.id = id;
 
@@ -79,12 +80,19 @@ export const verifyWebResetToken = (req, res, next) => {
     const { token } = req.query;
     const tokenInfo = verifyOneTimeToken(token);
 
-    if (!tokenInfo) return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
+    if (!tokenInfo) return redirectWithFlash(res, errorMessages.LINK_INVALID, errorCodeMessages.LINK_INVALID, 'error');
 
     const { id, purpose } = tokenInfo;
 
-    if (!purpose || purpose !== 'password-reset')  return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
-    if (!id)  return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
+    if (!purpose || purpose !== 'password-reset')  {
+        
+        return redirectWithFlash(res, errorMessages.LINK_INVALID, errorCodeMessages.LINK_INVALID, 'error');
+    }
+
+    if (!id)  {
+        
+        return redirectWithFlash(res, errorMessages.LINK_INVALID, errorCodeMessages.LINK_INVALID, 'error');
+    }
 
     req.token = token;
 
@@ -96,12 +104,22 @@ export const verifyWebEmailToken = (req, res, next) => {
     const { token } = req.query;
     const tokenInfo = verifyOneTimeToken(token);
 
-    if (!tokenInfo)  return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
+    if (!tokenInfo)  {
+        
+        return redirectWithFlash(res, errorMessages.LINK_INVALID, errorCodeMessages.LINK_INVALID, 'error');
+    }
 
     const { id, purpose } = tokenInfo;
 
-    if (!purpose || purpose !== 'email-verify')  return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
-    if (!id)  return redirectWithFlash(res, messages.LINK_INVALID, 'LINK_INVALID', 'error');
+    if (!purpose || purpose !== 'email-verify')  {
+        
+        return redirectWithFlash(res, errorMessages.LINK_INVALID, errorCodeMessages.LINK_INVALID, 'error');
+    }
+
+    if (!id)  {
+        
+        return redirectWithFlash(res, errorMessages.LINK_INVALID, errorCodeMessages.LINK_INVALID, 'error');
+    }
 
     req.id = id;
 

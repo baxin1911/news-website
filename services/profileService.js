@@ -15,12 +15,12 @@ export const createProfileService = async (userData) => {
     profiles.push(userData);
 }
 
-export const updateProfileInfoService = async (displayName, profilePicture, coverPicture, name, lastName, userId) => {
+export const updateProfileInfoService = async (username, profilePicture, coverPicture, name, lastName, userId) => {
 
     const profile = profiles.find(p => p.id === userId);
 
     if (profile) {
-        profile.displayName = displayName;
+        profile.username = username;
         profile.profilePicture = profilePicture;
         profile.coverPicture = coverPicture;
         profile.name = name;

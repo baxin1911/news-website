@@ -1,4 +1,5 @@
 import { generateAccessToken, generateOneTimeToken, generateRefreshToken } from "../../config/jwtlConfig.js";
+import { successCodeMessages } from "../../messages/codeMessages.js";
 import { encryptPassword } from "../../utils/encryptionUtils.js";
 import { sendEmail } from "../../utils/sendEmailUtils.js";
 
@@ -16,7 +17,7 @@ export const loginController = async (req, res) => {
     const user = {
         email,
         emailVerified: true,
-        displayName: 'dersey',
+        username: 'dersey',
         code: 'AA000001',
         role: 1,
         profilePicture: '/img/ejemplo.png',
@@ -47,10 +48,10 @@ export const loginController = async (req, res) => {
         maxAge: 60 * 60 *1000
     });
 
-    return res.status(200).json({ message: '¡Inicio de sesión exitoso!' });
+    return res.status(200).json({ code: successCodeMessages.LOGIN_SUCCESS });
 }
 
-export const registerController = async (req, res) => {
+export const registerAccountController = async (req, res) => {
 
     const { email, password, username } = req.body || {};
     const hashPassword = await encryptPassword(password);
@@ -71,7 +72,7 @@ export const registerController = async (req, res) => {
         <a href="${ verifyLink }">${ verifyLink }</a>
     `);
 
-    return res.status(201).json({ message: '¡Usuario registrado exitosamente!' });
+    return res.status(201).json({ code: successCodeMessages.ACCOUNT_CREATED });
 }
 
 export const recoverAccountController = async (req, res) => {
@@ -93,7 +94,7 @@ export const recoverAccountController = async (req, res) => {
         <a href="${ resetLink }">${ resetLink }</a>
     `);
 
-    return res.status(200).json({ message: 'Si el correo está registrado, recibirás un enlace para recuperar tu cuenta.' });
+    return res.status(200).json({ code: successCodeMessages.RECOVER_EMAIL_SENDED });
 }
 
 export const resetPasswordController = async (req, res) => {
@@ -108,5 +109,5 @@ export const resetPasswordController = async (req, res) => {
 
     //401, 403, 404, 429, 500
 
-    return res.status(200).json({ message: 'Si el correo está registrado, la contraseña ha sido actualizada.' });
+    return res.status(200).json({ code: successCodeMessages.EMAIL_PASSWORD_UPDATED });
 }

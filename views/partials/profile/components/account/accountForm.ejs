@@ -1,13 +1,13 @@
 <% const form = {
     id: 'accountForm',
-    displayNameInput: { 
-        id: 'textDisplayNameAccountInput', 
+    usernameInput: { 
+        id: 'textUsernameAccountInput', 
         label: {
             content: 'Nombre de usuario',
         },
         type: 'text', 
-        name: 'displayName',
-        value: profile.displayName || ''
+        name: 'username',
+        value: profile.username || ''
     },
     profilePictureInput: { 
         id: 'fileProfilePictureAccountInput', 
@@ -56,7 +56,7 @@
         <div class="col-md-4 mb-3">
             <p>Administra el nombre de usuario y perfil que se mostrará públicamente.</p>
 
-            <%- include('../../../shared/outlineInput', { input: form.displayNameInput }) %>
+            <%- include('../../../shared/outlineInput', { input: form.usernameInput }) %>
         </div>
     
         <div class="col-md-4 mb-3">

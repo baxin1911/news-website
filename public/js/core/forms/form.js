@@ -1,10 +1,10 @@
-import { checkErrorStatusCodes, checkSuccessStatusCodes } from "../httpStatus.js";
-import { toggleErrorMessages } from "../../ui/swalUI.js";
+import { mapFormErrors, mapServerErrors } from "./mappers/formMapper.js";
+import { toggleErrorMessages } from "../../ui/forms/formMessagesUI.js";
 
 export const useForm = async ({ 
     idForm,
     normalizeCheckboxData = () => {},
-    validate,
+    normalizeLoginError = () => {},
     applyBeforeRequest = () => {},
     sendRequest,
     applyAfterSuccess = () => {}
@@ -20,8 +20,9 @@ export const useForm = async ({
 
         normalizeCheckboxData(form, data);
 
-        let errors = validate(data);
+        const errors = mapFormErrors(data);
 
+        normalizeLoginError(errors);
         toggleErrorMessages(form, errors);
 
         const hasErrors = Object.values(errors).some(error => error);
@@ -32,22 +33,21 @@ export const useForm = async ({
 
             applyBeforeRequest(data);
 
-            const response = await sendRequest(data);
+            await sendRequest(data, {
 
-            checkSuccessStatusCodes(response);
-            applyAfterSuccess({ data, form });
+                showFormErrors: (serverErrors) => {
 
-        } catch (err) {
-
-            checkErrorStatusCodes(err, {
-
-                showFormErrors: (data) => {
-
-                    errors = validate(data);
+                    const errors = mapServerErrors(serverErrors);
 
                     toggleErrorMessages(form, errors);
                 }
             });
+
+            applyAfterSuccess({ data, form });
+
+        } catch (err) {
+
+            console.log(err);
         }
     });
 }

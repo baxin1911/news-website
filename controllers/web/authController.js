@@ -1,11 +1,12 @@
 import { generateAccessToken, generateRefreshToken } from '../../config/jwtlConfig.js';
-import { messages } from '../../config/messagesConfig.js';
+import { errorCodeMessages, successCodeMessages } from '../../messages/codeMessages.js';
+import { errorMessages, successMessages } from '../../messages/messages.js';
 import { createProfileService } from '../../services/profileService.js';
 import { redirectWithFlash } from '../../utils/flashUtils.js';
 
 export const authGoogleController = async (req, res) => {
 
-    if (req.query.error) return redirectWithFlash(res, messages.LOGIN_ERROR_GOOGLE, 'LOGIN_ERROR_GOOGLE', 'error');
+    if (req.query.error) return redirectWithFlash(res, errorMessages.LOGIN_ERROR_GOOGLE, errorCodeMessages.LOGIN_ERROR_GOOGLE, 'error');
     
     const { user } = req;
     const { _json, provider } = user;
@@ -13,7 +14,7 @@ export const authGoogleController = async (req, res) => {
         code: 'AA000001',
         sub: _json.sub, 
         provider, 
-        displayName: _json.name,
+        username: _json.name,
         name: _json.given_name,
         lastName: _json.family_name,
         profilePicture: _json.picture,
@@ -100,7 +101,7 @@ export const verifyEmailController = async (req, res) => {
 
     // Save refresh token in BD
 
-    return redirectWithFlash(res, 'Correo verificado correctamente.', 'EMAIL_VERIFIED', 'success');
+    return redirectWithFlash(res, successMessages.EMAIL_VERIFIED, successCodeMessages.EMAIL_VERIFIED, 'success');
 }
 
 export const logoutController = async (req, res) => {
@@ -110,5 +111,5 @@ export const logoutController = async (req, res) => {
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
 
-    return redirectWithFlash(res, 'Has cerrado sesión correctamente.', 'LOGOUT_SUCCESS', 'info');
+    return redirectWithFlash(res, successMessages.LOGOUT_SUCCESS, successCodeMessages.LOGOUT_SUCCESS, 'info');
 }

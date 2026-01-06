@@ -1,18 +1,19 @@
+import { successCodeMessages } from '../../messages/codeMessages.js';
 import { updateProfileInfoService, updateProfilePreferencesService } from '../../services/profileService.js';
 
 export const updateProfileAccountController = async (req, res) => {
-    const { displayName, profilePicture, coverPicture, name, lastName } = req.body || {};
+    const { username, profilePicture, coverPicture, name, lastName } = req.body || {};
     const user = req.user;
     // update profile
 
-    const result = await updateProfileInfoService(displayName, profilePicture, coverPicture, name, lastName, user.id);
+    const result = await updateProfileInfoService(username, profilePicture, coverPicture, name, lastName, user.id);
     // if (result.error) return res.status(500).json({ message: result.error });
     //429, 500
 
-    return res.status(200).json({ message: '¡Cuenta actualizada con éxito!' });
+    return res.status(200).json({ code: successCodeMessages.ACCOUNT_UPDATED });
 }
 
-export const updateProfilePasswordController = async (req, res) => {
+export const updateProfileAccountPasswordController = async (req, res) => {
     const { password } = req.body || {};
     const user = req.user;
 
@@ -24,7 +25,7 @@ export const updateProfilePasswordController = async (req, res) => {
 
     //429, 500
 
-    return res.status(200).json({ message: '¡Contraseña actualizada con éxito!' });
+    return res.status(200).json({ code: successCodeMessages.ACCOUNT_PASSWORD_UPDATED });
 }
 
 export const updateProfilePreferencesController = async (req, res) => {
@@ -38,5 +39,5 @@ export const updateProfilePreferencesController = async (req, res) => {
 
     //429, 500
 
-    return res.status(200).json({ message: 'Preferencias actualizadas con éxito!' });
+    return res.status(200).json({ code: successCodeMessages.PREFERENCES_UPDATED });
 }
