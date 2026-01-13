@@ -1,8 +1,8 @@
-import { includeSpace, includeUppercase, isEmptyOrNull, isLengthInRangeMax, isLengthInRangeMin, isRegex, isString } from "./validations.js";
+import { includeSpace, includeUppercase, isEmptyOrNull, isLengthInRangeMax, isLengthInRangeMin, isString } from "./validations.js";
 
 export const validateEmail = (email) => {
 
-    const regex = /\S+@\S+\.\S+/;
+    const allowedEmail = /\S+@\S+\.\S+/;
     const fieldName = 'El correo';
     let result = isEmptyOrNull(email, fieldName);
 
@@ -16,9 +16,7 @@ export const validateEmail = (email) => {
 
     if (result) return result;
 
-    result = isRegex(email, regex, fieldName);
-
-    if (result) return result;
+    if (allowedEmail.test(value)) return `${ fieldName } no cumple con el formato requerido`;
 
     result = isLengthInRangeMin(email, 10, fieldName);
 
@@ -31,7 +29,9 @@ export const validateEmail = (email) => {
 
 export const validatePassword = (password) => {
 
-    const regex = /^[A-Za-z0-9!@#\$%\^&\*]+$/;
+    const allowedNumber = /\d/;
+    const allowedUppercase = /[A-Z]/;
+    const allowedPassword = /^[A-Za-z0-9!@#\$%\^&\*]+$/;
     const fieldName = 'La contraseña';
     let result = isEmptyOrNull(password, fieldName);
 
@@ -49,7 +49,11 @@ export const validatePassword = (password) => {
 
     if (result) return result;
 
-    if (!regex.test(password)) return 'La contraseña debe tener al menos una numero y símbolo especial';
+    if (!allowedUppercase.test(password)) return `${ fieldName } debe tener al menos una mayúscula.`;
+
+    if (!allowedNumber.test(password)) return `${ fieldName } debe tener al menos un número.`;
+
+    if (!allowedPassword.test(password)) return  `${ fieldName } debe tener al menos un símbolo especial.`;
 
     result = isLengthInRangeMin(password, 8, fieldName);
 
@@ -67,33 +71,33 @@ export const validateRepeatedPassword = (password, repeatedPassword) => {
     return null;
 }
 
-export const validateUsername = (displayName) => {
+export const validateUsername = (username) => {
 
-    const regex = /\w+/;
+    const allowedUsername = /^[a-zA-Z0-9_]+$/;
     const fieldName = 'El nombre de usuario';
-    let result = isEmptyOrNull(displayName, fieldName);
+    let result = isEmptyOrNull(username, fieldName);
 
     if (result) return result;
 
-    result = isString(displayName, fieldName);
+    result = isString(username, fieldName);
 
     if (result) return result;
 
-    result = includeSpace(displayName, fieldName);
+    result = includeSpace(username, fieldName);
 
     if (result) return result;
 
-    result = includeUppercase(displayName, fieldName);
+    result = includeUppercase(username, fieldName);
 
     if (result) return result;
 
-    if (!regex.test(displayName)) return 'El nombre de usuario debe tener solo letras, numeros y guiones bajos';
+    if (!allowedUsername.test(username)) return `${ fieldName } debe tener solo letras, numeros y guiones bajos`;
     
-    result = isLengthInRangeMax(displayName, 100, fieldName);
+    result = isLengthInRangeMax(username, 100, fieldName);
 
     if (result) return result;
 
-    result = isLengthInRangeMin(displayName, 3, fieldName);
+    result = isLengthInRangeMin(username, 3, fieldName);
 
     return result;
 }

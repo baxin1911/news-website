@@ -1,4 +1,7 @@
-let profiles = [];
+import { avatarsDir } from "../utils/pathsUtils.js";
+import { processAvatarTempImage } from "./imageService.js";
+
+export const profiles = [];
 let preferences = {
     commentNotifications: false,
     followingNotifications: false,
@@ -6,29 +9,27 @@ let preferences = {
     userId: 1
 };
 
-export const getProfileByIdUserService = async (userId) => {
+export const getProfileByIdUser = async (userId) => {
     return profiles.find(p => p.id === userId) || null;
 }
 
-export const createProfileService = async (userData) => {
+export const createProfile = async (userData) => {
     
     profiles.push(userData);
 }
 
-export const updateProfileInfoService = async (username, profilePicture, coverPicture, name, lastName, userId) => {
+export const editProfileInfo = async (username, name, lastName, userId) => {
 
     const profile = profiles.find(p => p.id === userId);
 
     if (profile) {
         profile.username = username;
-        profile.profilePicture = profilePicture;
-        profile.coverPicture = coverPicture;
         profile.name = name;
         profile.lastName = lastName;
     }
 }
 
-export const updateProfilePreferencesService = async (commentNotifications, followingNotifications, newsletterNotifications, userId) => {
+export const editProfilePreferences = async (commentNotifications, followingNotifications, newsletterNotifications, userId) => {
 
     preferences.commentNotifications = commentNotifications;
     preferences.followingNotifications = followingNotifications;
@@ -36,7 +37,7 @@ export const updateProfilePreferencesService = async (commentNotifications, foll
     preferences.userId = userId;
 }
 
-export const getProfilePreferencesByIdUserService = async (userId) => {
+export const getProfilePreferencesByIdUser = async (userId) => {
     if (preferences.userId === userId) {
         return preferences;
     }

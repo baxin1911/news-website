@@ -1,6 +1,6 @@
 import { getErrorMessage, getSuccessMessage } from "../constants/apiMessages.js";
 import { showModal } from "../ui/modalUI.js";
-import { showLoginRequiredToast, showSuccessToast, showWarningToast } from "../ui/swalUI.js";
+import { notifications } from "../plugins/swal/swalComponent.js";
 
 export const handleFlashMessage = (flash) => {
     
@@ -11,15 +11,15 @@ export const handleFlashMessage = (flash) => {
     switch (type) {
 
         case 'success':
-            showSuccessToast(message || getSuccessMessage(code));
+            notifications.showSuccess(message || getSuccessMessage(code));
             break;
 
         case 'warning':
-            showWarningToast(message || getErrorMessage(code));
+            notifications.showWarning(message || getErrorMessage(code));
             break;
 
         case 'error':
-            showLoginRequiredToast(message || getErrorMessage(code));
+            notifications.showError(message || getErrorMessage(code));
             break;
             
         default:

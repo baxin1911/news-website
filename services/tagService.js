@@ -1,4 +1,4 @@
-export const getTagsByIdUserService = async (id) => {
+export const getTagsByIdUser = async (id) => {
 
     const tags = [
         { id: 1, name: 'Xbox' },

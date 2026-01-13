@@ -1,19 +1,51 @@
-import { successCodeMessages } from '../../messages/codeMessages.js';
-import { updateProfileInfoService, updateProfilePreferencesService } from '../../services/profileService.js';
+import { errorCodeMessages, successCodeMessages } from '../../messages/codeMessages.js';
+import { processAvatarTempImage, processCoverTempImage } from '../../services/imageService.js';
+import { editProfileInfo, editProfilePreferences } from '../../services/profileService.js';
+import { avatarsDir, coversDir } from '../../utils/pathsUtils.js';
 
-export const updateProfileAccountController = async (req, res) => {
-    const { username, profilePicture, coverPicture, name, lastName } = req.body || {};
+export const updateProfileAccount = async (req, res) => {
+    const { username, avatarPath, coverPath, name, lastName } = req.body || {};
     const user = req.user;
     // update profile
 
-    const result = await updateProfileInfoService(username, profilePicture, coverPicture, name, lastName, user.id);
+    const result = await editProfileInfo(username, name, lastName, user.id);
     // if (result.error) return res.status(500).json({ message: result.error });
     //429, 500
+
+    if (avatarPath) {
+        
+        const result = processAvatarTempImage(avatarPath, avatarsDir);
+
+        if (result === -1) return res.status(500).json({ code: errorCodeMessages.FILE_NOT_FOUND });
+
+        if (result === -2) return res.status(400).json({ code: errorCodeMessages.INVALID_IMAGE_PATH });
+
+        if (result === -3) return res.status(500).json({ code: errorCodeMessages.INVALID_FILE });
+
+        if (result === -4) return res.status(409).json({ code: errorCodeMessages.UNAUTH_USER_EDIT_FILE });
+
+        if (result === -5) return res.status(500).json({ code: errorCodeMessages.SERVER_ERROR });
+    }
+
+    if (coverPath) {
+
+        const result = processCoverTempImage(coverPath, coversDir);
+
+        if (result === -1) return res.status(500).json({ code: errorCodeMessages.FILE_NOT_FOUND });
+
+        if (result === -2) return res.status(400).json({ code: errorCodeMessages.INVALID_IMAGE_PATH });
+
+        if (result === -3) return res.status(500).json({ code: errorCodeMessages.INVALID_FILE });
+
+        if (result === -4) return res.status(409).json({ code: errorCodeMessages.UNAUTH_USER_EDIT_FILE });
+
+        if (result === -5) return res.status(500).json({ code: errorCodeMessages.SERVER_ERROR });
+    }
 
     return res.status(200).json({ code: successCodeMessages.ACCOUNT_UPDATED });
 }
 
-export const updateProfileAccountPasswordController = async (req, res) => {
+export const updateProfileAccountPassword = async (req, res) => {
     const { password } = req.body || {};
     const user = req.user;
 
@@ -28,12 +60,12 @@ export const updateProfileAccountPasswordController = async (req, res) => {
     return res.status(200).json({ code: successCodeMessages.ACCOUNT_PASSWORD_UPDATED });
 }
 
-export const updateProfilePreferencesController = async (req, res) => {
+export const updateProfilePreferences = async (req, res) => {
     const { commentNotifications, followingNotifications, newsletterNotifications } = req.body || {};
     const user = req.user;
 
     // update profile
-    const result = await updateProfilePreferencesService(commentNotifications, followingNotifications, newsletterNotifications, user.id);
+    const result = await editProfilePreferences(commentNotifications, followingNotifications, newsletterNotifications, user.id);
 
     // if (result.error) return res.status(500).json({ message: result.error });
 

@@ -1,7 +1,7 @@
 import express from 'express';
 import { verifyApiResetToken } from '../../middleware/authMiddleware.js';
-import { generateAccessToken, verifyAccessToken } from '../../config/jwtlConfig.js';
-import { loginController, recoverAccountController, registerAccountController, resetPasswordController } from '../../controllers/api/authController.js';
+import { generateAccessToken, verifyAccessToken } from '../../services/jwtService.js';
+import { login, recoverAccount, registerAccount, resetPassword } from '../../controllers/api/authController.js';
 import { authRegisterValidation, loginValidation } from '../../validators/forms/authValitdations.js';
 import { emailValidation, passwordValidation } from '../../validators/forms/validations.js';
 import { validate, validateLogin } from '../../middleware/validatorMiddleware.js';
@@ -13,21 +13,21 @@ router.post(
     '/login', 
     loginValidation, 
     validateLogin, 
-    loginController
+    login
 );
 
 router.post(
     '/register', 
     authRegisterValidation, 
     validate, 
-    registerAccountController
+    registerAccount
 );
 
 router.post(
     '/recover', 
     emailValidation, 
     validate, 
-    recoverAccountController
+    recoverAccount
 );
 
 router.post('/refresh', async (req, res) => {
@@ -52,7 +52,7 @@ router.patch(
     verifyApiResetToken, 
     passwordValidation, 
     validate, 
-    resetPasswordController
+    resetPassword
 );
 
 export default router;

@@ -1,11 +1,11 @@
 import { buildPagination } from "../../utils/paginationUtils.js";
-import { searchArticlesService } from "../../services/articleService.js";
+import { getArticlesByQuery } from "../../services/articleService.js";
 import { infoCodeMessages, successCodeMessages } from "../../messages/codeMessages.js";
 
-export const searchArticleController = async (req, res) => {
+export const searchArticle = async (req, res) => {
 
     const { q } = req.query || {};
-    const result = await searchArticlesService(q);
+    const result = await getArticlesByQuery(q);
 
     if (result.error) return res.status(500).json({ message: result.error });
 

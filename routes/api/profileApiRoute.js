@@ -1,6 +1,6 @@
 import express from 'express';
 import { verifyCookiesAuthTokenRequired } from '../../middleware/authMiddleware.js';
-import { updateProfileAccountController, updateProfileAccountPasswordController, updateProfilePreferencesController } from '../../controllers/api/profileController.js';
+import { updateProfileAccount, updateProfileAccountPassword, updateProfilePreferences } from '../../controllers/api/profileController.js';
 import { passwordValidation } from '../../validators/forms/validations.js';
 import { validate } from '../../middleware/validatorMiddleware.js';
 import { preferencesValitdation, profileValidation } from '../../validators/forms/profileValidations.js';
@@ -12,7 +12,7 @@ router.put(
     verifyCookiesAuthTokenRequired, 
     profileValidation, 
     validate,
-    updateProfileAccountController
+    updateProfileAccount
 );
 
 router.patch(
@@ -20,7 +20,7 @@ router.patch(
     verifyCookiesAuthTokenRequired, 
     passwordValidation,
     validate, 
-    updateProfileAccountPasswordController
+    updateProfileAccountPassword
 );
 
 router.patch(
@@ -28,7 +28,7 @@ router.patch(
     verifyCookiesAuthTokenRequired, 
     preferencesValitdation,
     validate,
-    updateProfilePreferencesController
+    updateProfilePreferences
 );
 
 export default router;

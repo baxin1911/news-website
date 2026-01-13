@@ -39,6 +39,7 @@ coverage/
 # Optional: database / local uploads if not versioned
 /data
 /uploads
+/temp
 
 # Optional: debug dumps
 *.tgz

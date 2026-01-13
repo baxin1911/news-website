@@ -1,9 +1,9 @@
-import { generateAccessToken, generateOneTimeToken, generateRefreshToken } from "../../config/jwtlConfig.js";
+import { generateAccessToken, generateOneTimeToken, generateRefreshToken } from "../../services/jwtService.js";
 import { successCodeMessages } from "../../messages/codeMessages.js";
 import { encryptPassword } from "../../utils/encryptionUtils.js";
-import { sendEmail } from "../../utils/sendEmailUtils.js";
+import { sendEmail } from "../../utils/emailUtils.js";
 
-export const loginController = async (req, res) => {
+export const login = async (req, res) => {
 
     const { email, password } = req.body || {};
 
@@ -20,7 +20,8 @@ export const loginController = async (req, res) => {
         username: 'dersey',
         code: 'AA000001',
         role: 1,
-        profilePicture: '/img/ejemplo.png',
+        avatarPath: '/img/ejemplo.png',
+        coverPath: null,
         totalPosts: 0,
         totalTopics: 0,
         totalAuthors: 0,
@@ -51,7 +52,7 @@ export const loginController = async (req, res) => {
     return res.status(200).json({ code: successCodeMessages.LOGIN_SUCCESS });
 }
 
-export const registerAccountController = async (req, res) => {
+export const registerAccount = async (req, res) => {
 
     const { email, password, username } = req.body || {};
     const hashPassword = await encryptPassword(password);
@@ -75,7 +76,7 @@ export const registerAccountController = async (req, res) => {
     return res.status(201).json({ code: successCodeMessages.ACCOUNT_CREATED });
 }
 
-export const recoverAccountController = async (req, res) => {
+export const recoverAccount = async (req, res) => {
 
     const { email } = req.body || {};
 
@@ -97,7 +98,7 @@ export const recoverAccountController = async (req, res) => {
     return res.status(200).json({ code: successCodeMessages.RECOVER_EMAIL_SENDED });
 }
 
-export const resetPasswordController = async (req, res) => {
+export const resetPassword = async (req, res) => {
 
     const { password } = req.body || {};
     const { id } = req || {};

@@ -1,5 +1,5 @@
 import express from 'express';
-import { homeController } from '../../controllers/web/home/indexController.js';
+import { getHome } from '../../controllers/web/home/indexController.js';
 import { verifyCookiesAuthTokenOptional } from '../../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -7,7 +7,7 @@ const router = express.Router();
 router.get(
     '/', 
     verifyCookiesAuthTokenOptional, 
-    homeController
+    getHome
 );
 
 export default router;

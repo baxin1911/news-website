@@ -4,7 +4,7 @@
 }) %>
 
 <input id="<%= input.id %>" type="file" name="<%= input.name %>" 
-    class="form-control form-control-lg" aria-describedby="<%= `${ input.id }Error` %>"
+    class="filepond" aria-describedby="<%= `${ input.id }Error` %>"
 >
 
 <%- include('./validationMessage', { 

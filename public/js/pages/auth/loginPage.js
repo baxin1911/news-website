@@ -3,10 +3,10 @@ import { login } from "../../api/authApi.js";
 
 useForm({
     idForm: 'loginForm',
-    normalizeLoginError: (errors) => {
+    normalizeErrors: ({ errors }) => {
 
-        errors.email = errors.email !== null ? 'Correo incorrecto' : null;
-        errors.password = errors.password !== null ? 'Contraseña incorrecta' : null;
+        errors.email = errors.email ?? 'Correo incorrecto';
+        errors.password = errors.password ?? 'Contraseña incorrecta';
 
         return errors;
     },

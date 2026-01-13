@@ -1,48 +1,17 @@
-import { includeSpace, includeUppercase, isEmptyOrNull, isLengthInRangeMax, isLengthInRangeMin, isString } from "./validations.js";
+import { isEmptyOrNull, isLengthInRangeMax, isLengthInRangeMin, isString } from "./validations.js";
 
-export const validateDisplayName = (displayName) => {
+export const validateText = (name, fieldName) => {
 
-    const regex = /\w+/;
-    const fieldName = 'El nombre público';
-    let result = isEmptyOrNull(displayName, fieldName);
-
-    if (result) return result;
-
-    result = isString(displayName, fieldName);
-
-    if (result) return result;
-
-    result = includeSpace(displayName, fieldName);
-
-    if (result) return result;
-
-    result = includeUppercase(displayName, fieldName);
-
-    if (result) return result;
-
-    if (!regex.test(displayName)) return 'El nombre público debe tener solo letras, numeros y guiones bajos';
-    
-    result = isLengthInRangeMax(displayName, 100, fieldName);
-
-    if (result) return result;
-
-    result = isLengthInRangeMin(displayName, 3, fieldName);
-
-    return result;
-}
-
-export const validateName = (name) => {
-
-    const regex = /^[a-zA-Z\s]+$/;
-    const fieldName = 'El nombre';
+    const allowedName = /^[\p{L}]+(?:[ '\-][\p{L}]+)*$/u;
     let result = isEmptyOrNull(name, fieldName);
 
     if (result) return result;
 
     result = isString(name, fieldName);
+
     if (result) return result;
 
-    if (!regex.test(name)) return 'El nombre debe tener solo letras, numeros y guiones bajos';
+    if (!allowedName.test(name)) return `${ fieldName } debe tener solo letras y caracteres válidos.`;
 
     result = isLengthInRangeMin(name, 3, fieldName);
 
@@ -53,52 +22,36 @@ export const validateName = (name) => {
     return result;
 }
 
-export const validateLastName = (lastname) => {
+export const validateAvatarPath = (path) => {
 
-    const regex = /^[a-zA-Z\s]+$/;
-    const fieldName = 'El apellido';
-    let result = isEmptyOrNull(lastname, fieldName);
+    if (!path) return;
 
-    if (result) return result;
-
-    result = isString(lastname, fieldName);
+    const fieldName = 'La ruta del avatar';
+    const allowedPath = /^\/(avatars|temp)\/[\w\-]+\.(jpg|png|webp)$/i;
+    let result = isString(path, fieldName);
 
     if (result) return result;
 
-    if (!regex.test(lastname)) return 'El apellido debe tener solo letras, numeros y guiones bajos';
-
-    result = isLengthInRangeMin(lastname, 3, fieldName);
-
-    if (result) return result;
-
-    result = isLengthInRangeMax(lastname, 100, fieldName);
+    if (!allowedPath.test(path)) return `${ fieldName } debe ser una ruta válida.`;
 
     return result;
 }
 
-export const validatePassword = (password) => {
+export const validateCoverPath = (path) => {
 
-    const regex = /^[A-Za-z0-9!@#\$%\^&\*]+$/;
-    const fieldName = 'La contraseña';
-    let result = isEmptyOrNull(password, fieldName);
+    if (!path) return;
 
-    if (result) return result;
-
-    result = isString(password, fieldName);
+    const fieldName = 'La ruta de la portada';
+    const allowedPath = /^\/(covers|temp)\/[\w\-]+\.(jpg|png|webp)$/i;
+    let result = isString(path, fieldName);
 
     if (result) return result;
 
-    result = includeSpace(password, fieldName);
-
-    if (result) return result;
-
-    result = includeUppercase(password, fieldName);
-
-    if (result) return result;
-
-    if (!regex.test(password)) return 'La contraseña debe tener al menos una numero y símbolo especial';
-
-    result = isLengthInRangeMin(password, 8, fieldName);
+    if (!allowedPath.test(path)) return `${ fieldName } debe ser una ruta válida.`;
 
     return result;
 }
+
+export const validateName = (name) => validateText(name, 'El nombre');
+
+export const validateLastName = (lastname) => validateText(lastname, 'El apellido');

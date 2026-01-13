@@ -3,8 +3,10 @@ import { useForm } from "../../core/forms/form.js";
 
 useForm({
     idForm: 'preferencesForm',
-    normalizeCheckboxData: (form, data) => {
+    normalizeData: (form, data) => {
+
         form.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            
             data[checkbox.name] = checkbox.checked;
         });
     },

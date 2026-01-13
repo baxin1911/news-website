@@ -28,12 +28,8 @@ const errorMessages = {
     LAST_NAME_TOO_SHORT: 'El apellido debe tener al menos 2 caracteres.',
     LAST_NAME_TOO_LONG: 'El apellido no debe tener más de 50 caracteres.',
     LAST_NAME_INVALID_CHARS: 'El apellido debe contener solo letras y espacios.',
-    COMMENT_NOTIFICATIONS_EMPTY: 'La preferencia de notificaciones de comentarios es requerida.',
-    COMMENT_NOTIFICATIONS_NOT_BOOLEAN: 'La preferencia de notificaciones de comentarios debe ser un valor booleano.',
-    FOLLOWING_NOTIFICATIONS_EMPTY: 'La preferencia de notificaciones de seguimiento es requerida.',
-    FOLLOWING_NOTIFICATIONS_NOT_BOOLEAN: 'La preferencia de notificaciones de seguimiento debe ser un valor booleano.',
-    NEWSLETTER_NOTIFICATIONS_EMPTY: 'La preferencia de notificaciones del boletín es requerida.',
-    NEWSLETTER_NOTIFICATIONS_NOT_BOOLEAN: 'La preferencia de notificaciones del boletín debe ser un valor booleano.',
+    OPTION_EMPTY: 'Esta opción es requerida.',
+    OPTION_NOT_BOOLEAN: 'Esta opción debe ser un valor booleano.',
     TEXT_EMPTY: 'El texto de búsqueda es requerido.',
     TEXT_NOT_STRING: 'El texto de búsqueda debe ser una cadena de texto.',
     TEXT_TOO_SHORT: 'El texto de búsqueda debe tener al menos un caracter.',
@@ -42,7 +38,15 @@ const errorMessages = {
     LOGIN_ERROR: 'Usuario o contraseña incorrectos.',
     VALIDATION_ERROR: 'Errores de validación',
     AUTH_INVALID: 'Sesión inválida. Inicia sesión nuevamente.',
-    LINK_INVALID: 'Enlace inválido. Solicita uno nuevo.'
+    LINK_INVALID: 'Enlace inválido. Solicita uno nuevo.',
+    LIMIT_FILE_SIZE: 'El archivo es muy grande',
+    LIMIT_FILE_COUNT: 'Debe enviarse un archivo',
+    LIMIT_UNEXPECTED_FILE: 'Campo incorrecto',
+    LIMIT_FIELD_KEY: 'El nombre del campo es muy largo',
+    LIMIT_FIELD_VALUE: 'El valor es muy largo',
+    CONTENT_TYPE_INVALID: 'El Content-Type debe contener ',
+    IMAGE_PATH_NOT_STRING: 'La ruta de la imagen no es una cadena de texto.',
+    INVALID_IMAGE_PATH: 'La imagen debe ser temporal.'
 };
 
 const successMessages = {
@@ -63,6 +67,6 @@ const infoMessages = {
     NO_CONTENT_SEARCH: 'No se encontraron resultados'
 }
 
-export const getErrorMessage = (code) => errorMessages[code] ?? 'Ocurrio un error inesperado';
+export const getErrorMessage = (code) => errorMessages[code] ?? null;
 
-export const getSuccessMessage = (code) => successMessages[code] ?? 'Operación realizada exitosamente';
+export const getSuccessMessage = (code) => successMessages[code] ?? null;

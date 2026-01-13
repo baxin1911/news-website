@@ -7,6 +7,7 @@ const whitespaceRegex = /^\S+$/;
 const usernameRegex = /^[a-zA-Z0-9_]+$/;
 const passwordRegex = /^[A-Za-z0-9!@#\$%\^&\*]+$/;
 const nameRegex = /^[\p{L}]+(?:[ '\-][\p{L}]+)*$/u;
+const pathRegex = /^[a-zA-Z0-9/_\-\.]+\.(png|jpg|jpeg|webp)$/;
 
 export const validateEmail =
     body('email')
@@ -82,21 +83,35 @@ export const validateGenericText =
 
 export const validatecommentNotifications = 
     body('commentNotifications')
-        .exists().withMessage(errorCodeMessages.COMMENT_NOTIFICATIONS_EMPTY)
-        .isBoolean().withMessage(errorCodeMessages.COMMENT_NOTIFICATIONS_NOT_BOOLEAN)
+        .exists().withMessage(errorCodeMessages.OPTION_EMPTY)
+        .isBoolean().withMessage(errorCodeMessages.OPTION_NOT_BOOLEAN)
         .toBoolean()
 ;
 
 export const validatefollowingNotifications = 
     body('followingNotifications')
-        .exists().withMessage(errorCodeMessages.FOLLOWING_NOTIFICATIONS_EMPTY)
-        .isBoolean().withMessage(errorCodeMessages.FOLLOWING_NOTIFICATIONS_NOT_BOOLEAN)
+        .exists().withMessage(errorCodeMessages.OPTION_EMPTY)
+        .isBoolean().withMessage(errorCodeMessages.OPTION_NOT_BOOLEAN)
         .toBoolean()
 ;
 
 export const validatenewsletterNotifications = 
     body('newsletterNotifications')
-        .exists().withMessage(errorCodeMessages.NEWSLETTER_NOTIFICATIONS_EMPTY)
-        .isBoolean().withMessage(errorCodeMessages.NEWSLETTER_NOTIFICATIONS_NOT_BOOLEAN)
+        .exists().withMessage(errorCodeMessages.OPTION_EMPTY)
+        .isBoolean().withMessage(errorCodeMessages.OPTION_NOT_BOOLEAN)
         .toBoolean()
 ;
+
+export const validateCoverPath = 
+    body('coverPath')
+        .if(value => value !== undefined && value !== null && value !== '')
+        .isString().withMessage(errorCodeMessages.IMAGE_PATH_NOT_STRING)
+        .trim()
+        .matches(pathRegex).withMessage(errorCodeMessages.INVALID_IMAGE_PATH);
+
+export const validateAvatarPath = 
+    body('avatarPath')
+        .if(value => value !== undefined && value !== null && value !== '')
+        .isString().withMessage(errorCodeMessages.IMAGE_PATH_NOT_STRING)
+        .trim()
+        .matches(pathRegex).withMessage(errorCodeMessages.INVALID_IMAGE_PATH)

@@ -19,3 +19,26 @@ export const toggleErrorMessages = (form, errors) => {
         }
     });
 }
+
+export const toggleFileErrors = (form, errors) => {
+
+    form.querySelectorAll('input[type="file"]').forEach(input => {
+
+        const key = input.name;
+        const value = errors[key];
+        const feedback = form.querySelector(`[data-error-for='${ key }']`);
+
+        if (!feedback) return;
+
+        if (value) {
+
+            feedback.textContent = value;
+            feedback.classList.add('d-block');
+
+        } else {
+
+            feedback.textContent = null;
+            feedback.classList.remove('d-block');
+        }
+    });
+}

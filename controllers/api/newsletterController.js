@@ -1,6 +1,6 @@
 import { successCodeMessages } from "../../messages/codeMessages.js";
 
-export const subscribeController = async (req, res) => {
+export const subscribeToNewsletter = async (req, res) => {
 
     const { email } = req.body || {};
 

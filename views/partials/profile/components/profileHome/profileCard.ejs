@@ -1,8 +1,8 @@
 <div class="card mb-4">
     <div class="position-relative">
-        <img src="https://mdbcdn.b-cdn.net/img/new/slides/017.webp" alt="Portada" class="card-img-top" height="200">
+        <img src="<%= profile.coverPath %>" alt="Portada" class="card-img-top" height="200">
         <div class="card-img-overlay overlay">
-            <img src="<%= profile.profilePicture %>" alt="Foto de Perfil" 
+            <img src="<%= profile.avatarPath %>" alt="Foto de Perfil" 
                 class="rounded-circle mb-3 avatar"
             >
             <p class="fs-4 text-white"><span class="fs-1 fw-bold"><%= profile.username %></span> <%= profile.code %></p>

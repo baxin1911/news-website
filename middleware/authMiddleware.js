@@ -1,4 +1,4 @@
-import { verifyAccessToken, verifyOneTimeToken } from "../config/jwtlConfig.js";
+import { verifyAccessToken, verifyOneTimeToken } from "../services/jwtService.js";
 import { errorCodeMessages } from "../messages/codeMessages.js";
 import { errorMessages } from "../messages/messages.js";
 import { redirectWithFlash } from "../utils/flashUtils.js";

@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 import { verifyWebEmailToken, verifyWebResetToken } from '../../middleware/authMiddleware.js';
-import { authGoogleController, logoutController, resetPasswordController, verifyEmailController } from '../../controllers/web/authController.js';
+import { authGoogle, logout, resetPassword, verifyEmail } from '../../controllers/web/authController.js';
 
 const router = express.Router();
 
@@ -12,24 +12,24 @@ router.get(
 router.get(
     '/google/callback', 
     passport.authenticate('google', { session: false }), 
-    authGoogleController
+    authGoogle
 );
 
 router.get(
     '/password-reset', 
     verifyWebResetToken, 
-    resetPasswordController
+    resetPassword
 );
 
 router.get(
     '/email-verify', 
     verifyWebEmailToken, 
-    verifyEmailController
+    verifyEmail
 );
 
 router.post(
     '/logout', 
-    logoutController
+    logout
 );
 
 export default router;

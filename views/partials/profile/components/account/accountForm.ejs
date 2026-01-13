@@ -9,21 +9,21 @@
         name: 'username',
         value: profile.username || ''
     },
-    profilePictureInput: { 
-        id: 'fileProfilePictureAccountInput', 
+    avatarPictureInput: { 
+        id: 'fileAvatarPictureAccountInput', 
         label: {
             content: 'Foto de perfil',
         },
-        name: 'profilePicture',
-        value: profile.profilePicture || ''
+        name: 'avatarPath',
+        value: profile.avatarPath || ''
     },
     coverPictureInput: {
         id: 'fileCoverPictureAccountInput', 
         label: {
             content: 'Foto de portada',
         },
-        name: 'coverPicture',
-        value: profile.coverPicture || ''
+        name: 'coverPath',
+        value: profile.coverPath || ''
     },
     nameInput: {
         id: 'nameAccountInput',
@@ -62,7 +62,7 @@
         <div class="col-md-4 mb-3">
             <p>Selecciona una imágen de perfil</p>
 
-            <%- include('../../../shared/fileInput', { input: form.profilePictureInput }) %>
+            <%- include('../../../shared/fileInput', { input: form.avatarPictureInput }) %>
         </div>
 
         <div class="col-md-4 mb-3">

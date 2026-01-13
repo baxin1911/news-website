@@ -1,20 +1,16 @@
 import { getErrorMessage, getSuccessMessage } from "../constants/apiMessages.js";
-import { showErrorToast, showFormWarningToast, showServerErrorToast, showSuccessToast, showNoContentToast, showRateLimitWarningToast, showLoginRequiredToast } from "../ui/swalUI.js";
+import { showModal } from "../plugins/swal/baseSwal.js";
+import { notifications } from "../plugins/swal/swalComponent.js";
 
 export const handleSuccessResponse = (response) => {
 
     const { status, data } = response;
 
-    if (status === 204) {
-
-        showNoContentToast();
-        
-        return;
-    }
+    if (status === 204) return;
 
     const successMessage = getSuccessMessage(data.code);
 
-    showSuccessToast(successMessage);
+    notifications.showSuccess(successMessage);
 }
 
 export const handleErrorResponse = (response, options = {}) => {
@@ -33,19 +29,19 @@ export const handleErrorResponse = (response, options = {}) => {
     switch (status) {
 
         case 400:
-            showFormWarningToast(errorMessage);
-            options.showFormErrors(data);
+            notifications.showWarning(errorMessage);
+            options.showFormErrors(data.errors);
             break;
 
         case 401:
-            showLoginRequiredToast(errorMessage);
+            notifications.showError(errorMessage);
             break;
 
         case 429:
-            showRateLimitWarningToast(data);
+            notifications.showWarning(errorMessage);
             break;
 
         default:
-            showServerErrorToast();
+            showModal();
     }
 }

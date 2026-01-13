@@ -1,16 +1,16 @@
-import { getAllArticlesService } from '../../../services/articleService.js';
+import { getAllArticles } from '../../../services/articleService.js';
 import { getCategory } from '../../../utils/categoryUtils.js';
 import { formatShortDate } from '../../../utils/formattedDateUtils.js';
-import { getProfileByIdUserService } from '../../../services/profileService.js';
+import { getProfileByIdUser } from '../../../services/profileService.js';
 
-export const homeController = async (req, res) => {
+export const getHome = async (req, res) => {
 
     const { user } = req;
     let profile = null;
 
-    if (user) profile = await getProfileByIdUserService(user.id);
+    if (user) profile = await getProfileByIdUser(user.id);
 
-    const articles = await getAllArticlesService();
+    const articles = await getAllArticles();
 
     return res.render('index', { 
         articles, 

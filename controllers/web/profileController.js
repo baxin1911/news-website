@@ -1,27 +1,27 @@
-import { getAuthorsByIdUserService } from "../../services/authorService.js";
-import { getUsersByIdUserService } from "../../services/userService.js";
-import { getTagsByIdUserService } from "../../services/tagService.js";
-import { getCommentsByIdUserService } from "../../services/commentService.js";
-import { getProfileByIdUserService, getProfilePreferencesByIdUserService } from "../../services/profileService.js";
+import { findAuthorsByIdUser } from "../../services/authorService.js";
+import { getUsersByIdUser } from "../../services/userService.js";
+import { getTagsByIdUser } from "../../services/tagService.js";
+import { findCommentsByIdUser } from "../../services/commentService.js";
+import { getProfileByIdUser, getProfilePreferencesByIdUser } from "../../services/profileService.js";
 import { redirectWithFlash } from "../../utils/flashUtils.js";
 import { errorMessages } from "../../messages/messages.js";
 import { errorCodeMessages } from "../../messages/codeMessages.js";
 
 
-export const profileController = async (req, res) => {
+export const getProfile = async (req, res) => {
 
     // Get user form BD
 
     const { user } = req;
-    const profile = await getProfileByIdUserService(user.id);
+    const profile = await getProfileByIdUser(user.id);
 
     if (!profile)  return redirectWithFlash(res, errorMessages.AUTH_INVALID, errorCodeMessages.AUTH_INVALID, 'error');
 
-    const authors = await getAuthorsByIdUserService(user.id);
-    const users = await getUsersByIdUserService(user.id);
-    const tags = await getTagsByIdUserService(user.id);
-    const comments = await getCommentsByIdUserService(user.id);
-    const preferences = await getProfilePreferencesByIdUserService(user.id);
+    const authors = await findAuthorsByIdUser(user.id);
+    const users = await getUsersByIdUser(user.id);
+    const tags = await getTagsByIdUser(user.id);
+    const comments = await findCommentsByIdUser(user.id);
+    const preferences = await getProfilePreferencesByIdUser(user.id);
 
     return res.render('profile', { 
         profile, 

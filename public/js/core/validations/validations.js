@@ -32,13 +32,6 @@ export const isBoolean = (value, fieldName) => {
     return `${ fieldName } no es un booleano válido`;
 };
 
-export const isRegex = (value, regex, fieldName) => {
-    
-    if (regex.test(value)) return null;
-
-    return `${ fieldName } no cumple con el formato requerido`;
-};
-
 export const isLengthInRangeMin = (value, min, fieldName) => {
 
     const length = value.length;

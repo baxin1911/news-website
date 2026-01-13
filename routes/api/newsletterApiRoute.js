@@ -1,5 +1,5 @@
 import express from 'express';
-import { subscribeController } from '../../controllers/api/newsletterController.js';
+import { subscribeToNewsletter } from '../../controllers/api/newsletterController.js';
 import { emailValidation } from '../../validators/forms/validations.js';
 import { validate } from '../../middleware/validatorMiddleware.js';
 
@@ -9,7 +9,7 @@ router.post(
     '/subscribe', 
     emailValidation, 
     validate, 
-    subscribeController
+    subscribeToNewsletter
 );
 
 export default router;

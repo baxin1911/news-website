@@ -1,6 +1,6 @@
 let users = [];
 
-export const getUsersByIdUserService = async (id) => {
+export const getUsersByIdUser = async (id) => {
 
     users = [
         { id: 1, displayName: 'dsV45-sf', picture: 'https://i.pravatar.cc/45' },

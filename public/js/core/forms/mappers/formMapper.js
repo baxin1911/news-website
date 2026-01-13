@@ -17,9 +17,14 @@ export const mapFormErrors = (data) => {
 
     const errors = {};
 
-    for (const field in validators) {
+    for (const key in data) {
     
-        errors[field] = validators[field](data[field]);
+        const param = data[key];
+
+        if (!param) break;
+
+        errors[key] = validators[key](param);
+        
     }
 
     return errors;

@@ -1,5 +1,5 @@
 import express from 'express';
-import { searchArticleController } from '../../controllers/api/searchController.js';
+import { searchArticle } from '../../controllers/api/searchController.js';
 import { validate } from '../../middleware/validatorMiddleware.js';
 import { genericTextValidation } from '../../validators/forms/validations.js';
 
@@ -9,7 +9,7 @@ router.get(
     '/', 
     genericTextValidation, 
     validate, 
-    searchArticleController
+    searchArticle
 );
 
 export default router;

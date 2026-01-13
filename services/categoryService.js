@@ -1,4 +1,4 @@
-export const getAllCategoriesService = async () => {
+export const getAllCategories = async () => {
 
     const categories = [];
     categories.push(...[

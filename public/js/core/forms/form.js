@@ -3,10 +3,11 @@ import { toggleErrorMessages } from "../../ui/forms/formMessagesUI.js";
 
 export const useForm = async ({ 
     idForm,
-    normalizeCheckboxData = () => {},
-    normalizeLoginError = () => {},
+    normalizeData = () => {},
+    normalizeErrors = () => {},
     applyBeforeRequest = () => {},
     sendRequest,
+    normalizeServerErrors = () => {},
     applyAfterSuccess = () => {}
 }) => {
 
@@ -18,11 +19,11 @@ export const useForm = async ({
 
         const data = Object.fromEntries(new FormData(form));
 
-        normalizeCheckboxData(form, data);
+        normalizeData(form, data);
 
         const errors = mapFormErrors(data);
-
-        normalizeLoginError(errors);
+        
+        normalizeErrors({ form, errors });
         toggleErrorMessages(form, errors);
 
         const hasErrors = Object.values(errors).some(error => error);
@@ -39,6 +40,7 @@ export const useForm = async ({
 
                     const errors = mapServerErrors(serverErrors);
 
+                    normalizeServerErrors(form, errors);
                     toggleErrorMessages(form, errors);
                 }
             });

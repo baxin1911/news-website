@@ -8,8 +8,9 @@ export const validate = (req, res, next) => {
     if (errorsArray.length > 0) {
 
         const errors = {};
+        
         errorsArray.forEach(error => {
-            errors[error.param] = error.msg;
+            errors[error.path] = error.msg;
         });
 
         return res.status(400).json({ errors, code: errorCodeMessages.VALIDATION_ERROR });
@@ -28,5 +29,4 @@ export const validateLogin = (req, res, next) => {
     }
 
     next();
-
 }

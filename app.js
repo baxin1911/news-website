@@ -5,29 +5,33 @@ import newsletterApiRoutes from './routes/api/newsletterApiRoute.js';
 import searchApiRoutes from './routes/api/searchApiRoute.js';
 import profileApiRoutes from './routes/api/profileApiRoute.js';
 
+import profileUploadRoutes from './routes/upload/profileUploadRoute.js';
+
+import profileTextRoute from './routes/text/profileTextRoute.js';
+
 import indexWebRoutes from './routes/web/indexWebRoute.js';
 import feedWebRoutes from './routes/web/feedWebRoute.js'; 
 import authWebRoutes from './routes/web/authWebRoute.js';
 import profileWebRoutes from './routes/web/profileWebRoute.js';
 
-import { checkContentType } from './middleware/errorHandlerMiddleware.js';
+import { checkTypeContentJson, checkTypeContentFile, checkContentTypePlainText } from './middleware/contentTypeMiddleware.js';
 // import { apiLimiter } from './middleware/rateLimitMiddleware.js';
 import cookieParser from 'cookie-parser';
 import { Strategy } from 'passport-google-oauth20';
 
 import express from 'express';
 // import engine from 'ejs-mate';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import passport from 'passport';
+import { publicDir, viewsDir, avatarsDir, coversDir } from './utils/pathsUtils.js';
+import { errorCodeMessages } from './messages/codeMessages.js';
 
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const app = express();
-const api = '/api';
+const apiRoute = '/api';
+const textRoute = '/text';
+const uploadRoute = '/upload';
 
 passport.use(new Strategy({
     clientID: GOOGLE_CLIENT_ID,
@@ -39,17 +43,24 @@ passport.use(new Strategy({
 }));
 
 // app.engine('ejs', engine);
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', viewsDir);
 app.set('view engine', 'ejs');
+
+app.use('/', express.static(publicDir));
+app.use('/avatars', express.static(avatarsDir));
+app.use('/covers', express.static(coversDir));
+
+app.use(apiRoute, express.json());
+app.use(textRoute, express.text({ type: 'text/plain' }));
+app.use(cookieParser());
+// app.use(express.urlencoded({ extended: true }));
 
 //middleware
 app.use(passport.initialize());
-app.use(api, checkContentType);
-app.use(cookieParser());
+app.use(apiRoute, checkTypeContentJson);
+app.use(uploadRoute, checkTypeContentFile);
+app.use(textRoute, checkContentTypePlainText);
 // app.use(api, apiLimiter);
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
-// app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     res.locals.flash = req.cookies.flash || null;
@@ -64,10 +75,16 @@ app.use('/auth', authWebRoutes);
 app.use('/', profileWebRoutes);
 
 // api routes
-app.use(api + '/auth', authApiRoutes);
-app.use(api + '/newsletter', newsletterApiRoutes);
-app.use(api + '/search', searchApiRoutes);
-app.use(api + '/profile', profileApiRoutes);
+app.use(apiRoute + '/auth', authApiRoutes);
+app.use(apiRoute + '/newsletter', newsletterApiRoutes);
+app.use(apiRoute + '/search', searchApiRoutes);
+app.use(apiRoute + '/profile', profileApiRoutes);
+
+// upload routes
+app.use(uploadRoute + '/profile', profileUploadRoutes);
+
+// text routes
+app.use(textRoute + '/profile', profileTextRoute)
 
 app.use((req, res, next) => {
     res.status(405).json({ message: 'Método HTTP no permitido.' });
@@ -79,7 +96,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ message: 'Error del servidor.' });
+    res.status(500).json({ code: errorCodeMessages.SERVER_ERROR });
 });
 
 const PORT = process.env.PORT || 3000;
