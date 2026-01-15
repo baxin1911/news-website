@@ -1,6 +1,3 @@
-import { avatarsDir } from "../utils/pathsUtils.js";
-import { processAvatarTempImage } from "./imageService.js";
-
 export const profiles = [];
 let preferences = {
     commentNotifications: false,

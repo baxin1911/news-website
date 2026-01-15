@@ -11,7 +11,7 @@
                 const date = (article.publicationDate) ? formatShortDate(article.publicationDate) : '';
             %>
                 <li class="mb-3">
-                    <%- include('./article', {
+                    <%- include('./articlePreview', {
                         article: {
                             img: {
                                 src: imageUrl,

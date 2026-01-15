@@ -30,8 +30,12 @@
             <div class="row">
                 <div class="col-12 col-md-8 col-lg-9">
                     <main class="my-4">
-                        <section>
-                            <h2 class="title-style">Resultados de búsqueda</h2>
+                        <section aria-label="Resultados de búsqueda">
+                            <h2 class="title-style"><%= title %></h2>
+
+                            <% if (game) { %>
+                                <%- include('./partials/feed/gameCard') %>
+                            <% } %>
 
                             <div id="searchResults" class="list-group">
                                 <ul class="list-unstyled">

@@ -1,0 +1,7 @@
+<% items.forEach(item => { %>
+    <%- include('./badge', { 
+        badgeClass, 
+        href: `/${ item }`,
+        content: item 
+    }) %>
+<% }); %>

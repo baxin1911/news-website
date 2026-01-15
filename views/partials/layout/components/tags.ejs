@@ -1,34 +1,3 @@
-<% const list = {
-    class:'nav gap-2 justify-content-center',
-    links: [
-        { 
-            content: 'Xbox', 
-            slug: '#', 
-            class: 'btn btn-outline-secondary m-1' 
-        },
-        { 
-            content: 'T1', 
-            slug: '#', 
-            class: 'btn btn-outline-secondary m-1' 
-        },
-        { 
-            content: 'PlayStation', 
-            slug: '#', 
-            class: 'btn btn-outline-secondary m-1' 
-        },
-        { 
-            content: 'Vue.js', 
-            slug: '#', 
-            class: 'btn btn-outline-secondary m-1' 
-        },
-        { 
-            content: 'React', 
-            slug: '#', 
-            class: 'btn btn-outline-secondary m-1' 
-        }
-    ]
-}; %>
-
 <section>
     <h2 class="title-style">
         Tags
@@ -36,7 +5,14 @@
 
     <div class="card">
         <div class="card-body">
-            <%- include('./linkList', { list }); %>
+            <%- include('./navList', {
+                listClass: 'nav gap-2 justify-content-center',
+                items: tags.map(tag => ({
+                    class: 'btn btn-outline-secondary m-1',
+                    href: '/' + slugify(tag),
+                    content: tag
+                }))
+            }); %>
         </div>
     </div>
 </section>

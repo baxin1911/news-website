@@ -1,38 +1,35 @@
-<% const list = {
-    class: 'navbar-nav',
-    links: [
-        { 
-            content: 'Inicio', 
-            slug: '/', 
-            class: `nav-link ${ (currentRoute === '/') ? 'active' : '' }` 
-        },
-        { 
-            content: 'Gaming', 
-            slug: '/categories/gaming', 
-            class: `nav-link ${ (currentRoute === '/categories/gaming') ? 'active' : '' }` 
-        },
-        { 
-            content: 'Entretenimiento', 
-            slug: '/categories/entertainment', 
-            class: `nav-link ${ (currentRoute === '/categories/entertainment') ? 'active' : '' }` 
-        },
-        { 
-            content: 'Deportes', 
-            slug: '/categories/sports', 
-            class: `nav-link ${ (currentRoute === '/categories/sports') ? 'active' : '' }` 
-        },
-        { 
-            content: 'Tecnología', 
-            slug: '/categories/technology', 
-            class: `nav-link ${ (currentRoute === '/categories/technology') ? 'active' : '' }` 
-        },
-        { 
-            content: '<i class="fas fa-envelope me-2"></i>Contacto', 
-            slug: '/contacto', 
-            class: `nav-link ${ (currentRoute === '/contacto') ? 'active' : '' }` 
-        }
-    ]
-}; 
+<% const items = [
+    { 
+        content: 'Inicio', 
+        href: '/', 
+        class: `nav-link ${ (currentRoute === '/') ? 'active' : '' }` 
+    },
+    { 
+        content: 'Gaming', 
+        href: '/categories/gaming', 
+        class: `nav-link ${ (currentRoute === '/categories/gaming') ? 'active' : '' }` 
+    },
+    { 
+        content: 'Entretenimiento', 
+        href: '/categories/entertainment', 
+        class: `nav-link ${ (currentRoute === '/categories/entertainment') ? 'active' : '' }` 
+    },
+    { 
+        content: 'Deportes', 
+        href: '/categories/sports', 
+        class: `nav-link ${ (currentRoute === '/categories/sports') ? 'active' : '' }` 
+    },
+    { 
+        content: 'Tecnología', 
+        href: '/categories/technology', 
+        class: `nav-link ${ (currentRoute === '/categories/technology') ? 'active' : '' }` 
+    },
+    { 
+        content: '<i class="fas fa-envelope me-2"></i>Contacto', 
+        href: '/contacto', 
+        class: `nav-link ${ (currentRoute === '/contacto') ? 'active' : '' }` 
+    }
+];
 
 const searchForm = {
     idInput: 'textSearchHeaderInput',
@@ -46,7 +43,10 @@ const searchForm = {
         </div>
 
         <div class="d-none d-lg-flex" role="navigation">
-            <%- include('../linkList', { list }) %>
+            <%- include('../navList', { 
+                listClass: 'navbar-nav',
+                items 
+            }); %>
         </div>
 
         <div class="d-none d-sm-flex" role="navigation">

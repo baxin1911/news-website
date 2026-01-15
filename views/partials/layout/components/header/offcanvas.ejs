@@ -81,21 +81,18 @@ const accordion = {
     ]
 };
 
-const list = {
-    class: 'navbar-nav',
-    links: [
+const items = [
         { 
-            content: 'Inicio', 
-            slug: '/', 
-            class: `nav-link ${ (currentRoute === '/') ? 'active' : '' }` 
-        },
-        { 
-            content: '<i class="fas fa-envelope me-2"></i>Contacto', 
-            slug: '/contacto', 
-            class: `nav-link ${ (currentRoute === '/contacto') ? 'active' : '' }` 
-        }
-    ]
-};
+        content: 'Inicio', 
+        href: '/', 
+        class: `nav-link ${ (currentRoute === '/') ? 'active' : '' }` 
+    },
+    { 
+        content: '<i class="fas fa-envelope me-2"></i>Contacto', 
+        href: '/contacto', 
+        class: `nav-link ${ (currentRoute === '/contacto') ? 'active' : '' }` 
+    }
+];
 
 const searchForm = {
     idInput: 'textSearchOffcanvasInput',
@@ -114,7 +111,10 @@ const searchForm = {
 
         <div class="flex-grow-1 mb-5">
             <div class="mb-5">
-                <%- include('../linkList', { list }) %>
+                <%- include('../navList', { 
+                    listClass: 'navbar-nav',
+                    items 
+                }); %>
             </div>
 
             <%- include('./menuAccordion', { accordion }) %>

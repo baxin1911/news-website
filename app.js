@@ -29,9 +29,12 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
 const app = express();
+const rootRoute = '/';
 const apiRoute = '/api';
 const textRoute = '/text';
 const uploadRoute = '/upload';
+const authRoute = '/auth';
+const profileRoute = '/profile';
 
 passport.use(new Strategy({
     clientID: GOOGLE_CLIENT_ID,
@@ -46,7 +49,7 @@ passport.use(new Strategy({
 app.set('views', viewsDir);
 app.set('view engine', 'ejs');
 
-app.use('/', express.static(publicDir));
+app.use(rootRoute, express.static(publicDir));
 app.use('/avatars', express.static(avatarsDir));
 app.use('/covers', express.static(coversDir));
 
@@ -69,22 +72,22 @@ app.use((req, res, next) => {
 });
 
 // web routes
-app.use('/', indexWebRoutes);
-app.use('/', feedWebRoutes);
-app.use('/auth', authWebRoutes);
-app.use('/', profileWebRoutes);
+app.use(rootRoute, indexWebRoutes);
+app.use(rootRoute, profileWebRoutes);
+app.use(rootRoute, feedWebRoutes);
+app.use(authRoute, authWebRoutes);
 
 // api routes
-app.use(apiRoute + '/auth', authApiRoutes);
+app.use(apiRoute + authRoute, authApiRoutes);
 app.use(apiRoute + '/newsletter', newsletterApiRoutes);
 app.use(apiRoute + '/search', searchApiRoutes);
-app.use(apiRoute + '/profile', profileApiRoutes);
+app.use(apiRoute + profileRoute, profileApiRoutes);
 
 // upload routes
-app.use(uploadRoute + '/profile', profileUploadRoutes);
+app.use(uploadRoute + profileRoute, profileUploadRoutes);
 
 // text routes
-app.use(textRoute + '/profile', profileTextRoute)
+app.use(textRoute + profileRoute, profileTextRoute)
 
 app.use((req, res, next) => {
     res.status(405).json({ message: 'Método HTTP no permitido.' });

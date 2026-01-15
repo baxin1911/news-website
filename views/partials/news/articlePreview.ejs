@@ -23,11 +23,11 @@
                         </a>
 
                         <%- article.body.badge ? 
-                            `<a href="/categories/${ article.body.badge.link }" 
-                                class="badge badge-primary"
-                            >
-                                ${ article.body.badge.content }
-                            </a>` : '' 
+                            include('../shared/linkBadge', {
+                                badgeClass: null,
+                                href: `/categories/${ article.body.badge.link }`,
+                                name: article.body.badge.content
+                            }) : '' 
                         %>
                     </h3>
 

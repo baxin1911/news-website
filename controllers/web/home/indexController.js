@@ -1,7 +1,8 @@
 import { getAllArticles } from '../../../services/articleService.js';
 import { getCategory } from '../../../utils/categoryUtils.js';
-import { formatShortDate } from '../../../utils/formattedDateUtils.js';
+import { formatShortDate, slugify } from '../../../utils/formattersUtils.js';
 import { getProfileByIdUser } from '../../../services/profileService.js';
+import { findTopTagNames } from '../../../services/tagService.js';
 
 export const getHome = async (req, res) => {
 
@@ -11,11 +12,14 @@ export const getHome = async (req, res) => {
     if (user) profile = await getProfileByIdUser(user.id);
 
     const articles = await getAllArticles();
+    const tags = await findTopTagNames();
 
     return res.render('index', { 
-        articles, 
+        articles,
+        tags, 
         profile,
         currentRoute: '/',
+        slugify,
         getCategory, 
         formatShortDate
     });
