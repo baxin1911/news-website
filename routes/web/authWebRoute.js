@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 import { verifyWebEmailToken, verifyWebResetToken } from '../../middleware/authMiddleware.js';
-import { authGoogle, logout, resetPassword, verifyEmail } from '../../controllers/web/authController.js';
+import { authGoogle, logout, refreshAuthToken, resetPassword, verifyEmail } from '../../controllers/web/authController.js';
 
 const router = express.Router();
 
@@ -25,6 +25,11 @@ router.get(
     '/email-verify', 
     verifyWebEmailToken, 
     verifyEmail
+);
+
+router.get(
+    '/refresh',
+    refreshAuthToken
 );
 
 router.post(

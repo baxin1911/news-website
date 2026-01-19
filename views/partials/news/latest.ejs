@@ -4,7 +4,7 @@
     <div class="swiper latest-news">
         <div class="swiper-wrapper">
             <% articles.forEach(article => {
-                const imageUrl = (article.imageUrls && article.imageUrls.length > 0) ? article.imageUrls[0] : '';
+                const imageUrl = article.CoverNews ?? article.blocks.find(block => block.type === 'image').content;
                 const shortTitle = (article.title.length > 50) ? `${article.title.substring(0, 50)} ...` : article.title;
                 const shortDescription = (article.description.length > 100) ? `${article.description.substring(0, 100)} ...` : article.description;
                 const category = article.category ? getCategory(article.category) : '';
@@ -22,7 +22,7 @@
                                 class: 'card-body',
                                 title: {
                                     class: 'me-3',
-                                    link: '#',
+                                    link: slugify(article.title),
                                     content: shortTitle
                                 },
                                 badge: {

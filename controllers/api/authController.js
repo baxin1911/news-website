@@ -1,7 +1,9 @@
-import { generateAccessToken, generateOneTimeToken, generateRefreshToken } from "../../services/jwtService.js";
-import { successCodeMessages } from "../../messages/codeMessages.js";
-import { encryptPassword } from "../../utils/encryptionUtils.js";
+import { tokenStore, generateAccessToken, generateOneTimeToken, generateRefreshToken, verifyRefreshToken } from "../../services/jwtService.js";
+import { errorCodeMessages, successCodeMessages } from "../../messages/codeMessages.js";
+import { encryptPassword, encryptToken } from "../../utils/encryptionUtils.js";
 import { sendEmail } from "../../utils/emailUtils.js";
+import { clearAuthCookies, setAuthCookies } from "../../utils/cookiesUtils.js";
+import { createProfile } from "../../services/profileService.js";
 
 export const login = async (req, res) => {
 
@@ -15,6 +17,7 @@ export const login = async (req, res) => {
     // 429, 500
 
     const user = {
+        id: 1,
         email,
         emailVerified: true,
         username: 'dersey',
@@ -29,25 +32,12 @@ export const login = async (req, res) => {
     };
     const newRefreshToken = generateRefreshToken(user);
     const newAccessToken = generateAccessToken(user);
-
-    user.id = 1;
+    const hashedToken = encryptToken(newRefreshToken);
 
     // Save refreshToken in DB
-    await createUser(user);
-
-    res.cookie('refreshToken', newRefreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-        maxAge: 60 * 60 * 1000
-    });
-
-    res.cookie('accessToken', newAccessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
-        maxAge: 60 * 60 *1000
-    });
+    await createProfile(user);
+    tokenStore.hashedRefreshToken = hashedToken;
+    setAuthCookies(res, newAccessToken, newRefreshToken);
 
     return res.status(200).json({ code: successCodeMessages.LOGIN_SUCCESS });
 }
@@ -96,6 +86,36 @@ export const recoverAccount = async (req, res) => {
     `);
 
     return res.status(200).json({ code: successCodeMessages.RECOVER_EMAIL_SENDED });
+}
+
+export const refreshAuthToken = async (req, res) => {
+
+    const { refreshToken } = req.cookies;
+
+    if (!refreshToken) return res.status(401).json({ code: errorCodeMessages.AUTH_INVALID });
+
+    const hashedToken = encryptToken(refreshToken);
+
+    const existsToken = hashedToken === tokenStore.hashedRefreshToken;
+
+    if (!existsToken) {
+
+        tokenStore.hashedRefreshToken = null;
+        clearAuthCookies(res);
+
+        return res.status(401).json({ code: errorCodeMessages.REUSE_DETECTED });
+    }
+
+    const tokenInfo = verifyRefreshToken(refreshToken);
+
+    if (!tokenInfo) return res.status(401).json({ code: errorCodeMessages.AUTH_INVALID });
+
+    const newAccessToken = generateAccessToken(tokenInfo);
+    const newRefreshToken = generateRefreshToken(tokenInfo);
+
+    setAuthCookies(res, newAccessToken, newRefreshToken);
+
+    return res.sendStatus(200);
 }
 
 export const resetPassword = async (req, res) => {

@@ -34,6 +34,7 @@ export const handleErrorResponse = (response, options = {}) => {
             break;
 
         case 401:
+            window.location.replace('/');
             notifications.showError(errorMessage);
             break;
 

@@ -2,11 +2,13 @@ import express from 'express';
 import { subscribeToNewsletter } from '../../controllers/api/newsletterController.js';
 import { emailValidation } from '../../validators/forms/validations.js';
 import { validate } from '../../middleware/validatorMiddleware.js';
+import { verifyAuthTokenOptional } from '../../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 router.post(
     '/subscribe', 
+    verifyAuthTokenOptional({ source: 'cookies' }), 
     emailValidation, 
     validate, 
     subscribeToNewsletter

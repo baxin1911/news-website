@@ -22,6 +22,7 @@ export const searchFeed = async (req, res) => {
     return res.render('feed', { 
         title: q,
         profile,
+        game: null,
         articles, 
         categories,
         currentRoute: '/search',
@@ -49,11 +50,14 @@ export const showCategoryFeed = async (req, res) => {
 
     const articles = await findArticlesByCategory(category);
     const categories = await getAllCategories();
+    const tags = await findTopTagNames();
     const pagination = buildPagination(articles.length, currentPage, itemsPerPage);
 
     return res.render('feed', { 
         title: category,
         profile,
+        game: null,
+        tags,
         articles, 
         categories,
         queryParams: {},

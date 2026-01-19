@@ -1,9 +1,11 @@
-import { generateAccessToken, generateRefreshToken } from '../../services/jwtService.js';
+import { tokenStore, generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../../services/jwtService.js';
 import { errorCodeMessages, successCodeMessages } from '../../messages/codeMessages.js';
 import { errorMessages, successMessages } from '../../messages/messages.js';
 import { downloadGoogleAvatar } from '../../services/googleService.js';
 import { createProfile } from '../../services/profileService.js';
 import { redirectWithFlash } from '../../utils/flashUtils.js';
+import { encryptToken } from '../../utils/encryptionUtils.js';
+import { clearAuthCookies, setAuthCookies } from '../../utils/cookiesUtils.js';
 
 export const authGoogle = async (req, res) => {
 
@@ -34,24 +36,14 @@ export const authGoogle = async (req, res) => {
 
     if (!userGoogle.avatarPicture) await downloadGoogleAvatar(_json.picture);
 
-    const accessToken = generateAccessToken(userGoogle);
-    const refreshToken = generateRefreshToken(userGoogle);
+    const newAccessToken = generateAccessToken(userGoogle);
+    const newRefreshToken = generateRefreshToken(userGoogle);
 
     // Save refresh token in DB
+    const hashedToken = encryptToken(newRefreshToken);
+    tokenStore.hashedRefreshToken = hashedToken;
 
-    res.cookie('accessToken', accessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
-        maxAge: 60 * 60 *1000
-    });
-
-    res.cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-        maxAge: 60 * 60 * 1000
-    });
+    setAuthCookies(res, newAccessToken, newRefreshToken);
 
     return res.redirect('/profile');
 }
@@ -84,36 +76,49 @@ export const verifyEmail = async (req, res) => {
         totalAuthors: 0,
         followers: 0
     };
-    const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
+    const newAccessToken = generateAccessToken(user);
+    const newRefreshToken = generateRefreshToken(user);
 
     await createProfile(user);
-
-    res.cookie('accessToken', accessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
-        maxAge: 60 * 60 *1000
-    });
-
-    res.cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-        maxAge: 60 * 60 * 1000
-    });
+    setAuthCookies(res, newAccessToken, newRefreshToken);
 
     // Save refresh token in BD
 
     return redirectWithFlash(res, successMessages.EMAIL_VERIFIED, successCodeMessages.EMAIL_VERIFIED, 'success');
 }
 
+export const refreshAuthToken = async (req, res) => {
+
+    const { refreshToken } = req.cookies;
+    
+    if (!refreshToken) return redirectWithFlash(res, errorMessages.AUTH_INVALID, errorCodeMessages.AUTH_INVALID, 'error');
+
+    const hashedToken = encryptToken(refreshToken);
+
+    const existsToken = hashedToken === tokenStore.hashedRefreshToken;
+
+    if (!existsToken) return logout(req, res);
+
+    const tokenInfo = verifyRefreshToken(refreshToken);
+
+    if (!tokenInfo) return redirectWithFlash(res, errorMessages.AUTH_INVALID, errorCodeMessages.AUTH_INVALID, 'error');
+
+    const newAccessToken = generateAccessToken(tokenInfo);
+    const newRefreshToken = generateRefreshToken(tokenInfo);
+    const returnTo = req.cookies.returnTo;
+
+    res.clearCookie('returnTo');
+    setAuthCookies(res, newAccessToken, newRefreshToken);
+
+    return res.redirect(returnTo || req.headers.referer);
+}
+
 export const logout = async (req, res) => {
 
     // Delete refreshToken from DB
 
-    res.clearCookie("accessToken");
-    res.clearCookie("refreshToken");
+    tokenStore.hashedRefreshToken = null;
+    clearAuthCookies(res);
 
     return redirectWithFlash(res, successMessages.LOGOUT_SUCCESS, successCodeMessages.LOGOUT_SUCCESS, 'info');
 }

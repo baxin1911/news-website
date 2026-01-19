@@ -26,7 +26,7 @@ export const showArticle = async (req, res) => {
     const articles = await getAllArticles();
     const categories = await getAllCategories();
     const pagination = buildPagination(articles.length, currentPage, itemsPerPage);
-console.log(article)
+
     return res.render('article', {
         article,
         profile,

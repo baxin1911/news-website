@@ -1,25 +1,25 @@
 import express from 'express';
 import { showCategoryFeed, searchFeed } from '../../controllers/web/feedController.js';
-import { verifyCookiesAuthTokenOptional } from '../../middleware/authMiddleware.js';
+import { verifyAuthTokenOptional } from '../../middleware/authMiddleware.js';
 import { resolveSlug } from '../../controllers/web/slugController.js';
 
 const router = express.Router();
 
 router.get(
     '/search', 
-    verifyCookiesAuthTokenOptional, 
+    verifyAuthTokenOptional({ source: 'cookies' }), 
     searchFeed
 );
 
 router.get(
     '/categories/:slug', 
-    verifyCookiesAuthTokenOptional, 
+    verifyAuthTokenOptional({ source: 'cookies' }), 
     showCategoryFeed
 );
 
 router.get(
     '/:slug',
-    verifyCookiesAuthTokenOptional,
+    verifyAuthTokenOptional({ source: 'cookies' }), 
     resolveSlug
 )
 
