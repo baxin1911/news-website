@@ -44,7 +44,7 @@ export const verifyApiTokenRequired = (req, res, next) => {
 
     const tokenInfo = getAuthTokenInfo(req, res);
 
-    if (!tokenInfo) return res.status(401).json({ code: errorCodeMessages.AUTH_INVALID });
+    if (!tokenInfo) return res.status(401).json({ code: errorCodeMessages.INVALID_AUTH });
 
     req.user = tokenInfo;
     next();
@@ -101,8 +101,8 @@ export const verifyWebResetToken = (req, res, next) => {
 
     if (!tokenInfo) return redirectWithFlash(
         res, 
-        errorMessages.LINK_INVALID, 
-        errorCodeMessages.LINK_INVALID, 
+        errorMessages.INVALID_LINK, 
+        errorCodeMessages.INVALID_LINK, 
         'error'
     );
 
@@ -116,7 +116,7 @@ export const verifyApiResetToken = (req, res, next) => {
     
     const tokenInfo = getOneTimeTokenInfo(token, 'password-reset');
 
-    if (!tokenInfo) return res.status(401).json({ message: errorMessages.LINK_INVALID });
+    if (!tokenInfo) return res.status(401).json({ message: errorMessages.INVALID_LINK });
 
     req.id = tokenInfo.id;
     next();
@@ -129,8 +129,8 @@ export const verifyWebEmailToken = (req, res, next) => {
 
     if (!tokenInfo) return redirectWithFlash(
         res, 
-        errorMessages.LINK_INVALID, 
-        errorCodeMessages.LINK_INVALID, 
+        errorMessages.INVALID_LINK, 
+        errorCodeMessages.INVALID_LINK, 
         'error'
     );
 

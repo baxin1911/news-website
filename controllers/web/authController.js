@@ -9,7 +9,7 @@ import { clearAuthCookies, setAuthCookies } from '../../utils/cookiesUtils.js';
 
 export const authGoogle = async (req, res) => {
 
-    if (req.query.error) return redirectWithFlash(res, errorMessages.LOGIN_ERROR_GOOGLE, errorCodeMessages.LOGIN_ERROR_GOOGLE, 'error');
+    if (req.query.error) return redirectWithFlash(res, errorMessages.GOOGLE_LOGIN_ERROR, errorCodeMessages.GOOGLE_LOGIN_ERROR, 'error');
     
     const { user } = req;
     const { _json, provider } = user;
@@ -24,7 +24,7 @@ export const authGoogle = async (req, res) => {
         avatarPath: null,
         coverPath: null,
         email: _json.email,
-        emailVerified: _json.email_verified,
+        emailVerified: _json.VERIFIED_EMAIL,
         role: 1,
         totalPosts: 0,
         totalTopics: 0,
@@ -84,14 +84,14 @@ export const verifyEmail = async (req, res) => {
 
     // Save refresh token in BD
 
-    return redirectWithFlash(res, successMessages.EMAIL_VERIFIED, successCodeMessages.EMAIL_VERIFIED, 'success');
+    return redirectWithFlash(res, successMessages.VERIFIED_EMAIL, successCodeMessages.VERIFIED_EMAIL, 'success');
 }
 
 export const refreshAuthToken = async (req, res) => {
 
     const { refreshToken } = req.cookies;
     
-    if (!refreshToken) return redirectWithFlash(res, errorMessages.AUTH_INVALID, errorCodeMessages.AUTH_INVALID, 'error');
+    if (!refreshToken) return redirectWithFlash(res, errorMessages.INVALID_AUTH, errorCodeMessages.INVALID_AUTH, 'error');
 
     const hashedToken = encryptToken(refreshToken);
 
@@ -101,7 +101,7 @@ export const refreshAuthToken = async (req, res) => {
 
     const tokenInfo = verifyRefreshToken(refreshToken);
 
-    if (!tokenInfo) return redirectWithFlash(res, errorMessages.AUTH_INVALID, errorCodeMessages.AUTH_INVALID, 'error');
+    if (!tokenInfo) return redirectWithFlash(res, errorMessages.INVALID_AUTH, errorCodeMessages.INVALID_AUTH, 'error');
 
     const newAccessToken = generateAccessToken(tokenInfo);
     const newRefreshToken = generateRefreshToken(tokenInfo);
@@ -120,5 +120,5 @@ export const logout = async (req, res) => {
     tokenStore.hashedRefreshToken = null;
     clearAuthCookies(res);
 
-    return redirectWithFlash(res, successMessages.LOGOUT_SUCCESS, successCodeMessages.LOGOUT_SUCCESS, 'info');
+    return redirectWithFlash(res, successMessages.SUCCESS_LOGOUT, successCodeMessages.SUCCESS_LOGOUT, 'info');
 }

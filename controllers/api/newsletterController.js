@@ -11,5 +11,5 @@ export const subscribeToNewsletter = async (req, res) => {
 
     // 403, 429, 500
 
-    return res.status(202).json({ code: successCodeMessages.NEWSLETTER_EMAIL_SENDED });
+    return res.status(202).json({ code: successCodeMessages.SENDED_NEWSLETTER_EMAIL });
 }

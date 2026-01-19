@@ -9,7 +9,7 @@ const checkContentType = (req, res, next, contentTypeRequired) => {
     if (!contentType || !contentType.includes(contentTypeRequired)) {
 
         return res.status(415).json({
-            code: errorCodeMessages.CONTENT_TYPE_INVALID,
+            code: errorCodeMessages.INVALID_CONTENT_TYPE,
             contentType: contentTypeRequired
         });
     }

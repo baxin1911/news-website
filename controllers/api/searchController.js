@@ -21,7 +21,7 @@ export const searchArticle = async (req, res) => {
     const pagination = buildPagination(filteredArticles.length, page, limit);
 
     return res.status(200).json({ 
-        message: (filteredArticles.length > 0) ? successCodeMessages.SEARCH_SUCCESS : infoCodeMessages.NO_CONTENT_SEARCH,
+        message: (filteredArticles.length > 0) ? successCodeMessages.SUCCESS_SEARCH : infoCodeMessages.NO_CONTENT_SEARCH,
         articles: filteredArticles,
         pagination
     });

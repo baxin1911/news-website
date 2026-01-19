@@ -35,7 +35,7 @@ export const handleModalWithFlashMessage = (flash) => {
 
     switch (code) {
 
-        case 'LOGIN_ERROR_GOOGLE':
+        case 'GOOGLE_LOGIN_ERROR':
             showModal('loginModal');
             break;
             

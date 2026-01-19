@@ -42,7 +42,7 @@ export const updateProfileAccount = async (req, res) => {
         if (result === -5) return res.status(500).json({ code: errorCodeMessages.SERVER_ERROR });
     }
 
-    return res.status(200).json({ code: successCodeMessages.ACCOUNT_UPDATED });
+    return res.status(200).json({ code: successCodeMessages.UPDATED_ACCOUNT });
 }
 
 export const updateProfileAccountPassword = async (req, res) => {
@@ -57,7 +57,7 @@ export const updateProfileAccountPassword = async (req, res) => {
 
     //429, 500
 
-    return res.status(200).json({ code: successCodeMessages.ACCOUNT_PASSWORD_UPDATED });
+    return res.status(200).json({ code: successCodeMessages.UPDATED_ACCOUNT_PASSWORD });
 }
 
 export const updateProfilePreferences = async (req, res) => {
@@ -71,5 +71,5 @@ export const updateProfilePreferences = async (req, res) => {
 
     //429, 500
 
-    return res.status(200).json({ code: successCodeMessages.PREFERENCES_UPDATED });
+    return res.status(200).json({ code: successCodeMessages.UPDATED_PREFERENCES });
 }

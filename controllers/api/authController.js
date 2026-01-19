@@ -39,7 +39,7 @@ export const login = async (req, res) => {
     tokenStore.hashedRefreshToken = hashedToken;
     setAuthCookies(res, newAccessToken, newRefreshToken);
 
-    return res.status(200).json({ code: successCodeMessages.LOGIN_SUCCESS });
+    return res.status(200).json({ code: successCodeMessages.SUCCESS_LOGIN });
 }
 
 export const registerAccount = async (req, res) => {
@@ -63,7 +63,7 @@ export const registerAccount = async (req, res) => {
         <a href="${ verifyLink }">${ verifyLink }</a>
     `);
 
-    return res.status(201).json({ code: successCodeMessages.ACCOUNT_CREATED });
+    return res.status(201).json({ code: successCodeMessages.CREATED_ACCOUNT });
 }
 
 export const recoverAccount = async (req, res) => {
@@ -85,14 +85,14 @@ export const recoverAccount = async (req, res) => {
         <a href="${ resetLink }">${ resetLink }</a>
     `);
 
-    return res.status(200).json({ code: successCodeMessages.RECOVER_EMAIL_SENDED });
+    return res.status(200).json({ code: successCodeMessages.SENDED_RECOVER_EMAIL });
 }
 
 export const refreshAuthToken = async (req, res) => {
 
     const { refreshToken } = req.cookies;
 
-    if (!refreshToken) return res.status(401).json({ code: errorCodeMessages.AUTH_INVALID });
+    if (!refreshToken) return res.status(401).json({ code: errorCodeMessages.INVALID_AUTH });
 
     const hashedToken = encryptToken(refreshToken);
 
@@ -103,12 +103,12 @@ export const refreshAuthToken = async (req, res) => {
         tokenStore.hashedRefreshToken = null;
         clearAuthCookies(res);
 
-        return res.status(401).json({ code: errorCodeMessages.REUSE_DETECTED });
+        return res.status(401).json({ code: errorCodeMessages.DETECTED_REUSE });
     }
 
     const tokenInfo = verifyRefreshToken(refreshToken);
 
-    if (!tokenInfo) return res.status(401).json({ code: errorCodeMessages.AUTH_INVALID });
+    if (!tokenInfo) return res.status(401).json({ code: errorCodeMessages.INVALID_AUTH });
 
     const newAccessToken = generateAccessToken(tokenInfo);
     const newRefreshToken = generateRefreshToken(tokenInfo);
@@ -130,5 +130,5 @@ export const resetPassword = async (req, res) => {
 
     //401, 403, 404, 429, 500
 
-    return res.status(200).json({ code: successCodeMessages.EMAIL_PASSWORD_UPDATED });
+    return res.status(200).json({ code: successCodeMessages.UPDATED_RESET_PASSWORD });
 }

@@ -18,7 +18,7 @@ export const getProfile = async (req, res) => {
     const itemsPerPage = 10;
     const profile = await getProfileByIdUser(user.id);
 
-    if (!profile)  return redirectWithFlash(res, errorMessages.AUTH_INVALID, errorCodeMessages.AUTH_INVALID, 'error');
+    if (!profile)  return redirectWithFlash(res, errorMessages.INVALID_AUTH, errorCodeMessages.INVALID_AUTH, 'error');
 
     const authors = await findAuthorsByIdUser(user.id);
     const tags = await findTopTagNames();
