@@ -39,11 +39,11 @@ const errorMessages = {
     VALIDATION_ERROR: 'Errores de validación',
     INVALID_AUTH: 'Sesión inválida. Inicia sesión nuevamente.',
     INVALID_LINK: 'Enlace inválido. Solicita uno nuevo.',
-    LIMIT_FILE_SIZE: 'El archivo es muy grande',
-    LIMIT_FILE_COUNT: 'Debe enviarse un archivo',
+    LIMIT_FILE_SIZE: 'El archivo es muy grande.',
+    LIMIT_FILE_COUNT: 'Debe enviarse un archivo.',
     LIMIT_UNEXPECTED_FILE: 'Campo incorrecto',
-    LIMIT_FIELD_KEY: 'El nombre del campo es muy largo',
-    LIMIT_FIELD_VALUE: 'El valor es muy largo',
+    LIMIT_FIELD_KEY: 'El nombre del campo es muy largo.',
+    LIMIT_FIELD_VALUE: 'El valor es muy largo.',
     INVALID_CONTENT_TYPE: 'El Content-Type debe contener ',
     IMAGE_PATH_NOT_STRING: 'La ruta de la imagen no es una cadena de texto.',
     INVALID_IMAGE_PATH: 'La imagen debe ser temporal.',
@@ -56,7 +56,14 @@ const errorMessages = {
     EMPTY_FILE: 'Necesita enviar un archivo.',
     UNAUTH_USER_EDIT_FILE: 'No estas autorizado para editar este archivo.',
     SERVER_ERROR: 'Error del servidor.',
-    DETECTED_REUSE: 'Reuso de sesión detectado.'
+    DETECTED_REUSE: 'Reuso de sesión detectado.',
+    EMPTY_SUBJECT: 'El asunto es requerido.',
+    SUBJECT_NOT_STRING: 'El asunto debe ser una cadena de texto.',
+    FORBIDDEN_SUBJECT: 'El asunto debe ser [error, colaboración, sugerencia, noticias, otro].',
+    EMPTY_MESSAGE: 'El mensaje es requerido.',
+    MESSAGE_NOT_STRING: 'El mensaje debe ser una cadena de texto.',
+    MESSAGE_TOO_SHORT: 'El mensaje es muy corto.',
+    MESSAGE_TOO_LONG: 'El mensaje debe tener un máximo de 500 caracteres.'
 };
 
 const successMessages = {
@@ -70,7 +77,8 @@ const successMessages = {
     SUCCESS_LOGIN: '¡Inicio de sesión exitoso!',
     SUCCESS_LOGOUT: 'Sesión cerrada exitosamente.',
     VERIFIED_EMAIL: '¡Correo verificado exitosamente!',
-    SUCCESS_SEARCH: 'Búsqueda exitosa'
+    SUCCESS_SEARCH: 'Búsqueda exitosa',
+    CREATED_CONTACT: '¡Información de contacto guardado exitosamente!'
 };
 
 const infoMessages = {

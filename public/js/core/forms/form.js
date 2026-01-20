@@ -22,7 +22,7 @@ export const useForm = async ({
         normalizeData(form, data);
 
         const errors = mapFormErrors(data);
-        
+
         normalizeErrors({ form, errors });
         toggleErrorMessages(form, errors);
 

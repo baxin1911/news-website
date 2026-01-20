@@ -20,9 +20,6 @@ export const mapFormErrors = (data) => {
     for (const key in data) {
     
         const param = data[key];
-
-        if (!param) break;
-
         errors[key] = validators[key](param);
         
     }

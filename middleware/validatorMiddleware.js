@@ -23,10 +23,7 @@ export const validateLogin = (req, res, next) => {
 
     const errorsArray = validationResult(req).array();
 
-    if (errorsArray.length > 0) {
-
-        return res.status(401).json({ code: errorCodeMessages.LOGIN_ERROR });
-    }
+    if (errorsArray.length > 0) return res.status(401).json({ code: errorCodeMessages.LOGIN_ERROR });
 
     next();
 }

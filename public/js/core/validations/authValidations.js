@@ -3,7 +3,7 @@ import { includeSpace, includeUppercase, isEmptyOrNull, isLengthInRangeMax, isLe
 export const validateEmail = (email) => {
 
     const allowedEmail = /\S+@\S+\.\S+/;
-    const fieldName = 'El correo';
+    const fieldName = 'El correo ';
     let result = isEmptyOrNull(email, fieldName);
 
     if (result) return result;
@@ -16,7 +16,7 @@ export const validateEmail = (email) => {
 
     if (result) return result;
 
-    if (allowedEmail.test(value)) return `${ fieldName } no cumple con el formato requerido`;
+    if (!allowedEmail.test(email)) return `${ fieldName }no cumple con el formato requerido`;
 
     result = isLengthInRangeMin(email, 10, fieldName);
 
@@ -30,9 +30,8 @@ export const validateEmail = (email) => {
 export const validatePassword = (password) => {
 
     const allowedNumber = /\d/;
-    const allowedUppercase = /[A-Z]/;
     const allowedPassword = /^[A-Za-z0-9!@#\$%\^&\*]+$/;
-    const fieldName = 'La contraseña';
+    const fieldName = 'La contraseña ';
     let result = isEmptyOrNull(password, fieldName);
 
     if (result) return result;
@@ -41,19 +40,13 @@ export const validatePassword = (password) => {
 
     if (result) return result;
 
-    result = includeSpace(password, fieldName);
-
-    if (result) return result;
-
     result = includeUppercase(password, fieldName);
 
     if (result) return result;
 
-    if (!allowedUppercase.test(password)) return `${ fieldName } debe tener al menos una mayúscula.`;
+    if (!allowedNumber.test(password)) return `${ fieldName }debe tener al menos un número.`;
 
-    if (!allowedNumber.test(password)) return `${ fieldName } debe tener al menos un número.`;
-
-    if (!allowedPassword.test(password)) return  `${ fieldName } debe tener al menos un símbolo especial.`;
+    if (!allowedPassword.test(password)) return  `${ fieldName }debe tener al menos un símbolo especial.`;
 
     result = isLengthInRangeMin(password, 8, fieldName);
 
@@ -74,7 +67,7 @@ export const validateRepeatedPassword = (password, repeatedPassword) => {
 export const validateUsername = (username) => {
 
     const allowedUsername = /^[a-zA-Z0-9_]+$/;
-    const fieldName = 'El nombre de usuario';
+    const fieldName = 'El nombre de usuario ';
     let result = isEmptyOrNull(username, fieldName);
 
     if (result) return result;
@@ -91,7 +84,7 @@ export const validateUsername = (username) => {
 
     if (result) return result;
 
-    if (!allowedUsername.test(username)) return `${ fieldName } debe tener solo letras, numeros y guiones bajos`;
+    if (!allowedUsername.test(username)) return `${ fieldName }debe tener solo letras, numeros y guiones bajos`;
     
     result = isLengthInRangeMax(username, 100, fieldName);
 

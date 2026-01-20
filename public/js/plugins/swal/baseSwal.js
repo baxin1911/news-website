@@ -19,7 +19,7 @@ export const showModal = ({
     title = 'Error del servidor', 
     text = 'No se pudo conectar al servidor.', 
     icon = 'error' 
-}) => {
+} = {}) => {
 
     Swal.fire({
         title,

@@ -339,6 +339,10 @@ span {
   font-size: large;
 }
 
+textarea ~ div[data-error-for] {
+  margin-top: -1.5rem;
+}
+
 .profile-content {
   display: flex;
   flex-wrap: wrap;

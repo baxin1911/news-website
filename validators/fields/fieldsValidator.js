@@ -114,4 +114,19 @@ export const validateAvatarPath =
         .if(value => value !== undefined && value !== null && value !== '')
         .isString().withMessage(errorCodeMessages.IMAGE_PATH_NOT_STRING)
         .trim()
-        .matches(pathRegex).withMessage(errorCodeMessages.INVALID_IMAGE_PATH)
+        .matches(pathRegex).withMessage(errorCodeMessages.INVALID_IMAGE_PATH);
+
+export const validateSubject =
+    body('subject')
+        .trim()
+        .notEmpty().withMessage(errorCodeMessages.EMPTY_SUBJECT)
+        .isString().withMessage(errorCodeMessages.SUBJECT_NOT_STRING)
+        .isIn(['error', 'suggestion', 'news', 'collab', 'other']).withMessage(errorCodeMessages.FORBIDDEN_SUBJECT)
+
+export const validateMessage = 
+    body('message')
+        .trim()
+        .notEmpty().withMessage(errorCodeMessages.EMPTY_MESSAGE)
+        .isString().withMessage(errorCodeMessages.MESSAGE_NOT_STRING)
+        .isLength({ min: 1 }).withMessage(errorCodeMessages.MESSAGE_TOO_SHORT)
+        .isLength({ max: 500 }).withMessage(errorCodeMessages.MESSAGE_TOO_LONG)

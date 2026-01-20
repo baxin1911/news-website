@@ -4,12 +4,14 @@ import authApiRoutes from './routes/api/authApiRoute.js';
 import newsletterApiRoutes from './routes/api/newsletterApiRoute.js';
 import searchApiRoutes from './routes/api/searchApiRoute.js';
 import profileApiRoutes from './routes/api/profileApiRoute.js';
+import contactApiRoutes from './routes/api/contactApiRoute.js';
 
 import profileUploadRoutes from './routes/upload/profileUploadRoute.js';
 
 import profileTextRoute from './routes/text/profileTextRoute.js';
 
 import indexWebRoutes from './routes/web/indexWebRoute.js';
+import contactWebRoutes from './routes/web/contactWebRoute.js';
 import feedWebRoutes from './routes/web/feedWebRoute.js'; 
 import authWebRoutes from './routes/web/authWebRoute.js';
 import profileWebRoutes from './routes/web/profileWebRoute.js';
@@ -73,6 +75,7 @@ app.use((req, res, next) => {
 
 // web routes
 app.use(rootRoute, indexWebRoutes);
+app.use(rootRoute, contactWebRoutes);
 app.use(rootRoute, profileWebRoutes);
 app.use(rootRoute, feedWebRoutes);
 app.use(authRoute, authWebRoutes);
@@ -82,6 +85,7 @@ app.use(apiRoute + authRoute, authApiRoutes);
 app.use(apiRoute + '/newsletter', newsletterApiRoutes);
 app.use(apiRoute + '/search', searchApiRoutes);
 app.use(apiRoute + profileRoute, profileApiRoutes);
+app.use(apiRoute + '/contacts', contactApiRoutes);
 
 // upload routes
 app.use(uploadRoute + profileRoute, profileUploadRoutes);
