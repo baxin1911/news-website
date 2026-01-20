@@ -1,3 +1,6 @@
+import { getErrorMessage } from "../../constants/apiMessages.js";
+import { setInputFileError } from "../../ui/forms/formMessagesUI.js";
+
 export const createFilePond = (input, options = {}) => {
 
     if (!window.FILEPOND_READY) {
@@ -34,4 +37,20 @@ export const createFilePond = (input, options = {}) => {
     }
 
     FilePond.create(input, options);
+}
+
+export const createFileHandlers = (form, key) => {
+
+    return {
+        onload: (response) => {
+            setInputFileError(form, key);
+
+            return response;
+        },
+        onerror: (error) => {
+            const message = getErrorMessage(error.code);
+
+            setInputFileError(form, key, message);
+        }
+    }
 }

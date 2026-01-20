@@ -81,9 +81,9 @@ const deleteImage = async (imagepath, targetDir) => {
 
 export const deleteTempImage = async (imagepath) => {
 
-    const path = imagepath.trim();
+    if (!imagepath) return -1;
 
-    if (!path) return -1;
+    const path = imagepath.trim();
 
     const allowedPath = /^[a-zA-Z0-9/_\-\.]+\.(png|jpg|jpeg|webp)$/;
     

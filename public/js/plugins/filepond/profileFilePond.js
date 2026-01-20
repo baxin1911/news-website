@@ -1,4 +1,5 @@
-import { createFilePond } from "./baseFilePond.js";
+import { createFileHandlers, createFilePond } from "./baseFilePond.js";
+
 
 export const initProfileFilepond = (form, profile) => {
 
@@ -20,6 +21,8 @@ export const initProfileFilepond = (form, profile) => {
     Object.entries(fields).forEach(([name, config]) => {
 
         const input = form.querySelector(`[name="${ name }"]`);
+        const key = input.name;
+        const { onload, onerror } = createFileHandlers(form, key);
 
         if (!input) return;
 
@@ -34,13 +37,14 @@ export const initProfileFilepond = (form, profile) => {
                 process: {
                     url: config.process,
                     method: 'POST',
+                    onload,
+                    onerror
                 },
                 revert: {
                     url: config.revert,
                     method: 'POST',
-                    onerror: (error) => {
-                        console.log(error)
-                    }
+                    onload,
+                    onerror
                 }
             },
             acceptedFileTypes: ['image/png', 'image/jpeg', 'image/webp'],
