@@ -47,11 +47,11 @@ export const apiRequest = async ({ method, url, params, data }, options) =>{
 
         const response = await api({ method, url, params, data });
 
-        handleSuccessResponse(response);
+        handleSuccessResponse(response, options.onSuccess);
 
     } catch (error) {
 
-        if (error.response) handleErrorResponse(error.response, options);
+        if (error.response) handleErrorResponse(error.response, options.onError);
 
         throw error;
     }

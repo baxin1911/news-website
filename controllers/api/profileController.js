@@ -1,6 +1,7 @@
 import { errorCodeMessages, successCodeMessages } from '../../messages/codeMessages.js';
 import { processAvatarTempImage, processCoverTempImage } from '../../services/imageService.js';
 import { editProfileInfo, editProfilePreferences } from '../../services/profileService.js';
+import { clearAuthCookies } from '../../utils/cookiesUtils.js';
 import { avatarsDir, coversDir } from '../../utils/pathsUtils.js';
 
 export const updateProfileAccount = async (req, res) => {
@@ -56,6 +57,8 @@ export const updateProfileAccountPassword = async (req, res) => {
     // if (result.error) return res.status(500).json({ message: result.error });
 
     //429, 500
+
+    clearAuthCookies(res);
 
     return res.status(200).json({ code: successCodeMessages.UPDATED_ACCOUNT_PASSWORD });
 }

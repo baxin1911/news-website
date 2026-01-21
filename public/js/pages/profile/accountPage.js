@@ -15,10 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 useForm({
-    idForm: 'accountForm',
+    formId: 'accountForm',
     normalizeData: (form, data) => clearFileInputs(form, data),
     normalizeErrors: ({ form, errors }) => toggleFileErrors(form, errors),
     sendRequest: (data, options) => updateAccountInfo(data, options),
     normalizeServerErrors: (form, errors) => toggleFileErrors(form, errors),
-    applyAfterSuccess: () => window.location.reload()
 });

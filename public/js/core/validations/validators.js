@@ -9,7 +9,7 @@ export const validators = {
     lastName: validateLastName,
     email: validateEmail,
     password: validatePassword,
-    repeatedPassword: validateRepeatedPassword,
+    repeatedPassword: (value, data) => validateRepeatedPassword(value, data.password),
     username: validateUsername,
     commentNotifications: validateBooleanField,
     followingNotifications: validateBooleanField,

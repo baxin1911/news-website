@@ -1,17 +1,19 @@
 import { mapFormErrors, mapServerErrors } from "./mappers/formMapper.js";
 import { toggleErrorMessages } from "../../ui/forms/formMessagesUI.js";
+import { closeModal } from "../../ui/modalUI.js";
 
 export const useForm = async ({ 
-    idForm,
+    formId,
+    modalId = '',
+    url = '/',
     normalizeData = () => {},
     normalizeErrors = () => {},
     applyBeforeRequest = () => {},
     sendRequest,
     normalizeServerErrors = () => {},
-    applyAfterSuccess = () => {}
 }) => {
 
-    const form = document.getElementById(idForm);
+    const form = document.getElementById(formId);
 
     form.addEventListener('submit', async e => {
 
@@ -35,17 +37,22 @@ export const useForm = async ({
             applyBeforeRequest(data);
 
             await sendRequest(data, {
+                onError: {
+                    showFormErrors: (serverErrors) => {
 
-                showFormErrors: (serverErrors) => {
+                        const errors = mapServerErrors(serverErrors);
 
-                    const errors = mapServerErrors(serverErrors);
-
-                    normalizeServerErrors(form, errors);
-                    toggleErrorMessages(form, errors);
+                        normalizeServerErrors(form, errors);
+                        toggleErrorMessages(form, errors);
+                    }
+                },
+                onSuccess: {
+                    resetForm: () => form.reset(),
+                    closeModal: () => closeModal(modalId, form),
+                    redirect: () => window.location.replace(url),
+                    reload: () => window.location.reload()
                 }
             });
-
-            applyAfterSuccess({ data, form });
 
         } catch (err) {
 

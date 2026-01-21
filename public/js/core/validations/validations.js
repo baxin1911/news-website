@@ -59,7 +59,7 @@ export const includeSpace = (value, fieldName) => {
 
 export const includeUppercase = (value, fieldName) => {
     
-    if (/[A-Z]/.test(value)) return `${ fieldName } debe tener al menos una letra mayúscula`;
+    if (!/[A-Z]/.test(value)) return `${ fieldName } debe tener al menos una letra mayúscula`;
 
     return null;
 };

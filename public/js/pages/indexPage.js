@@ -1,4 +1,5 @@
 import { handleFlashMessage, handleModalWithFlashMessage } from "../handlers/flashMessageHandler.js";
+import { notifications } from "../plugins/swal/swalComponent.js";
 
 const swiper1 = new Swiper( '.main-news', {
     loop: true,
@@ -66,4 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     handleFlashMessage(window.FLASH_MESSAGE || null);
     handleModalWithFlashMessage(window.FLASH_MESSAGE || null);
+
+    const successMessage = localStorage.getItem('showSuccessToast');
+
+    if (successMessage) {
+        
+        notifications.showSuccess(successMessage);
+        localStorage.removeItem('showSuccessToast');
+    }
 });

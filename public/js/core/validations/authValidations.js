@@ -57,7 +57,7 @@ export const validatePassword = (password) => {
     return result;
 }
 
-export const validateRepeatedPassword = (password, repeatedPassword) => {
+export const validateRepeatedPassword = (repeatedPassword, password) => {
 
     if (repeatedPassword !== password) return 'La contraseña no coincide';
 

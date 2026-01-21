@@ -2,18 +2,47 @@ import { getErrorMessage, getSuccessMessage } from "../constants/apiMessages.js"
 import { showModal } from "../plugins/swal/baseSwal.js";
 import { notifications } from "../plugins/swal/swalComponent.js";
 
-export const handleSuccessResponse = (response) => {
+export const handleSuccessResponse = (response, onSuccess) => {
 
     const { status, data } = response;
 
     if (status === 204) return;
 
-    const successMessage = getSuccessMessage(data.code);
+    const code = data.code;
+    const successMessage = getSuccessMessage(code);
 
-    notifications.showSuccess(successMessage);
+    switch (code) {
+
+        case 'SENDED_RECOVER_EMAIL':
+        case 'CREATED_ACCOUNT':
+            onSuccess.closeModal();
+            notifications.showSuccess(successMessage);
+            break;
+
+        case 'SENDED_NEWSLETTER_EMAIL':
+        case 'CREATED_CONTACT':
+            notifications.showSuccess(successMessage);
+            onSuccess.resetForm();
+            break;
+        
+        case 'UPDATED_RESET_PASSWORD':
+        case 'UPDATED_ACCOUNT_PASSWORD':
+            onSuccess.redirect();
+            notifications.showSuccess(successMessage);
+            break;
+        
+        case 'UPDATED_ACCOUNT':
+        case 'UPDATED_PREFERENCES':
+            localStorage.setItem('showSuccessToast', successMessage);
+            onSuccess.reload();
+            break;
+        
+        default:
+            notifications.showSuccess(successMessage);
+    }
 }
 
-export const handleErrorResponse = (response, options = {}) => {
+export const handleErrorResponse = (response, onError) => {
 
     const { data, status } = response;
 
@@ -30,7 +59,7 @@ export const handleErrorResponse = (response, options = {}) => {
 
         case 400:
             notifications.showWarning(errorMessage);
-            options.showFormErrors(data.errors);
+            onError.showFormErrors(data.errors);
             break;
 
         case 401:
