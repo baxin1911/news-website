@@ -2,34 +2,37 @@
     { 
         content: 'Inicio', 
         href: '/', 
-        class: `nav-link ${ (currentRoute === '/') ? 'active' : '' }` 
+        isActive: currentRoute === '/'
     },
     { 
         content: 'Gaming', 
         href: '/categories/gaming', 
-        class: `nav-link ${ (currentRoute === '/categories/gaming') ? 'active' : '' }` 
+        isActive: currentRoute === '/categories/gaming' 
     },
     { 
         content: 'Entretenimiento', 
         href: '/categories/entertainment', 
-        class: `nav-link ${ (currentRoute === '/categories/entertainment') ? 'active' : '' }` 
+        isActive: currentRoute === '/categories/entertainment'
     },
     { 
         content: 'Deportes', 
         href: '/categories/sports', 
-        class: `nav-link ${ (currentRoute === '/categories/sports') ? 'active' : '' }` 
+        isActive: currentRoute === '/categories/sports' 
     },
     { 
         content: 'Tecnología', 
         href: '/categories/technology', 
-        class: `nav-link ${ (currentRoute === '/categories/technology') ? 'active' : '' }` 
+        isActive: currentRoute === '/categories/technology'
     },
     { 
         content: '<i class="fas fa-envelope me-2"></i>Contacto', 
         href: '/contact', 
-        class: `nav-link ${ (currentRoute === '/contact') ? 'active' : '' }` 
+        isActive: currentRoute === '/contact' 
     }
-];
+].map(item => ({
+    ...item,
+    class: `nav-link ${ item.isActive ? 'active' : ''}`
+}));
 
 const searchForm = {
     idInput: 'textSearchHeaderInput',

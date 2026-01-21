@@ -1,7 +1,9 @@
 <ul class="<%= listClass %>">
     <% items.forEach(item => { %>
         <li class="nav-item py-1">
-            <a class="<%= item.class %>" href="<%= item.href %>">
+            <a class="<%= item.class %>" href="<%= item.href %>" 
+                <%= item.isActive ? 'aria-current="page"' : '' %>
+            >
                 <%- item.content %>
             </a>
         </li>

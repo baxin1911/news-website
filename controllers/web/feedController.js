@@ -54,7 +54,7 @@ export const showCategoryFeed = async (req, res) => {
     const pagination = buildPagination(articles.length, currentPage, itemsPerPage);
 
     return res.render('feed', { 
-        title: category,
+        title: getCategory(category),
         profile,
         game: null,
         tags,

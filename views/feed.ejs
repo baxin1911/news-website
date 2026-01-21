@@ -41,7 +41,7 @@
                                 <ul class="list-unstyled">
                                     <% articles.forEach( article => { 
                                         const category = (article.category) ? getCategory(article.category) : '';
-                                        const imageUrl = (article.imageUrls && article.imageUrls.length > 0) ? article.imageUrls[0] : '';
+                                        const imageUrl = article.coverPath ?? article.blocks.find(block => block.type === 'image').content;
                                         const shortDescription = (article.description.length > 100) ? `${article.description.substring(0, 100)} ...` : article.description;
                                         const shortTitle = (article.title.length > 50) ? `${article.title.substring(0, 50)} ...` : article.title;
                                         const date = (article.publicationDate) ? formatShortDate(article.publicationDate) : '';
