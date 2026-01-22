@@ -1,6 +1,6 @@
 import { storage } from "../adapters/storageApdater.js"
 import { getFilename, tempDir } from "../utils/pathsUtils.js";
-import { profiles } from "./profileService.js";
+import { editProfileAvatar, profiles } from "./profileService.js";
 
 const PATH_TEMP = '/temp/';
 const PATH_AVATAR = '/avatars/';
@@ -44,7 +44,7 @@ export const processCoverTempImage = async (filepath, targetDir) => {
     return result;
 }
 
-export const saveAvatarImage = async (buffer, targetDir) => {
+export const saveAvatarImage = async (buffer, targetDir, userId) => {
 
     const result = await storage.upload(buffer, targetDir);
 
@@ -52,7 +52,8 @@ export const saveAvatarImage = async (buffer, targetDir) => {
 
         case 'local':
 
-            if (result.filename) profiles[0].avatarPath = PATH_AVATAR + result.filename;
+            if (result.filename) await editProfileAvatar(PATH_AVATAR + result.filename, userId);
+
             break;
 
         case 'cloud':

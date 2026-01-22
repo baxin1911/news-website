@@ -1,31 +1,58 @@
-<ul class="list-group list-group-light">
-    <% comments.forEach( comment => { %>
-        <li class="list-group-item px-3 border-0 rounded-3 list-group-item-primary mb-2">
-            <h4><%= comment.article.title %></h4>
+<ul class="list-group">
+    <% comments.forEach( comment => { 
+        const shortTitle = comment.articleTitle.length > 50 ? comment.articleTitle.substring(0, 50) + '...' : comment.articleTitle;
+        const shortDescription = comment.description.length > 100 ? comment.description.substring(0, 100) + '...' : comment.description;
+    %>
+        <li class="list-group-item border-0">
+            <div class="card" id="comment-<%= comment.id %>">
+                <div class="card-header p-0">
+                    <a href="/<%= slugify(comment.articleTitle) %>?currentPage=<%= comment.page %>#comment-<%= comment.id %>" 
+                        class="text-decoration-none"
+                    >
+                        <h4 class="card-title p-3 mb-0"><%= shortTitle %></h4>
+                    </a>
+                </div>
 
-            <p class="text-dark py-1 px-3 px-md-4 px-lg-5"><%= comment.description %></p>
+                <div class="card-body p-2">
+                    <p class="text-dark py-1 px-3 px-md-4 px-lg-5"><%= shortDescription %></p>
+                </div>
 
-            <p class="d-flex flex-wrap justify-content-between">
-                <span class="fs-6 me-3">Comentado el <%= comment.created_at %></span>
+                <div class="card-footer d-flex flex-wrap gap-3">
+                    <span class="me-3">
+                        Comentado el <%= formatLongDate(comment.created_at) %>
+                    </span>
 
-                <span class="me-3">
-                    <%= comment.likeCount %><i class="fas fa-thumbs-up ms-2"></i>
-                </span>
+                    <%- include('./profileCommentSpan', {
+                        spanTitle: 'Me gusta',
+                        value: comment.likeCount,
+                        iconClass: 'fas fa-thumbs-up'
+                    }) %>
 
-                <span class="me-3">
-                    <%= comment.dislikeCount %><i class="fas fa-thumbs-down ms-2"></i>
-                </span>
+                    <%- include('./profileCommentSpan', {
+                        spanTitle: 'No me gusta',
+                        value: comment.dislikeCount,
+                        iconClass: 'fas fa-thumbs-down'
+                    }) %>
 
-                <span class="me-3">
-                    <%= comment.replyCount %> Respuestas
-                </span>
+                    <%- include('./profileCommentSpan', {
+                        spanTitle: 'Respuestas',
+                        value: comment.replyCount,
+                        iconClass: 'fas fa-reply'
+                    }) %>
 
-                <span>
-                    <a href="#" class="btn btn-link">Ver más</a>
-                </span>
-            </p>
+                    <div class="ms-auto">
+                        <a href="/<%= slugify(comment.articleTitle) %>?currentPage=<%= comment.page %>#comment-<%= comment.id %>" 
+                            class="btn btn-link"
+                        >
+                            Ver más
+                        </a>
+                    </div>
+                </div>
+            </div>
         </li>
     <% }); %>
 </ul>
 
-<%- include('../../../shared/pagination', { pagination }) %>
+<% if (pagination) { %>
+    <%- include('../../../shared/pagination') %>
+<% } %>

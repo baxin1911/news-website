@@ -7,6 +7,7 @@ import { redirectWithFlash } from "../../utils/flashUtils.js";
 import { errorMessages } from "../../messages/messages.js";
 import { errorCodeMessages } from "../../messages/codeMessages.js";
 import { buildPagination } from "../../utils/paginationUtils.js";
+import { formatLongDate, slugify } from "../../utils/formattersUtils.js";
 
 
 export const getProfile = async (req, res) => {
@@ -36,6 +37,8 @@ export const getProfile = async (req, res) => {
         preferences,
         queryParams: {},
         currentRoute: '/profile',
-        pagination
+        pagination,
+        slugify,
+        formatLongDate
     });
 }

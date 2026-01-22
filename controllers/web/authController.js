@@ -34,7 +34,7 @@ export const authGoogle = async (req, res) => {
 
     await createProfile(userGoogle);
 
-    if (!userGoogle.avatarPicture) await downloadGoogleAvatar(_json.picture);
+    if (!userGoogle.avatarPath) await downloadGoogleAvatar(_json.picture, userGoogle.id);
 
     const newAccessToken = generateAccessToken(userGoogle);
     const newRefreshToken = generateRefreshToken(userGoogle);
@@ -66,7 +66,7 @@ export const verifyEmail = async (req, res) => {
         id: 1,
         email,
         emailVerified: true,
-        displayName: 'dersey',
+        username: 'dersey',
         code: 'AA000001',
         role: 1,
         avatarPath: '/img/ejemplo.png',

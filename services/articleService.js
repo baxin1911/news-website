@@ -1,8 +1,8 @@
 const articles = [
     { 
-        idArticle: 1, 
+        id: 1, 
         category: 1, 
-        title: 'Nuevo lanzamiento de autos en Forza Horizon 5', 
+        title: 'Nuevo lanzamiento de OverWatch', 
         coverPath: '/upload/news/ejemplo.png',
         tag: 'Forza Horizon 5', 
         author: 'Raul Peredo', 
@@ -15,9 +15,9 @@ const articles = [
         status: 1 
     },
     { 
-        idArticle: 2, 
+        id: 2, 
         category: 1, 
-        title: 'Este título es un ejemplo de texto largo 3',
+        title: 'Sale el nuevo juego de Hollow Knight: Silk Song',
         coverPath: '/upload/news/ejemplo.png',
         tag: 'Preview',
         author: 'Eden Morales',
@@ -30,9 +30,9 @@ const articles = [
         status: 1 
     },
     { 
-        idArticle: 3, 
+        id: 3, 
         category: 1, 
-        title: 'Este título es un ejemplo de texto largo 2',
+        title: 'Forza Horizon 5 celebra con este nuevo DLC',
         coverPath: '/upload/news/ejemplo.png',
         tag: 'Opinión',
         author: 'Yahir Meneses',
@@ -45,7 +45,7 @@ const articles = [
         status: 1 
     },
     { 
-        idArticle: 4, 
+        id: 4, 
         category: 1, 
         title: 'Este título es un ejemplo de texto largo 4',
         coverPath: '/upload/news/ejemplo.png',

@@ -1,16 +1,20 @@
 <div class="card mb-4">
     <div class="position-relative">
-        <img src="<%= profile.coverPath %>" alt="Portada" class="card-img-top" height="200">
+        <img src="<%= profile.coverPath ?? 'upload/cover.jpg' %>" alt="Portada" class="card-img-top" height="200">
+
         <div class="card-img-overlay overlay">
-            <img src="<%= profile.avatarPath %>" alt="Foto de Perfil" 
-                class="rounded-circle mb-3 avatar"
-            >
-            <p class="fs-4 text-white"><span class="fs-1 fw-bold"><%= profile.username %></span> <%= profile.code %></p>
+            <%- include('../../../shared/userAvatar', {
+                avatarClass: 'rounded-circle mb-3 avatar',
+                width: null,
+                height: null,
+                comment: null,
+                variant: 'profile'
+            }) %>
         </div>
     </div>
 
     <div class="card-body">
-        <p class="profile-content">
+        <p class="profile-content d-flex flex-wrap justify-content-between align-items-center">
             <span class="d-flex flex-wrap justify-content-start gap-3">
                 <span>Siguiendo:</span>
 

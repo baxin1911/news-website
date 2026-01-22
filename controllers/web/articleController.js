@@ -1,9 +1,10 @@
 import { existsArticleByTitle, getAllArticles, getArticleByTitle } from "../../services/articleService.js";
 import { getAllCategories } from "../../services/categoryService.js";
+import { findCommentsByArticleId } from "../../services/commentService.js";
 import { getProfileByIdUser } from "../../services/profileService.js";
 import { findTopTagNames } from "../../services/tagService.js";
 import { getCategory } from "../../utils/categoryUtils.js";
-import { formatLongDate, formatShortDate, slugify, unslugify } from "../../utils/formattersUtils.js";
+import { formatLongDate, formatShortDate, formatRelativeDate, slugify, unslugify } from "../../utils/formattersUtils.js";
 import { buildPagination } from "../../utils/paginationUtils.js";
 
 export const showArticle = async (req, res) => {
@@ -25,7 +26,8 @@ export const showArticle = async (req, res) => {
     const tags = await findTopTagNames();
     const articles = await getAllArticles();
     const categories = await getAllCategories();
-    const pagination = buildPagination(articles.length, currentPage, itemsPerPage);
+    const comments = await findCommentsByArticleId(article.id);
+    const pagination = buildPagination(comments.length, currentPage, itemsPerPage);
 
     return res.render('article', {
         article,
@@ -33,12 +35,14 @@ export const showArticle = async (req, res) => {
         tags,
         articles, 
         categories,
+        comments,
         queryParams: {},
         currentRoute: slug,
         pagination,
         slugify,
         getCategory, 
         formatShortDate,
+        formatRelativeDate,
         formatLongDate
     });
 }

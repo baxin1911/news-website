@@ -1,10 +1,56 @@
+import { getAllArticles } from "./articleService.js";
+import { getAllProfiles } from "./profileService.js";
+
+const comments = [
+    { 
+        id: 1, 
+        replyCount: 0, 
+        dislikeCount: 0, 
+        likeCount: 0, 
+        description: 'Meh', 
+        articleId: await getAllArticles().then(articles => articles[0].id),
+        articleTitle: await getAllArticles().then(articles => articles[0].title),
+        page: 1,
+        userId: await getAllProfiles().then(profiles => profiles[0] ? profiles[0].id : null),
+        username: await getAllProfiles().then(profiles => profiles[0] ? profiles[0].username : 'Usuario'),
+        userAvatarPath: await getAllProfiles().then(profiles => profiles[0] ? profiles[0].avatar : null),
+        created_at: Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000 
+    },
+    { 
+        id: 2, 
+        replyCount: 1, 
+        dislikeCount: 0, 
+        likeCount: 2, 
+        description: 'Por fin ha llegado. Ahora si le dedicare todo el tiempo necesario.', 
+        articleId: await getAllArticles().then(articles => articles[1].id),
+        articleTitle: await getAllArticles().then(articles => articles[1].title),
+        page: 1,
+        userId: 1,
+        username: 'Alberto Galindo',
+        userAvatarPath: await getAllProfiles().then(profiles => profiles[1] ? profiles[1].avatar : null),
+        created_at: Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000 
+    },
+    { 
+        id: 3, 
+        replyCount: 3, 
+        dislikeCount: 0, 
+        likeCount: 19, 
+        description: 'He visto muchas reseñas sobre este juego, pero ahora estoy decidido a comprarlo', 
+        articleId: await getAllArticles().then(articles => articles[2].id),
+        articleTitle: await getAllArticles().then(articles => articles[2].title),
+        page: 1,
+        userId: 1,
+        username: 'Alberto Galindo',
+        userAvatarPath: await getAllProfiles().then(profiles => profiles[1] ? profiles[1].avatar : null),
+        created_at: Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000 
+    },
+];
+
+export const findCommentsByArticleId = async (articleId) => {
+    return comments.filter(comment => comment.articleId === articleId);
+}
+
 export const findCommentsByIdUser = async (id) => {
 
-    const comments = [
-        { id: 1, replyCount: 0, dislikeCount: 0, likeCount: 0, description: 'Meh', article: { title: 'Nuevo lanzamiento de OverWatch' }, created_at: '22/10/2025 18:45:33' },
-        { id: 2, replyCount: 1, dislikeCount: 0, likeCount: 2, description: 'Por fin ha llegado. Ahora si le dedicare todo el tiempo necesario.', article: { title: 'Forza Horizon celebra con este nuevo DLC.' }, created_at: '12/12/2025 22:00:19' },
-        { id: 3, replyCount: 3, dislikeCount: 0, likeCount: 19, description: 'He visto muchas reseñas sobre este juego, pero ahora estoy decidido a comprarlo', article: { title: 'Sale el nuevo juego de Hollow Knight: Silk Song' }, created_at: '08/09/2025 08:27:57' },
-    ];
-
-    return comments;
+    return comments.filter( comment => comment.userId === id );
 }

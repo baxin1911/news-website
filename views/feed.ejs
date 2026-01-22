@@ -63,7 +63,7 @@
                                                         class: 'card-body',
                                                         title: {
                                                             class: 'me-3',
-                                                            link: '#',
+                                                            link: slugify(article.title),
                                                             content: shortTitle
                                                         },
                                                         badge: {
@@ -82,7 +82,9 @@
                                 </ul>
                             </div>
 
-                            <%- include('./partials/shared/pagination', { pagination }) %>
+                            <% if (pagination) { %>
+                                <%- include('./partials/shared/pagination') %>
+                            <% } %>
                         </section>
                     </main>
                 </div>
