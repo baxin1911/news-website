@@ -66,27 +66,53 @@ export const getAllArticles = async () => {
     return articles;
 }
 
-export const findArticlesByCategory = async (categoryId) => {
+export const findArticlesByCategory = async (categoryId, limit, offset = 0) => {
     const allArticles = await getAllArticles();
-    return allArticles.filter(article => article.category === categoryId);
+    const filteredArticles = allArticles.filter(article => article.category === categoryId);
+    return filteredArticles.slice(offset, offset + limit);
 }
 
-export const findArticlesByQuery = async (q) => {
+export const findArticlesByQuery = async (q, limit, offset = 0) => {
 
-    return articles;
+    const allArticles = await getAllArticles();
+    const filteredArticles = allArticles.filter(article => article.title.toLowerCase().includes(q.toLowerCase()));
+    return filteredArticles.slice(offset, offset + limit);
 }
 
-export const findArticlesByTag = async (tag) => {
+export const findArticlesByTag = async (tag, limit, offset = 0) => {
 
-    return articles;
+    const allArticles = await getAllArticles();
+    const filteredArticles = allArticles.filter(article => article.tag.toLowerCase() === tag.toLowerCase());
+    return filteredArticles.slice(offset, offset + limit);
 }
 
-export const getArticleByTitle = (title) => {
+export const getArticleByTitle = async (title) => {
 
     return articles.find(article => article.title.toLowerCase() === title.toLowerCase());
 }
 
-export const existsArticleByTitle = (title) => {
+export const existsArticleByTitle = async (title) => {
 
     return articles.some(article => article.title.toLowerCase() === title.toLowerCase());
+}
+
+export const countArticlesByQuery = async (q) => {
+
+    const allArticles = await getAllArticles();
+    const filteredArticles = allArticles.filter(article => article.title.toLowerCase().includes(q.toLowerCase()));
+    return filteredArticles.length;
+}
+
+export const countArticlesByCategory = async (categoryId) => {
+
+    const allArticles = await getAllArticles();
+    const articlesByCategory = allArticles.filter(article => article.category === categoryId);
+    return articlesByCategory.length;
+}
+
+export const countArticlesByTag = async (tag) => {
+
+    const allArticles = await getAllArticles();
+    const articlesByTag = allArticles.filter(article => article.tag.toLowerCase() === tag.toLowerCase());
+    return articlesByTag.length;
 }

@@ -1,7 +1,5 @@
 export const buildPagination = (totalItems, currentPage = 1, itemsPerPage, maxVisiblePages = 5) => {
 
-    if (totalItems < 1) return null;
-
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const leftVisiblePages = Math.floor(maxVisiblePages / 2);

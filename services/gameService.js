@@ -37,12 +37,12 @@ const games = [
     }
 ]
 
-export const getGameByName = (name) => {
+export const getGameByName = async (name) => {
 
     return games.find(game => game.name === name);
 }
 
-export const existsGameByName = (name) => {
+export const existsGameByName = async (name) => {
 
     return games.some(game => game.name === name);
 }

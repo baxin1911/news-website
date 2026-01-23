@@ -46,11 +46,23 @@ const comments = [
     },
 ];
 
-export const findCommentsByArticleId = async (articleId) => {
-    return comments.filter(comment => comment.articleId === articleId);
+export const findCommentsByArticleId = async (articleId, limit, offset = 0) => {
+    const filteredComments = comments.filter(comment => comment.articleId === articleId);
+    return filteredComments.slice(offset, offset + limit);
 }
 
-export const findCommentsByIdUser = async (id) => {
+export const findCommentsByUserId = async (userId, limit, offset = 0) => {
 
-    return comments.filter( comment => comment.userId === id );
+    const filteredComments = comments.filter( comment => comment.userId === userId );
+    return filteredComments.slice(offset, offset + limit);
+}
+
+export const countCommentsByArticleId = async (articleId) => {
+
+    return comments.filter( comment => comment.articleId === articleId ).length;
+}
+
+export const countCommentsByUserId = async (userId) => {
+
+    return comments.filter( comment => comment.userId === userId ).length;
 }

@@ -84,14 +84,24 @@ export const verifyEmail = async (req, res) => {
 
     // Save refresh token in BD
 
-    return redirectWithFlash(res, successMessages.VERIFIED_EMAIL, successCodeMessages.VERIFIED_EMAIL, 'success');
+    return redirectWithFlash(
+        res, 
+        successMessages.VERIFIED_EMAIL, 
+        successCodeMessages.VERIFIED_EMAIL, 
+        'success'
+    );
 }
 
 export const refreshAuthToken = async (req, res) => {
 
     const { refreshToken } = req.cookies;
     
-    if (!refreshToken) return redirectWithFlash(res, errorMessages.INVALID_AUTH, errorCodeMessages.INVALID_AUTH, 'error');
+    if (!refreshToken) return redirectWithFlash(
+        res, 
+        errorMessages.INVALID_AUTH, 
+        errorCodeMessages.INVALID_AUTH, 
+        'error'
+    );
 
     const hashedToken = encryptToken(refreshToken);
 
@@ -101,7 +111,12 @@ export const refreshAuthToken = async (req, res) => {
 
     const tokenInfo = verifyRefreshToken(refreshToken);
 
-    if (!tokenInfo) return redirectWithFlash(res, errorMessages.INVALID_AUTH, errorCodeMessages.INVALID_AUTH, 'error');
+    if (!tokenInfo) return redirectWithFlash(
+        res, 
+        errorMessages.INVALID_AUTH, 
+        errorCodeMessages.INVALID_AUTH, 
+        'error'
+    );
 
     const newAccessToken = generateAccessToken(tokenInfo);
     const newRefreshToken = generateRefreshToken(tokenInfo);
@@ -120,5 +135,10 @@ export const logout = async (req, res) => {
     tokenStore.hashedRefreshToken = null;
     clearAuthCookies(res);
 
-    return redirectWithFlash(res, successMessages.SUCCESS_LOGOUT, successCodeMessages.SUCCESS_LOGOUT, 'info');
+    return redirectWithFlash(
+        res, 
+        successMessages.SUCCESS_LOGOUT, 
+        successCodeMessages.SUCCESS_LOGOUT, 
+        'info'
+    );
 }

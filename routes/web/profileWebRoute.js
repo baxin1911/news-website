@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProfile } from '../../controllers/web/profileController.js';
+import { getProfileWithPagination } from '../../controllers/web/profileController.js';
 import { verifyCookiesAuthTokenRequired } from '../../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -7,7 +7,7 @@ const router = express.Router();
 router.get(
     '/profile', 
     verifyCookiesAuthTokenRequired, 
-    getProfile
+    getProfileWithPagination
 );
 
 export default router;
