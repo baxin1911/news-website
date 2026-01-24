@@ -10,7 +10,7 @@ import profileUploadRoutes from './routes/upload/profileUploadRoute.js';
 
 import profileTextRoute from './routes/text/profileTextRoute.js';
 
-import indexWebRoutes from './routes/web/indexWebRoute.js';
+import homeWebRoutes from './routes/web/homeWebRoute.js';
 import contactWebRoutes from './routes/web/contactWebRoute.js';
 import feedWebRoutes from './routes/web/feedWebRoute.js'; 
 import authWebRoutes from './routes/web/authWebRoute.js';
@@ -74,7 +74,7 @@ app.use((req, res, next) => {
 });
 
 // web routes
-app.use(rootRoute, indexWebRoutes);
+app.use(rootRoute, homeWebRoutes);
 app.use(rootRoute, contactWebRoutes);
 app.use(rootRoute, profileWebRoutes);
 app.use(rootRoute, feedWebRoutes);

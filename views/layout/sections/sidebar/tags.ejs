@@ -1,0 +1,18 @@
+<section>
+    <h2 class="title-style">
+        Tags
+    </h2>
+
+    <div class="card">
+        <div class="card-body">
+            <%- include('../../ui/navList', {
+                listClass: 'nav gap-2 justify-content-center',
+                items: tags.map(tag => ({
+                    class: 'btn btn-outline-secondary m-1',
+                    href: '/' + slugify(tag),
+                    content: tag
+                }))
+            }); %>
+        </div>
+    </div>
+</section>

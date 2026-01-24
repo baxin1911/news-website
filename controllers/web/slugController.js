@@ -21,5 +21,5 @@ export const resolveSlug = async (req, res, next) => {
         req, res, () => showTagFeedWithPagination[1](req, res, next)
     );
 
-    return res.status(404).render('error/404');
+    return res.status(404).render('pages/error/404');
 }

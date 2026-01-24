@@ -20,7 +20,7 @@ export const searchFeed = async (req, res) => {
     const tags = await findTopTagNames();
     const categories = await getAllCategories();
 
-    return res.render('feed', { 
+    return res.render('pages/feed/feedPage', { 
         title: q,
         profile,
         game: null,
@@ -48,7 +48,7 @@ export const showCategoryFeed = async (req, res) => {
     const { slug } = req.params;
     const category = getCategoryId(slug);
 
-    if (category === 'none') return res.status(404).render('error/404');
+    if (category === 'none') return res.status(404).render('pages/error/404');
 
     const { user } = req;
     let profile = null;
@@ -60,7 +60,7 @@ export const showCategoryFeed = async (req, res) => {
     const categories = await getAllCategories();
     const tags = await findTopTagNames();
 
-    return res.render('feed', { 
+    return res.render('pages/feed/feedPage', { 
         title: getCategory(category),
         profile,
         game: null,
@@ -111,7 +111,7 @@ export const showTagFeed = async (req, res) => {
     const tags = await findTopTagNames();
     const categories = await getAllCategories();
 
-    return res.render('feed', {
+    return res.render('pages/feed/feedPage', {
         title: tag,
         profile,
         game,

@@ -1,0 +1,55 @@
+<% const form = {
+    id: 'resetForm',
+    inputs: [
+        { 
+            id: 'passwordResetInput', 
+            label: 'Contraseña:', 
+            name: 'password', 
+            type: 'text' 
+        },
+        { 
+            id: 'repeatedPasswordResetInput', 
+            label: 'Repetir contraseña:', 
+            name: 'repeatedPassword', 
+            type: 'text' 
+        }
+    ],
+    tokenInput: include('./sections/reset/tokenInput', { token }),
+    submitButton: {
+        id: 'resetSuccessBtn',
+        content: 'Reestablecer'
+    }
+}; %>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+        <!-- <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet"/> -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/9.2.0/mdb.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+        <link href="/img/logo.png" rel="icon">
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="container-fluid my-4">
+            <%- include('./ui/authModal', { form }); %>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/9.2.0/mdb.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+        <script type="module" src="/js/pages/auth/resetPage.js"></script>
+    </body>
+</html>

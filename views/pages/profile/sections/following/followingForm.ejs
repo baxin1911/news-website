@@ -1,0 +1,15 @@
+<section>
+    <h2>Siguiendo</h2>
+
+    <p>Esta es la sección de "Siguiendo". Aquí puedes ver a quién estás siguiendo.</p>
+
+    <%- include('./followingSection', { 
+        title: 'Tags/Temas', 
+        items: tags 
+    }) %>
+
+    <%- include('./followingSection', { 
+        title: 'Autores', 
+        items: authors 
+    }) %>
+</section>

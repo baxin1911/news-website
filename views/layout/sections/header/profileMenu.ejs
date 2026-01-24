@@ -1,0 +1,97 @@
+<% const getUserAvatar = (usernameClass) => include('../../../shared/userAvatar', {
+    item: profile,
+    avatarClass: 'rounded-circle me-2',
+    width: 32,
+    height: 32,
+    comment: null,
+    usernameClass,
+    variant: 'header'
+});
+
+const links = [
+    { 
+        content: 'Mi perfil', 
+        slug: '/profile#home-tab' 
+    },
+    { 
+        content: 'Seguimientos', 
+        slug: '/profile#following-tab' 
+    },
+    { 
+        content: 'Configuración', 
+        slug: '/profile#settings-tab' 
+    },
+];
+
+const getLogoutForm = (buttonClass) => include('./logoutForm', { buttonClass });
+
+const accordion = {
+    id: 'profileAccordion',
+    items: [
+        { 
+            toggleButton: { 
+                id: 'profileAccordionToggle', 
+                content: getUserAvatar('fw-bold fs-2') 
+            },
+            ids: { 
+                idHeader: 'profileAccordionHeader', 
+                idCollapse: 'profileAccordionCollapse' 
+            }, 
+            body: { 
+                title: 'Menú de perfil', 
+                links, 
+                logout: getLogoutForm('list-group-item list-group-item-action btn btn-link w-100 text-start')
+            }
+        }
+    ]
+};
+
+const dropdown = {
+    link: `
+        <a href="/profile" class="btn btn-dark d-flex align-items-center">
+            ${ getUserAvatar('fw-bold') }
+        </a>
+    `,
+    toggleButton: {
+        id: 'dropdownMenuButton',
+        class: 'btn btn-dark dropdown-toggle-split',
+        content: '<i class="fas fa-caret-down"></i>'
+    }
+}; %>
+
+<% if (variant === 'navbar') { %>
+    <ul class="navbar-nav">
+        <li class="btn-group d-flex justify-content-end dropdown">
+            <%- dropdown.link || '' %>
+
+            <button id="<%= dropdown.toggleButton.id %>" type="button"
+                class="<%= dropdown.toggleButton.class %>" data-mdb-dropdown-init
+                data-mdb-ripple-init aria-expanded="false"
+            >
+                <%- dropdown.toggleButton.content %>
+            </button>
+
+            <ul class="dropdown-menu" aria-labelledby="<%= dropdown.toggleButton.id %>">
+                <% links.forEach(link => { %>
+                    <li>
+                        <a href="<%= link.slug %>" class="dropdown-item">
+                            <%- link.content %>
+                        </a>
+                    </li>
+                <% }); %>
+                
+                <% if (dropdown.form) { %>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <%- getLogoutForm('dropdown-item') %>
+                    </li>
+                <% } %>
+            </ul>
+        </li>
+    </ul>
+<% } else { %>
+    <%- include('./menuAccordion', { accordion }) %>
+<% } %>

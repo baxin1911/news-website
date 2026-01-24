@@ -23,7 +23,7 @@ export const showArticle = async (req, res) => {
     const articles = await getAllArticles();
     const categories = await getAllCategories();
 
-    return res.render('article', {
+    return res.render('pages/article/articlePage', {
         article,
         profile,
         tags,

@@ -14,7 +14,7 @@ export const showContactForm = async (req, res) => {
     const categories = getAllCategories();
     const tags = findTopTagNames();
 
-    return res.render('contact', {
+    return res.render('pages/info/contactPage', {
         profile,
         game: null,
         tags,

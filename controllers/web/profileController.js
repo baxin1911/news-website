@@ -30,7 +30,7 @@ export const getProfile = async (req, res) => {
     const users = await findUsersByIdUser(user.id);
     const preferences = await getProfilePreferencesByIdUser(user.id);
 
-    return res.render('profile', { 
+    return res.render('pages/profile/profilePage', { 
         profile, 
         comments,
         tags,

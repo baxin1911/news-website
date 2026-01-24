@@ -35,7 +35,7 @@ export const validatePagination = (getTotalItems, itemsPerPage) => async (req, r
         let { currentPage = 1 } = req.query;
         currentPage = parseInt(currentPage);
 
-        if (isNaN(currentPage) || currentPage < 1) return res.status(404).render('error/404');
+        if (isNaN(currentPage) || currentPage < 1) return res.status(404).render('pages/error/404');
 
         const totalItems = await getTotalItems(req);
         const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -57,6 +57,6 @@ export const validatePagination = (getTotalItems, itemsPerPage) => async (req, r
     } catch (err) {
 
         console.log(err)
-        return res.status(500).render('error/500');
+        return res.status(500).render('pages/error/500');
     }
 }

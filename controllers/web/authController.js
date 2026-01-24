@@ -52,7 +52,7 @@ export const resetPassword = async (req, res) => {
 
     const { token } = req;
 
-    return res.render('reset', { token });
+    return res.render('pages/auth/resetPage', { token });
 }
 
 export const verifyEmail = async (req, res) => {

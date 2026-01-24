@@ -1,0 +1,27 @@
+<% const name = item.name || item.username || 'Usuario'; %>
+
+<img src="<%= item.avatarPath || 'upload/avatar.jpg' %>" alt="Foto de perfil"  
+    class="<%= avatarClass %>" 
+    <%- (width) ? `width="${ width }"` : '' %>
+    <%- (height) ? `height="${ height }"` : '' %>
+>
+
+<% if (variant === 'profile') { %>
+    <p class="fs-4 text-white">
+        <span class="fs-1 fw-bold">
+            <%= name %>
+        </span>
+
+        <%= item.profileCode || null %>
+    </p>
+<% } else if (variant === 'following') { %>
+    <div class="ms-3">
+        <p class="fw-bold mb-0">
+            <%= name %> <%= item.lastName || '' %>
+        </p>
+    </div>
+<% } else { %>
+    <span class="<%= usernameClass %>">
+        <%= name %>
+    </span>
+<% } %>

@@ -1,0 +1,25 @@
+<section>
+    <%- include('../../ui/secondaryTitle', { title }) %>
+
+    <div class="list-group">
+        <div class="row">
+            <% items.forEach( item => { %>
+                <div class="col-xl-3 col-lg-4 col-sm-6 mb-4">
+                    <a href="#" data-mdb-ripple-init class="list-group-item-action card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <%- include('../../../../shared/userAvatar', {
+                                    item,
+                                    avatarClass: 'rounded-circle',
+                                    width: 45,
+                                    height: 45,
+                                    variant: 'following',
+                                }) %>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section>

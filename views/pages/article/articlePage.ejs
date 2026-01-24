@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+        <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/9.2.0/mdb.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+        <link href="/img/logo.png" rel="icon">
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <%- include('../auth/sections/login/loginModal'); %>
+
+        <%- include('../auth/sections/recover/recoverModal'); %>
+
+        <%- include('../auth/sections/register/registerModal'); %>
+
+        <%- include('../../layout/header'); %>
+
+        <div class="container-fluid my-4">
+            <div class="row">
+                <div class="col-12 col-md-8 col-lg-9">
+                    <main class="my-4">
+                        <article>
+                            <%- include('../../shared/linkBadge', {
+                                badgeClass: null,
+                                href: '/' + article.tag,
+                                name: article.tag
+                            }) %>
+
+                            <div class="row">
+                                <div class="col-12 col-md-8">
+                                    <div class="fw-bold fs-6">
+                                        <%= article.title %>
+                                    </div>
+
+                                    <div class="fs-6">
+                                        <%= article.description %>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-4">
+                                    Por: <div class="fs-bold"><%= article.author %></div>
+                                    Publicado: <%- formatLongDate(article.publicayionDate) %>
+                                </div>
+
+                                <div><i class="fa-regular fa-bookmark"></i> Seguir</div>
+                            </div>
+
+                            <% article.blocks.forEach(block => { %>
+                                <% if (block.type === 'paragraph') { %>
+                                    <p><%= block.content %>
+                                <% } %>
+
+                                <% if (block.type === 'image') { %> 
+                                    <figure>
+                                        <img  src="<%= block.src %>" alt="<%= block.alt %>">
+
+                                        <% if (block.caption) { %>
+                                            <figcaption><%= block.caption %></figcaption>
+                                        <% } %>
+                                    </figure>
+                                <% } %>
+
+                                <% if (block.type === 'video') { %>
+                                    <iframe src="<%= block.src %>" allowfullscreen></iframe>
+                                <% } %>
+
+                                <% if (block.type === 'ad') { %>
+                                    
+                                <% } %>
+                            <% }); %>
+                        </article>
+
+                        <section class="my-5">
+                            <%- include('./sections/comments/articleComments') %>
+                        </section>
+                    </main>
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-3">
+                    <%- include('../../layout/sidebar'); %>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../../layout/footer'); %>
+
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/9.2.0/mdb.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <script type="module" src="/js/pages/indexPage.js"></script>
+        <script type="module" src="/js/pages/newsletters/newsletterSidebarPage.js"></script>
+        <script type="module" src="/js/pages/newsletters/newsletterFooterPage.js"></script>
+        <script type="module" src="/js/core/forms/searchForm.js"></script>
+    </body>
+</html>

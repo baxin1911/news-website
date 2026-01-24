@@ -1,0 +1,44 @@
+<% const items = [
+    { 
+        content: `<i class="fab fa-tiktok"></i>${ isFooter ? '' : 'TikTok' }`, 
+        href: '#', 
+        class: isFooter ? 'btn btn-floating btn-tiktok' : 'tiktok-link' 
+    },
+    { 
+        content: `<i class="fab fa-facebook-f"></i>${ isFooter ? '' : 'Facebook' }`, 
+        href: '#', 
+        class: isFooter ? 'btn btn-floating btn-facebook' : 'facebook-link' 
+    },
+    { 
+        content: `<i class="fab fa-instagram"></i>${ isFooter ? '' : 'Instagram' }`, 
+        href: '#', 
+        class: isFooter ? 'btn btn-floating btn-instagram' : 'instagram-link' 
+    },
+    { 
+        content: `<i class="fab fa-twitter"></i>${ isFooter ? '' : 'Twitter' }`, 
+        href: '#', 
+        class: isFooter ? 'btn btn-floating btn-twitter' : 'twitter-link' 
+    },
+    { 
+        content: `<i class="fab fa-youtube"></i>${ isFooter ? '' : 'YouTube' }`, 
+        href: '#', 
+        class: isFooter ? 'btn btn-floating btn-youtube' : 'youtube-link' 
+    }
+]; 
+
+const socialMedia = include('./navList', {
+    listClass: `nav gap-2${ isFooter ? ' d-flex justify-content-center' : ' flex-column social-links' }`,
+    items
+}); %>
+
+<section>
+    <h2 class="title-style">
+        Siguenos
+    </h2>
+
+    <%- include('./cardBody', { 
+        action: socialMedia, 
+        content: null,
+        isFooter 
+    }) %>
+</section>
