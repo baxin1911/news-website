@@ -18,9 +18,17 @@ const links = [
         slug: '/profile#following-tab' 
     },
     { 
-        content: 'Configuración', 
-        slug: '/profile#settings-tab' 
+        content: 'Cuenta', 
+        slug: '/profile#account-tab' 
     },
+    { 
+        content: 'Preferencias', 
+        slug: '/profile#preferences-tab' 
+    },
+    {
+        content: 'Seguridad',
+        slug: '/profile#security-tab'
+    }
 ];
 
 const getLogoutForm = (buttonClass) => include('./logoutForm', { buttonClass });

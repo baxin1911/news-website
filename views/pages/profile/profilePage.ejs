@@ -1,5 +1,5 @@
-<% const containerTab = {
-    id: 'profile',
+<% const tabContainer = {
+    id: 'profileTabContainer',
     tabs: [
         { 
             id: 'home', 
@@ -65,7 +65,7 @@
 
         <div class="container-fluid my-4">
             <main>
-                <%- include('../../shared/tabList', { containerTab }) %>
+                <%- include('../../shared/tabList', { tabContainer }) %>
             </main>
         </div>
 
@@ -90,6 +90,7 @@
         <script type="module" src="/js/pages/auth/recoverPage.js"></script>
         <script type="module" src="/js/pages/newsletters/sidebarPage.js"></script> -->
         <script type="module" src="/js/pages/newsletters/newsletterFooterPage.js"></script>
+        <script type="module" src="/js/pages/profile/profilePage.js"></script>
         <script type="module" src="/js/pages/profile/accountPage.js"></script>
         <script type="module" src="/js/pages/profile/security/passwordSecurityPage.js"></script>
         <script type="module" src="/js/pages/profile/preferencesPage.js"></script>

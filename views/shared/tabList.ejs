@@ -1,5 +1,5 @@
-<ul id="<%= containerTab.id %>Tab" class="nav nav-tabs nav-justified mb-3" role="tablist">
-    <% containerTab.tabs.forEach(tab => { %>
+<ul id="<%= tabContainer.id %>Tab" class="nav nav-tabs nav-justified mb-3" role="tablist">
+    <% tabContainer.tabs.forEach(tab => { %>
         <li class="nav-item" role="presentation">
             <%- include('./button', {
                 button: {
@@ -19,8 +19,8 @@
     <% }); %>
 </ul>
 
-<div id="<%= containerTab.id %>TabPane" class="tab-content">
-    <% containerTab.tabs.forEach(tab => { %>
+<div id="<%= tabContainer.id %>TabPane" class="tab-content">
+    <% tabContainer.tabs.forEach(tab => { %>
         <div id="<%= tab.id %>" role="tabpanel" 
             class="tab-pane fade <%= (tab.active) ? 'show active' : '' %>"
             aria-labelledby="<%= `${ tab.id }-tab` %>"

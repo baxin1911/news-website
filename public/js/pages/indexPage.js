@@ -76,3 +76,28 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('showSuccessToast');
     }
 });
+
+const activeTabFromHash = () => {
+    const hash = window.location.hash;
+
+    if (!hash) return;
+
+    const tabButton = document.querySelector(`${ hash }`);
+
+    if (!tabButton) return;
+
+    if (window.mdb) {
+
+        const tabInstance = mdb.Tab.getOrCreateInstance(tabButton);
+        tabInstance.show();
+
+    } else if (window.bootstrap) {
+
+        const tabInstance = new bootstrap.Tab(tabButton);
+        tabInstance.show();
+    }
+}
+
+activeTabFromHash();
+
+window.addEventListener('hashchange', activeTabFromHash);
