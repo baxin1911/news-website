@@ -19,8 +19,10 @@ export const searchFeed = async (req, res) => {
     const articles = await findArticlesByQuery(q, itemsPerPage, offset);
     const tags = await findTopTagNames();
     const categories = await getAllCategories();
+    const pageTitle = `Buscar: ${ q }`;
 
     return res.render('pages/feed/feedPage', { 
+        pageTitle,
         title: q,
         profile,
         game: null,
@@ -59,8 +61,10 @@ export const showCategoryFeed = async (req, res) => {
     const articles = await findArticlesByCategory(category, itemsPerPage, offset);
     const categories = await getAllCategories();
     const tags = await findTopTagNames();
+    const pageTitle = `Categoría: ${ category }`;
 
     return res.render('pages/feed/feedPage', { 
+        pageTitle,
         title: getCategory(category),
         profile,
         game: null,
@@ -110,8 +114,10 @@ export const showTagFeed = async (req, res) => {
     const articles = await findArticlesByTag(slug, itemsPerPage, offset);
     const tags = await findTopTagNames();
     const categories = await getAllCategories();
+    const pageTitle = `Etiqueta: ${ tag }`;
 
     return res.render('pages/feed/feedPage', {
+        pageTitle,
         title: tag,
         profile,
         game,

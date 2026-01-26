@@ -22,7 +22,7 @@ import cookieParser from 'cookie-parser';
 import { Strategy } from 'passport-google-oauth20';
 
 import express from 'express';
-// import engine from 'ejs-mate';
+import expressEjsLayouts from 'express-ejs-layouts';
 import passport from 'passport';
 import { publicDir, viewsDir, avatarsDir, coversDir } from './utils/pathsUtils.js';
 import { errorCodeMessages } from './messages/codeMessages.js';
@@ -47,9 +47,13 @@ passport.use(new Strategy({
     return done(null, profile);
 }));
 
-// app.engine('ejs', engine);
 app.set('views', viewsDir);
 app.set('view engine', 'ejs');
+
+app.use(expressEjsLayouts);
+app.set('layout', 'layout/base');
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
 
 app.use(rootRoute, express.static(publicDir));
 app.use('/avatars', express.static(avatarsDir));

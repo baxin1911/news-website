@@ -1,111 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title></title>
+<section aria-label="Resultados de búsqueda">
+    <h2 class="title-style"><%= title %></h2>
 
-        <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <% if (game) { %>
+        <%- include('./sections/game/gameCard') %>
+    <% } %>
 
-        <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet"/>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/9.2.0/mdb.min.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <div id="searchResults" class="list-group">
+        <ul class="list-unstyled">
+            <% articles.forEach( article => { 
+                const category = (article.category) ? getCategory(article.category) : '';
+                const imageUrl = article.coverPath ?? article.blocks.find(block => block.type === 'image').content;
+                const shortDescription = (article.description.length > 100) ? `${article.description.substring(0, 100)} ...` : article.description;
+                const shortTitle = (article.title.length > 50) ? `${article.title.substring(0, 50)} ...` : article.title;
+                const date = (article.publicationDate) ? formatShortDate(article.publicationDate) : '';
+            %>
+                <li class="mb-3">
+                    <%- include('../../shared/articlePreview', {
+                        article: {
+                            grid: {
+                                row: 'row g-0',
+                                colImg: 'col-md-4',
+                                colBody: 'col-md-8'
+                            },
+                            img: {
+                                src: imageUrl,
+                                class: 'img-fluid rounded-start',
+                                alt: 'Imagen de la noticia'
+                            },
+                            body: {
+                                class: 'card-body',
+                                title: {
+                                    class: 'me-3',
+                                    link: slugify(article.title),
+                                    content: shortTitle
+                                },
+                                badge: {
+                                    link: category,
+                                    content: category
+                                }
+                            },
+                            metadata: {
+                                date
+                            },
+                            shortDescription
+                        }
+                    }) %>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <%- include('../../shared/pagination') %>
+</section>
 
-        <link href="/img/logo.png" rel="icon">
-        <link href="/css/style.css" rel="stylesheet">
-    </head>
-
-    <body>
-        <%- include('../auth/sections/login/loginModal'); %>
-
-        <%- include('../auth/sections/recover/recoverModal'); %>
-
-        <%- include('../auth/sections/register/registerModal'); %>
-        
-        <%- include('../../layout/header'); %>
-
-        <div class="container-fluid my-4">
-            <div class="row">
-                <div class="col-12 col-md-8 col-lg-9">
-                    <main class="my-4">
-                        <section aria-label="Resultados de búsqueda">
-                            <h2 class="title-style"><%= title %></h2>
-
-                            <% if (game) { %>
-                                <%- include('./sections/game/gameCard') %>
-                            <% } %>
-
-                            <div id="searchResults" class="list-group">
-                                <ul class="list-unstyled">
-                                    <% articles.forEach( article => { 
-                                        const category = (article.category) ? getCategory(article.category) : '';
-                                        const imageUrl = article.coverPath ?? article.blocks.find(block => block.type === 'image').content;
-                                        const shortDescription = (article.description.length > 100) ? `${article.description.substring(0, 100)} ...` : article.description;
-                                        const shortTitle = (article.title.length > 50) ? `${article.title.substring(0, 50)} ...` : article.title;
-                                        const date = (article.publicationDate) ? formatShortDate(article.publicationDate) : '';
-                                    %>
-                                        <li class="mb-3">
-                                            <%- include('../../shared/articlePreview', {
-                                                article: {
-                                                    grid: {
-                                                        row: 'row g-0',
-                                                        colImg: 'col-md-4',
-                                                        colBody: 'col-md-8'
-                                                    },
-                                                    img: {
-                                                        src: imageUrl,
-                                                        class: 'img-fluid rounded-start',
-                                                        alt: 'Imagen de la noticia'
-                                                    },
-                                                    body: {
-                                                        class: 'card-body',
-                                                        title: {
-                                                            class: 'me-3',
-                                                            link: slugify(article.title),
-                                                            content: shortTitle
-                                                        },
-                                                        badge: {
-                                                            link: category,
-                                                            content: category
-                                                        }
-                                                    },
-                                                    metadata: {
-                                                        date
-                                                    },
-                                                    shortDescription
-                                                }
-                                            }) %>
-                                        </li>
-                                    <% }); %>
-                                </ul>
-                            </div>
-
-                            <%- include('../../shared/pagination') %>
-                        </section>
-                    </main>
-                </div>
-
-                <div class="col-12 col-md-4 col-lg-3">
-                    <%- include('../../layout/sidebar'); %>
-                </div>
-            </div>
-        </div>
-
-        <%- include('../../layout/footer'); %>
-
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/9.2.0/mdb.umd.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-        <script type="module" src="/js/pages/indexPage.js"></script>
-        <script type="module" src="/js/pages/auth/loginPage.js"></script>
-        <script type="module" src="/js/pages/auth/registerPage.js"></script>
-        <script type="module" src="/js/pages/auth/recoverPage.js"></script>
-        <script type="module" src="/js/pages/newsletters/newsletterSidebarPage.js"></script>
-        <script type="module" src="/js/pages/newsletters/newsletterFooterPage.js"></script>
-        <script type="module" src="/js/core/forms/searchForm.js"></script>
-    </body>
-</html>
+<%- contentFor('title') %>
+<%= pageTitle %>
+<%- contentFor('layoutType') %>
+sidebar
