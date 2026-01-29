@@ -1,11 +1,19 @@
+import { createSubscriberDtoForRegister } from "../../dtos/subscriberDTO.js";
 import { successCodeMessages } from "../../messages/codeMessages.js";
+import { saveNewsletterSubscriber } from "../../services/newsletterService.js";
+import { sendEmail } from "../../utils/emailUtils.js";
 
 export const subscribeToNewsletter = async (req, res) => {
 
     const { email } = req.body || {};
 
-    // Save the email to the database or send a confirmation email
-    // const result = await subscribe(email);
+    const subscriberDto = createSubscriberDtoForRegister(email);
+
+    await saveNewsletterSubscriber(subscriberDto);
+
+    await sendEmail(email, '¡Gracias por suscribirte a nuestro boletín!',`
+        <p>Aquí estan las últimas noticias del día.</p>
+    `);
 
     // if (result.error) return res.status(500).json({ message: result.error });
 

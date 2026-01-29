@@ -106,7 +106,7 @@ export const verifyWebResetToken = (req, res, next) => {
         'error'
     );
 
-    req.token = token;
+    req.token = tokenInfo;
     next();
 }
 

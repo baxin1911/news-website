@@ -1,41 +1,39 @@
 import { tokenStore, generateAccessToken, generateOneTimeToken, generateRefreshToken, verifyRefreshToken } from "../../services/jwtService.js";
 import { errorCodeMessages, successCodeMessages } from "../../messages/codeMessages.js";
-import { encryptPassword, encryptToken } from "../../utils/encryptionUtils.js";
+import { encryptToken } from "../../utils/encryptionUtils.js";
 import { sendEmail } from "../../utils/emailUtils.js";
 import { clearAuthCookies, setAuthCookies } from "../../utils/cookiesUtils.js";
-import { createProfile } from "../../services/profileService.js";
+import { saveProfile } from "../../services/userService.js";
+import { createProfileDtoForRegister } from "../../dtos/profileDTO.js";
+import { createUserPreferencesDtoForRegister } from "../../dtos/preferencesDTO.js";
+import { createUserDtoForRegister, createUserDtoForToken } from "../../dtos/userDTO.js";
+import { saveUser } from "../../services/userService.js";
+import { saveUserPreferences } from "../../services/userService.js";
+import { getUserIdByEmail } from "../../services/userService.js";
+import { editPasswordByUserId } from "../../services/userService.js";
+import { verifyPassword } from "../../services/userService.js";
+import { getRoleNameByUserId } from "../../services/userService.js";
+import { getNewRefreshToken } from "../../services/authService.js";
 
 export const login = async (req, res) => {
 
     const { email, password } = req.body || {};
+    const isValid = await verifyPassword(password);
 
-    // Get user and verify token
-    // const result = await login(email, password);
+    if (!isValid) return res.status(401).json({ code: errorCodeMessages.LOGIN_ERROR });
 
+    const userId = await getUserIdByEmail(email);
+    const role = await getRoleNameByUserId(userId);
+    const tokenDto = createUserDtoForToken(userId, role);
     // if (result.error) return res.status(500).json({ message: result.error });
 
     // 429, 500
 
-    const user = {
-        id: 1,
-        email,
-        emailVerified: true,
-        username: 'dersey',
-        code: 'AA000001',
-        role: 1,
-        avatarPath: '/img/ejemplo.png',
-        coverPath: null,
-        totalPosts: 0,
-        totalTopics: 0,
-        totalAuthors: 0,
-        followers: 0
-    };
-    const newRefreshToken = generateRefreshToken(user);
-    const newAccessToken = generateAccessToken(user);
+    const newRefreshToken = generateRefreshToken(tokenDto);
+    const newAccessToken = generateAccessToken(tokenDto);
     const hashedToken = encryptToken(newRefreshToken);
 
     // Save refreshToken in DB
-    await createProfile(user);
     tokenStore.hashedRefreshToken = hashedToken;
     setAuthCookies(res, newAccessToken, newRefreshToken);
 
@@ -44,18 +42,25 @@ export const login = async (req, res) => {
 
 export const registerAccount = async (req, res) => {
 
-    const { email, password, username } = req.body || {};
-    const hashPassword = await encryptPassword(password);
+    const { email } = req.body || {};
+    const userDto = await createUserDtoForRegister(body);
+    const userId = await saveUser(userDto);
+    const profileDto = createProfileDtoForRegister();
+    profileDto.userId = userId;
 
-    // Save user and show errors for duplicate information
-    // const result = await registerUser(username, email, hashPassword);
+    await saveProfile(profileDto);
+
+    // show errors for duplicate information
 
     // if (result.error) return res.status(500).json({ message: result.error });
 
     // 409, 429, 500
 
-    const user = { id: 1 }
-    const token = generateOneTimeToken(user, 'email-verify');
+    const preferencesDto = createUserPreferencesDtoForRegister(userId);
+    
+    await saveUserPreferences(preferencesDto);
+
+    const token = generateOneTimeToken(userId, 'email-verify');
     const verifyLink = `http://localhost:3000/auth/email-verify?token=${token}`;
 
     await sendEmail(email, 'Verifica tu correo', `
@@ -69,17 +74,15 @@ export const registerAccount = async (req, res) => {
 export const recoverAccount = async (req, res) => {
 
     const { email } = req.body || {};
-
-    // Search email and idUser
-    // const result = await recoverAccount(email);
+    const userId = await getUserIdByEmail(email);
 
     // if (result.error) return res.status(500).json({ message: result.error });
 
     //429, 500
 
-    const user = { id: 1 };
-    const token = generateOneTimeToken(user, 'password-reset');
+    const token = generateOneTimeToken(userId, 'password-reset');
     const resetLink = `http://localhost:3000/auth/password-reset?token=${token}`;
+
     await sendEmail(email, 'Restablece tu contraseña', `
         <p>Has clic en el enlace para restablecer tu contrsaeña:</p>
         <a href="${ resetLink }">${ resetLink }</a>
@@ -88,47 +91,33 @@ export const recoverAccount = async (req, res) => {
     return res.status(200).json({ code: successCodeMessages.SENDED_RECOVER_EMAIL });
 }
 
-export const refreshAuthToken = async (req, res) => {
-
-    const { refreshToken } = req.cookies;
-
-    if (!refreshToken) return res.status(401).json({ code: errorCodeMessages.INVALID_AUTH });
-
-    const hashedToken = encryptToken(refreshToken);
-
-    const existsToken = hashedToken === tokenStore.hashedRefreshToken;
-
-    if (!existsToken) {
-
-        tokenStore.hashedRefreshToken = null;
-        clearAuthCookies(res);
-
-        return res.status(401).json({ code: errorCodeMessages.DETECTED_REUSE });
-    }
-
-    const tokenInfo = verifyRefreshToken(refreshToken);
-
-    if (!tokenInfo) return res.status(401).json({ code: errorCodeMessages.INVALID_AUTH });
-
-    const newAccessToken = generateAccessToken(tokenInfo);
-    const newRefreshToken = generateRefreshToken(tokenInfo);
-
-    setAuthCookies(res, newAccessToken, newRefreshToken);
-
-    return res.sendStatus(200);
-}
-
 export const resetPassword = async (req, res) => {
 
     const { password } = req.body || {};
     const { id } = req || {};
 
-    // Update password and verify errors and token
-    // const result = await resetPassword(password, id);
+    await editPasswordByUserId(id, password);
 
     // if (result.error) return res.status(500).json({ message: result.error });
 
     //401, 403, 404, 429, 500
 
     return res.status(200).json({ code: successCodeMessages.UPDATED_RESET_PASSWORD });
+}
+
+export const refreshAuthToken = async (req, res) => {
+
+    const { refreshToken } = req.cookies;
+    const  result = await getNewRefreshToken(refreshToken);
+
+    if (result.error) {
+        
+        clearAuthCookies(res);
+
+        return res.status(401).json({ code: result.error });
+    }
+
+    setAuthCookies(res, result.newAccessToken, result.newRefreshToken);
+
+    return res.sendStatus(200);
 }

@@ -1,20 +1,20 @@
 import { findAuthorsByIdUser } from "../../services/authorService.js";
-import { findUsersByIdUser } from "../../services/userService.js";
+import { findUsersByIdUser, getUsernameByUserId } from "../../services/userService.js";
 import { findTopTagNames } from "../../services/tagService.js";
 import { countCommentsByUserId, findCommentsByUserId } from "../../services/commentService.js";
-import { getProfileByIdUser, getProfilePreferencesByIdUser } from "../../services/profileService.js";
+import { getProfileByIdUser, getUserPreferencesByIdUser } from "../../services/userService.js";
 import { redirectWithFlash } from "../../utils/flashUtils.js";
 import { errorMessages } from "../../messages/messages.js";
 import { errorCodeMessages } from "../../messages/codeMessages.js";
 import { formatLongDate, slugify } from "../../utils/formattersUtils.js";
-import { validatePagination } from "../../middleware/validatorMiddleware.js";
+import { validateWebPagination } from "../../middleware/validatorMiddleware.js";
 
 export const getProfile = async (req, res) => {
 
     // Get user form BD
 
-    const { user } = req;
-    const profile = await getProfileByIdUser(user.id);
+    const { id } = req.user;
+    const profile = await getProfileByIdUser(id);
 
     if (!profile)  return redirectWithFlash(
         res, 
@@ -23,12 +23,13 @@ export const getProfile = async (req, res) => {
         'error'
     );
 
+    profile.username = await getUsernameByUserId(id);
     const { offset, pagination, itemsPerPage } = req.pageSettings;
-    const comments = await findCommentsByUserId(user.id, itemsPerPage, offset);
-    const authors = await findAuthorsByIdUser(user.id);
+    const comments = await findCommentsByUserId(id, itemsPerPage, offset);
+    const authors = await findAuthorsByIdUser(id);
     const tags = await findTopTagNames();
-    const users = await findUsersByIdUser(user.id);
-    const preferences = await getProfilePreferencesByIdUser(user.id);
+    const users = await findUsersByIdUser(id);
+    const preferences = await getUserPreferencesByIdUser(id);
 
     return res.render('pages/profile/profilePage', { 
         profile, 
@@ -48,6 +49,6 @@ export const getProfile = async (req, res) => {
 const getTotalCommentsForProfile = async (req) => await countCommentsByUserId(req.user.id);
 
 export const getProfileWithPagination = [
-    validatePagination(getTotalCommentsForProfile, 10),
+    validateWebPagination(getTotalCommentsForProfile, 10),
     getProfile
 ]

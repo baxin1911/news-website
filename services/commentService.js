@@ -1,5 +1,5 @@
 import { getAllArticles } from "./articleService.js";
-import { getAllProfiles } from "./profileService.js";
+import { getAllProfiles } from "./userService.js";
 
 const comments = [
     { 

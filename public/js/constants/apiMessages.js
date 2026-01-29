@@ -63,7 +63,8 @@ const errorMessages = {
     EMPTY_MESSAGE: 'El mensaje es requerido.',
     MESSAGE_NOT_STRING: 'El mensaje debe ser una cadena de texto.',
     MESSAGE_TOO_SHORT: 'El mensaje es muy corto.',
-    MESSAGE_TOO_LONG: 'El mensaje debe tener un máximo de 500 caracteres.'
+    MESSAGE_TOO_LONG: 'El mensaje debe tener un máximo de 500 caracteres.',
+    INVALID_PAGINATION: 'No existe esa página.'
 };
 
 const successMessages = {

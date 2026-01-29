@@ -1,58 +1,94 @@
 import { storage } from "../adapters/storageApdater.js"
-import { getFilename, tempDir } from "../utils/pathsUtils.js";
-import { editProfileAvatar, profiles } from "./profileService.js";
+import { getFileExt, getNameFromFile, tempDir } from "../utils/pathsUtils.js";
+import { getAvatarPathByUserId, getCoverPathByUserId } from "./userService.js";
 
 const PATH_TEMP = '/temp/';
 const PATH_AVATAR = '/avatars/';
 const PATH_COVER = '/covers/';
 
-export const processAvatarTempImage = async (filepath, targetDir) => {
+const processImage = async ({
 
-    let result = await storage.process(filepath, targetDir);
+    filepath,
+    targetDir,
+    userId,
+    getOldPath,
+    basePath,
+    mode
+
+}) => {
+
+    if (!['create', 'update'].includes(mode)) return -1;
+
+    if (mode === 'update') {
+
+        const filename = getNameFromFile(filepath);
     
-    if (result !== 1) return result;
+        if (filename !== userId) return -2;
+    }
 
-    // get avatar by userId
-    const oldAvatar = profiles[0].avatarPath;
+    await storage.process(filepath, targetDir, userId, mode);
 
-    const filename = getFilename(filepath);
-    const newAvatar = PATH_AVATAR + filename;
+    if (mode === 'update') return filepath;
+    
+    if (typeof result === 'number' && result < 1) return result;
 
-    if (oldAvatar && oldAvatar !== newAvatar) result = await deleteImage(oldAvatar, targetDir);
+    if (mode === 'create') {
 
-    profiles[0].avatarPath = newAvatar;
+        const oldPath = await getOldPath(userId);
+        const ext = getFileExt(filepath);
+        const newPath = basePath + userId + ext;
 
-    return result;
+        if (oldPath && oldPath !== newPath) return await deleteImage(oldPath, targetDir);
+
+        return newPath;
+    }
 }
 
-export const processCoverTempImage = async (filepath, targetDir) => {
+export const processAvatarImage = async (
 
-    let result = await storage.process(filepath, targetDir);
-    
-    if (result !== 1) return result;
+    filepath, 
+    targetDir, 
+    userId,
+    mode
 
-    // get cover by userId
-    const oldCover = profiles[0].coverPath;
+) => processImage({
 
-    const filename = getFilename(filepath);
-    const newCover = PATH_COVER + filename;
+    filepath,
+    targetDir,
+    userId,
+    getOldPath: getAvatarPathByUserId,
+    basePath: PATH_AVATAR,
+    mode
 
-    if (oldCover && oldCover !== newCover) result = await deleteImage(oldCover, targetDir);
+});
 
-    profiles[0].coverPath = newCover;
+export const processCoverImage = async (
 
-    return result;
-}
+    filepath, 
+    targetDir, 
+    userId,
+    mode
+
+) => processImage({
+
+    filepath,
+    targetDir,
+    userId,
+    getOldPath: getCoverPathByUserId,
+    basePath: PATH_COVER,
+    mode
+
+});
 
 export const saveAvatarImage = async (buffer, targetDir, userId) => {
 
-    const result = await storage.upload(buffer, targetDir);
+    const result = await storage.upload({ buffer, targetDir, userId, mode: 'download' });
 
     switch (process.env.STORAGE) {
 
         case 'local':
 
-            if (result.filename) await editProfileAvatar(PATH_AVATAR + result.filename, userId);
+            if (result.filename) return PATH_AVATAR + result.filename;
 
             break;
 
@@ -68,16 +104,9 @@ export const saveAvatarImage = async (buffer, targetDir, userId) => {
 
 export const storeTempImage = async (buffer, targetDir) => {
 
-    const result = await storage.upload(buffer, targetDir);
+    const result = await storage.upload({ buffer, targetDir, mode: 'temp' });
 
     return process.env.STORAGE === 'local' ? (PATH_TEMP + result.filename) : result.url;
-}
-
-const deleteImage = async (imagepath, targetDir) => {
-
-    const result = await storage.delete(imagepath, targetDir);
-
-    return result;
 }
 
 export const deleteTempImage = async (imagepath) => {

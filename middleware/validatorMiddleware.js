@@ -29,13 +29,13 @@ export const validateLogin = (req, res, next) => {
     next();
 }
 
-export const validatePagination = (getTotalItems, itemsPerPage) => async (req, res, next) => {
+const validatePagination = (getTotalItems, itemsPerPage) => async (req, res) => {
 
     try {
         let { currentPage = 1 } = req.query;
         currentPage = parseInt(currentPage);
 
-        if (isNaN(currentPage) || currentPage < 1) return res.status(404).render('pages/error/404');
+        if (isNaN(currentPage) || currentPage < 1) return -1;
 
         const totalItems = await getTotalItems(req);
         const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -52,11 +52,33 @@ export const validatePagination = (getTotalItems, itemsPerPage) => async (req, r
         const offset = (currentPage - 1) * itemsPerPage;
         const pagination = buildPagination(totalItems, currentPage, itemsPerPage);
         req.pageSettings = { offset, pagination, itemsPerPage };
-        next();
+        return 1;
 
     } catch (err) {
 
         console.log(err)
-        return res.status(500).render('pages/error/500');
+        throw err;
     }
+}
+
+export const validateApiPagination = (getTotalItems, itemsPerPage) => async (req, res, next) => {
+
+    const result = await validatePagination(getTotalItems, itemsPerPage)(req, res);
+
+    if (result === -1) return res.status(404).json({ code: errorCodeMessages.INVALID_PAGINATION });
+
+    if (result instanceof Error) return res.status(500).json({ code: errorCodeMessages.SERVER_ERROR });
+
+    next();
+}
+
+export const validateWebPagination = (getTotalItems, itemsPerPage) => async (req, res, next) => {
+
+    const result = await validatePagination(getTotalItems, itemsPerPage)(req, res);
+
+    if (result === -1) return res.status(404).render('pages/error/404');
+
+    if (result instanceof Error) return res.status(500).render('pages/error/500');
+
+    next();
 }

@@ -2,42 +2,57 @@ import { tokenStore, generateAccessToken, generateRefreshToken, verifyRefreshTok
 import { errorCodeMessages, successCodeMessages } from '../../messages/codeMessages.js';
 import { errorMessages, successMessages } from '../../messages/messages.js';
 import { downloadGoogleAvatar } from '../../services/googleService.js';
-import { createProfile } from '../../services/profileService.js';
 import { redirectWithFlash } from '../../utils/flashUtils.js';
 import { encryptToken } from '../../utils/encryptionUtils.js';
 import { clearAuthCookies, setAuthCookies } from '../../utils/cookiesUtils.js';
+import { findUserByEmail, getUserIdByEmail, saveUser, saveProfile, saveUserPreferences } from '../../services/userService.js';
+import { createUserDtoForToken, createUserDtoFromGoogle } from '../../dtos/userDTO.js';
+import { createProfileDtoForGoogleAuth } from '../../dtos/profileDTO.js';
+import { createUserPreferencesDtoForRegister } from '../../dtos/preferencesDTO.js';
+import { verifyRegisteredEmailByUserId } from '../../services/userService.js';
+import { getRoleNameByUserId } from '../../services/userService.js';
+import { getNewRefreshToken } from '../../services/authService.js';
 
 export const authGoogle = async (req, res) => {
 
-    if (req.query.error) return redirectWithFlash(res, errorMessages.GOOGLE_LOGIN_ERROR, errorCodeMessages.GOOGLE_LOGIN_ERROR, 'error');
+    if (req.query.error) return redirectWithFlash(
+        res, 
+        errorMessages.GOOGLE_LOGIN_ERROR, 
+        errorCodeMessages.GOOGLE_LOGIN_ERROR, 
+        'error'
+    );
     
     const { user } = req;
     const { _json, provider } = user;
-    const userGoogle = { 
-        id: 1,
-        code: 'AA000001',
-        sub: _json.sub, 
-        provider, 
-        username: _json.name,
-        name: _json.given_name,
-        lastName: _json.family_name,
-        avatarPath: null,
-        coverPath: null,
-        email: _json.email,
-        emailVerified: _json.VERIFIED_EMAIL,
-        role: 1,
-        totalPosts: 0,
-        totalTopics: 0,
-        totalAuthors: 0,
-        followers: 0
-    };
+    const profileDto = createProfileDtoForGoogleAuth(_json, provider);
+    const email = _json.email;
+    const existsUser = await findUserByEmail(email);
+    let userId = null;
+    
+    if (!existsUser) {
 
-    await createProfile(userGoogle);
+        const userDto = createUserDtoFromGoogle(_json);
+        userId = await saveUser(userDto);
 
-    if (!userGoogle.avatarPath) await downloadGoogleAvatar(_json.picture, userGoogle.id);
+        const avatarPath = await downloadGoogleAvatar(_json.picture, userId);
+        profileDto.avatarPath = avatarPath;
+        profileDto.userId = userId;
 
-    const newAccessToken = generateAccessToken(userGoogle);
-    const newRefreshToken = generateRefreshToken(userGoogle);
+        await saveProfile(profileDto);
+
+        const preferencesDto = createUserPreferencesDtoForRegister(userId);
+
+        await saveUserPreferences(preferencesDto);
+
+    } else {
+
+        userId = await getUserIdByEmail(email);
+    }
+
+    const role = await getRoleNameByUserId(userId);
+    const tokenDto = createUserDtoForToken(userId, role);
+    const newAccessToken = generateAccessToken(tokenDto);
+    const newRefreshToken = generateRefreshToken(tokenDto);
 
     // Save refresh token in DB
     const hashedToken = encryptToken(newRefreshToken);
@@ -58,28 +73,14 @@ export const resetPassword = async (req, res) => {
 export const verifyEmail = async (req, res) => {
 
     const { id } = req;
+    
+    await verifyRegisteredEmailByUserId(id);
 
-    //Search user and chance emailVerified
-    //emailVerified = true
+    const role = await getRoleNameByUserId(id);
+    const tokenDto = createUserDtoForToken(id, role);
+    const newAccessToken = generateAccessToken(tokenDto);
+    const newRefreshToken = generateRefreshToken(tokenDto);
 
-    const user = {
-        id: 1,
-        email,
-        emailVerified: true,
-        username: 'dersey',
-        code: 'AA000001',
-        role: 1,
-        avatarPath: '/img/ejemplo.png',
-        coverPath: null,
-        totalPosts: 0,
-        totalTopics: 0,
-        totalAuthors: 0,
-        followers: 0
-    };
-    const newAccessToken = generateAccessToken(user);
-    const newRefreshToken = generateRefreshToken(user);
-
-    await createProfile(user);
     setAuthCookies(res, newAccessToken, newRefreshToken);
 
     // Save refresh token in BD
@@ -95,31 +96,15 @@ export const verifyEmail = async (req, res) => {
 export const refreshAuthToken = async (req, res) => {
 
     const { refreshToken } = req.cookies;
+    const result = await getNewRefreshToken(refreshToken);
+
+    if (result.error) {
+        
+        req.error = result.error;
+
+        return logout(req, res);
+    }
     
-    if (!refreshToken) return redirectWithFlash(
-        res, 
-        errorMessages.INVALID_AUTH, 
-        errorCodeMessages.INVALID_AUTH, 
-        'error'
-    );
-
-    const hashedToken = encryptToken(refreshToken);
-
-    const existsToken = hashedToken === tokenStore.hashedRefreshToken;
-
-    if (!existsToken) return logout(req, res);
-
-    const tokenInfo = verifyRefreshToken(refreshToken);
-
-    if (!tokenInfo) return redirectWithFlash(
-        res, 
-        errorMessages.INVALID_AUTH, 
-        errorCodeMessages.INVALID_AUTH, 
-        'error'
-    );
-
-    const newAccessToken = generateAccessToken(tokenInfo);
-    const newRefreshToken = generateRefreshToken(tokenInfo);
     const returnTo = req.cookies.returnTo;
 
     res.clearCookie('returnTo');
@@ -137,8 +122,8 @@ export const logout = async (req, res) => {
 
     return redirectWithFlash(
         res, 
-        successMessages.SUCCESS_LOGOUT, 
-        successCodeMessages.SUCCESS_LOGOUT, 
-        'info'
+        req.error ? errorMessages.INVALID_AUTH : successMessages.SUCCESS_LOGOUT, 
+        req.error ?? successCodeMessages.SUCCESS_LOGOUT, 
+        req.error ? 'error' : 'info'
     );
 }

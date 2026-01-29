@@ -9,23 +9,20 @@ export const tokenStore = {
     hashedRefreshToken: null
 };
 
-export const generateAccessToken = (user) => {
-
-    const payload = { id: user.id, email: user.email };
+export const generateAccessToken = (payload) => {
 
     return jwt.sign(payload, JWT_SECRET_ACCESS, { expiresIn: '1h' });
 }
 
-export const generateOneTimeToken = (user, purpose) => {
+export const generateOneTimeToken = (id, purpose) => {
 
-    const payload = { id: user.id, purpose };
+    const payload = { id, purpose };
 
     return jwt.sign(payload, JWT_SECRET_ONE_TIME, { expiresIn: '15m' });
 }
 
-export const generateRefreshToken = (user) => {
+export const generateRefreshToken = (payload) => {
 
-    const payload = { id: user.id, email: user.email };
     const token = jwt.sign(payload, JWT_SECRET_REFRESH, { expiresIn: '7d' });
     tokenStore.hashedRefreshToken = encryptToken(token);
 

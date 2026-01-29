@@ -1,8 +1,8 @@
-import { validatePagination } from "../../middleware/validatorMiddleware.js";
+import { validateWebPagination } from "../../middleware/validatorMiddleware.js";
 import { getAllArticles, getArticleByTitle } from "../../services/articleService.js";
 import { getAllCategories } from "../../services/categoryService.js";
 import { countCommentsByArticleId, findCommentsByArticleId } from "../../services/commentService.js";
-import { getProfileByIdUser } from "../../services/profileService.js";
+import { getProfileByIdUser } from "../../services/userService.js";
 import { findTopTagNames } from "../../services/tagService.js";
 import { getCategory } from "../../utils/categoryUtils.js";
 import { formatLongDate, formatShortDate, formatRelativeDate, slugify, unslugify } from "../../utils/formattersUtils.js";
@@ -51,6 +51,6 @@ const getTotalCommentsForArticle = async (req) => {
 }
 
 export const showArticleWithPagination = [
-    validatePagination(getTotalCommentsForArticle, 5),
+    validateWebPagination(getTotalCommentsForArticle, 5),
     showArticle
 ];

@@ -2,10 +2,10 @@ import { getCategory, getCategoryId } from '../../utils/categoryUtils.js';
 import { formatShortDate, slugify, unslugify } from '../../utils/formattersUtils.js';
 import { countArticlesByCategory, countArticlesByQuery, countArticlesByTag, findArticlesByCategory, findArticlesByQuery, findArticlesByTag } from "../../services/articleService.js";
 import { getAllCategories } from "../../services/categoryService.js";
-import { getProfileByIdUser } from '../../services/profileService.js';
+import { getProfileByIdUser } from '../../services/userService.js';
 import { findTopTagNames } from '../../services/tagService.js';
 import { existsGameByName, getGameByName } from '../../services/gameService.js';
-import { validatePagination } from '../../middleware/validatorMiddleware.js';
+import { validateWebPagination } from '../../middleware/validatorMiddleware.js';
 
 export const searchFeed = async (req, res) => {
 
@@ -41,7 +41,7 @@ export const searchFeed = async (req, res) => {
 const getTotalArticlesForSearch = async (req) => await countArticlesByQuery(req.query.q);
 
 export const searchFeedWithPagination = [
-    validatePagination(getTotalArticlesForSearch, 10),
+    validateWebPagination(getTotalArticlesForSearch, 10),
     searchFeed
 ];
 
@@ -61,11 +61,12 @@ export const showCategoryFeed = async (req, res) => {
     const articles = await findArticlesByCategory(category, itemsPerPage, offset);
     const categories = await getAllCategories();
     const tags = await findTopTagNames();
-    const pageTitle = `Categoría: ${ category }`;
+    const categoryName = getCategory(category);
+    const pageTitle = `Categoría: ${ categoryName }`;
 
     return res.render('pages/feed/feedPage', { 
         pageTitle,
-        title: getCategory(category),
+        title: categoryName,
         profile,
         game: null,
         tags,
@@ -92,7 +93,7 @@ const getTotalArticlesForCategory = async (req) => {
 };
 
 export const showCategoryFeedWithPagination = [
-    validatePagination(getTotalArticlesForCategory, 10),
+    validateWebPagination(getTotalArticlesForCategory, 10),
     showCategoryFeed
 ];
 
@@ -142,6 +143,6 @@ const getTotalArticlesForTag = async (req) => {
 }
 
 export const showTagFeedWithPagination = [
-    validatePagination(getTotalArticlesForTag, 10),
+    validateWebPagination(getTotalArticlesForTag, 10),
     showTagFeed
 ];

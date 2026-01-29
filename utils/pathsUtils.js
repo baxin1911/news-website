@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'url';
-import { basename, dirname, join, normalize, relative, resolve, sep } from 'path';
+import { basename, dirname, extname, join, normalize, parse, relative, resolve, sep } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,18 +26,27 @@ export const generateResolvedPath = (baseDir, filename) => {
     return resolvedTarget;
 }
 export const getDirname = (fullPath) => dirname(fullPath);
+export const getNameFromFile = (path) => {
+
+    const normalizedPath = getNormalizedDir(path);
+    
+    const { name } = parse(normalizedPath);
+
+    return name;
+}
 export const getFilename = (fullPath) => {
     
     const normalizedPath = getNormalizedDir(fullPath);
     
     return basename(normalizedPath);
 }
-export const isValidBaseDir = (path, allowedDirs) => {
+export const getBaseDir = (path) => {
 
     const normalizedPath = getNormalizedDir(path);
-    const firstSegment = normalizedPath.split(sep)[0];
 
-    return allowedDirs.includes(firstSegment);
+    return normalizedPath.split(sep)[0];
 }
+export const isValidBaseDir = (baseDir, allowedDirs) => allowedDirs.includes(baseDir);
 export const sanitizePath = (path) => path.replace(/\\/g, '/').replace(/^\/+/, '');
 export const getRelativePath = (basePath, absolutePath) => relative(basePath, absolutePath);
+export const getFileExt = (path) => extname(path);

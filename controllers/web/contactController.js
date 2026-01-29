@@ -1,6 +1,6 @@
 import { getAllArticles } from "../../services/articleService.js";
 import { getAllCategories } from "../../services/categoryService.js";
-import { getProfileByIdUser } from "../../services/profileService.js";
+import { getProfileByIdUser } from "../../services/userService.js";
 import { findTopTagNames } from "../../services/tagService.js";
 import { formatShortDate } from "../../utils/formattersUtils.js";
 
