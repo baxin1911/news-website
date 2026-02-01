@@ -17,11 +17,23 @@
         </div>
 
         <div class="col-12 col-md-4">
-            Por: <div class="fs-bold"><%= article.author %></div>
-            Publicado: <%- formatLongDate(article.publicayionDate) %>
-        </div>
+            <div>Por: <div class="fw-bold"><%= article.author %></div></div>
 
-        <div><i class="fa-regular fa-bookmark"></i> Seguir</div>
+            <div>Publicado: <%= formatLongDate(article.publicationDate) %></div>
+
+            <div><i class="fa-regular fa-bookmark"></i> Seguir</div>
+
+            <%- include('./ui/articleActionButton', {
+                id: 'articleLikeButton',
+                entityId: article.id,
+                action: 'like',
+                entityType: 'article',
+                iconClass: 'fas fa-heart',
+                value: article.likeTotal,
+                buttonTitle: 'Me gusta',
+                buttonClass: 'btn btn-primary btn-sm rounded-pill'
+            }) %>
+        </div>
     </div>
 
     <% article.blocks.forEach(block => { %>
@@ -52,6 +64,8 @@
 <section class="my-5">
     <%- include('./sections/comments/articleComments') %>
 </section>
+
+<script type="module" src="/js/pages/article/articlePage.js"></script>
 
 <%- contentFor('title') %>
 <%= article.title %>

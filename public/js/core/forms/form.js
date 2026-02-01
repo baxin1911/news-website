@@ -1,9 +1,10 @@
 import { mapFormErrors, mapServerErrors } from "./mappers/formMapper.js";
 import { toggleErrorMessages } from "../../ui/forms/formMessagesUI.js";
 import { closeModal } from "../../ui/modalUI.js";
+import { on } from "../../utils/domUtils.js";
 
 export const useForm = async ({ 
-    formId,
+    selector,
     modalId = '',
     url = '/',
     normalizeData = () => {},
@@ -13,9 +14,7 @@ export const useForm = async ({
     normalizeServerErrors = () => {},
 }) => {
 
-    const form = document.getElementById(formId);
-
-    form.addEventListener('submit', async e => {
+    on('submit', selector, async (e, form) => {
 
         e.preventDefault();
 

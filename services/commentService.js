@@ -1,12 +1,13 @@
 import { getAllArticles } from "./articleService.js";
+import { countReactionTotal } from "./reactionService.js";
 import { getAllProfiles } from "./userService.js";
 
 const comments = [
     { 
         id: 1, 
         replyCount: 0, 
-        dislikeCount: 0, 
-        likeCount: 0, 
+        dislikeCount: await countReactionTotal({ entityType: 'comment', entityId: 1, reactionType: 'dislike' }), 
+        likeCount: await countReactionTotal({ entityType: 'comment', entityId: 1, reactionType: 'like' }), 
         description: 'Meh', 
         articleId: await getAllArticles().then(articles => articles[0].id),
         articleTitle: await getAllArticles().then(articles => articles[0].title),
@@ -19,8 +20,8 @@ const comments = [
     { 
         id: 2, 
         replyCount: 1, 
-        dislikeCount: 0, 
-        likeCount: 2, 
+        dislikeCount: await countReactionTotal({ entityType: 'comment', entityId: 2, reactionType: 'dislike' }), 
+        likeCount: await countReactionTotal({ entityType: 'comment', entityId: 2, reactionType: 'like' }), 
         description: 'Por fin ha llegado. Ahora si le dedicare todo el tiempo necesario.', 
         articleId: await getAllArticles().then(articles => articles[1].id),
         articleTitle: await getAllArticles().then(articles => articles[1].title),
@@ -33,8 +34,8 @@ const comments = [
     { 
         id: 3, 
         replyCount: 3, 
-        dislikeCount: 0, 
-        likeCount: 19, 
+        dislikeCount: await countReactionTotal({ entityType: 'comment', entityId: 3, reactionType: 'dislike' }), 
+        likeCount: await countReactionTotal({ entityType: 'comment', entityId: 3, reactionType: 'like' }), 
         description: 'He visto muchas reseñas sobre este juego, pero ahora estoy decidido a comprarlo', 
         articleId: await getAllArticles().then(articles => articles[2].id),
         articleTitle: await getAllArticles().then(articles => articles[2].title),
@@ -59,10 +60,15 @@ export const findCommentsByUserId = async (userId, limit, offset = 0) => {
 
 export const countCommentsByArticleId = async (articleId) => {
 
-    return comments.filter( comment => comment.articleId === articleId ).length;
+    return comments.filter(comment => comment.articleId === articleId ).length;
 }
 
 export const countCommentsByUserId = async (userId) => {
 
-    return comments.filter( comment => comment.userId === userId ).length;
+    return comments.filter(comment => comment.userId === userId ).length;
+}
+
+export const existsCommentByCommentId = async (id) => {
+
+    return comments.some(comment => comment.id === id);
 }

@@ -1,6 +1,6 @@
 import { getErrorMessage, getSuccessMessage } from "../constants/apiMessages.js";
-import { showModal } from "../plugins/swal/baseSwal.js";
 import { notifications } from "../plugins/swal/swalComponent.js";
+import { showModal } from "../ui/modalUI.js";
 
 export const handleSuccessResponse = (response, onSuccess) => {
 
@@ -36,13 +36,19 @@ export const handleSuccessResponse = (response, onSuccess) => {
             localStorage.setItem('showSuccessToast', successMessage);
             onSuccess.reload();
             break;
+
+        case 'LIKED_COMMENT':
+        case 'LIKED_ARTICLE':
+        case 'DISLIKED_COMMENT':
+            onSuccess.updateCount(data.result);
+            break;
         
         default:
             notifications.showSuccess(successMessage);
     }
 }
 
-export const handleErrorResponse = (response, onError) => {
+export const handleErrorResponse = (response, onError, context = 'nav') => {
 
     const { data, status } = response;
 
@@ -59,11 +65,13 @@ export const handleErrorResponse = (response, onError) => {
 
         case 400:
             notifications.showWarning(errorMessage);
-            onError.showFormErrors(data.errors);
+            onError.showFormErrors?.(data.errors);
             break;
 
         case 401:
-            window.location.replace('/');
+            if (context === 'action') showModal('loginModal');
+            else window.location.replace('/');
+
             notifications.showError(errorMessage);
             break;
 

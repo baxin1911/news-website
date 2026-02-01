@@ -64,7 +64,8 @@ const dropdown = {
         id: 'dropdownMenuButton',
         class: 'btn btn-dark dropdown-toggle-split',
         content: '<i class="fas fa-caret-down"></i>'
-    }
+    },
+    logout: getLogoutForm('dropdown-item')
 }; %>
 
 <% if (variant === 'navbar') { %>
@@ -88,13 +89,13 @@ const dropdown = {
                     </li>
                 <% }); %>
                 
-                <% if (dropdown.form) { %>
+                <% if (dropdown.logout) { %>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
 
                     <li>
-                        <%- getLogoutForm('dropdown-item') %>
+                        <%- dropdown.logout %>
                     </li>
                 <% } %>
             </ul>

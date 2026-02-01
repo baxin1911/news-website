@@ -1,7 +1,10 @@
+import { countReactionTotal } from "./reactionService.js";
+
 const articles = [
     { 
         id: 1, 
         category: 1, 
+        likeCount: await countReactionTotal({ entityType: 'article', entityId: 1, reactionType: 'like' }),
         title: 'Nuevo lanzamiento de OverWatch', 
         coverPath: '/upload/news/ejemplo.png',
         tag: 'Forza Horizon 5', 
@@ -17,6 +20,7 @@ const articles = [
     { 
         id: 2, 
         category: 1, 
+        likeCount: await countReactionTotal({ entityType: 'article', entityId: 2, reactionType: 'like' }),
         title: 'Sale el nuevo juego de Hollow Knight: Silk Song',
         coverPath: '/upload/news/ejemplo.png',
         tag: 'Preview',
@@ -32,6 +36,7 @@ const articles = [
     { 
         id: 3, 
         category: 1, 
+        likeCount: await countReactionTotal({ entityType: 'article', entityId: 3, reactionType: 'like' }),
         title: 'Forza Horizon 5 celebra con este nuevo DLC',
         coverPath: '/upload/news/ejemplo.png',
         tag: 'Opinión',
@@ -47,6 +52,7 @@ const articles = [
     { 
         id: 4, 
         category: 1, 
+        likeCount: await countReactionTotal({ entityType: 'article', entityId: 4, reactionType: 'like' }),
         title: 'Este título es un ejemplo de texto largo 4',
         coverPath: '/upload/news/ejemplo.png',
         tag: 'Xbox',
@@ -94,6 +100,11 @@ export const getArticleByTitle = async (title) => {
 export const existsArticleByTitle = async (title) => {
 
     return articles.some(article => article.title.toLowerCase() === title.toLowerCase());
+}
+
+export const existsArticleByArticleId = async (id) => {
+
+    return articles.some(article => article.id === id);
 }
 
 export const countArticlesByQuery = async (q) => {

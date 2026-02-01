@@ -1,7 +1,9 @@
 import { notifications } from "../plugins/swal/swalComponent.js";
 import { handleFlashMessage, handleModalWithFlashMessage } from "../handlers/flashMessageHandler.js";
+import { on } from "../utils/domUtils.js";
 
-const backToTopBtn = document.querySelector('.back-to-top');
+const backToTopBtnSelector = '.back-to-top';
+const backToTopBtn = document.querySelector(backToTopBtnSelector);
 
 backToTopBtn.setAttribute('aria-hidden', 'true');
 
@@ -19,22 +21,19 @@ window.addEventListener('scroll', () => {
     }
 });
 
-document.querySelector('.back-to-top').addEventListener('click', (e) => {
+on('click', backToTopBtnSelector, (e, element) => {
 
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+handleFlashMessage(window.FLASH_MESSAGE || null);
+handleModalWithFlashMessage(window.FLASH_MESSAGE || null);
 
-    handleFlashMessage(window.FLASH_MESSAGE || null);
-    handleModalWithFlashMessage(window.FLASH_MESSAGE || null);
+const successMessage = localStorage.getItem('showSuccessToast');
 
-    const successMessage = localStorage.getItem('showSuccessToast');
-
-    if (successMessage) {
-        
-        notifications.showSuccess(successMessage);
-        localStorage.removeItem('showSuccessToast');
-    }
-});
+if (successMessage) {
+    
+    notifications.showSuccess(successMessage);
+    localStorage.removeItem('showSuccessToast');
+}

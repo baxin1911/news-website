@@ -64,7 +64,10 @@ const errorMessages = {
     MESSAGE_NOT_STRING: 'El mensaje debe ser una cadena de texto.',
     MESSAGE_TOO_SHORT: 'El mensaje es muy corto.',
     MESSAGE_TOO_LONG: 'El mensaje debe tener un máximo de 500 caracteres.',
-    INVALID_PAGINATION: 'No existe esa página.'
+    INVALID_PAGINATION: 'No existe esa página.',
+    INVALID_ENTITY_ID: 'No es válido el ID.',
+    ENTITY_NOT_FOUND: 'No se encontró el recurso.',
+    INVALID_ACTION: 'No se posible realizar esta acción.'
 };
 
 const successMessages = {

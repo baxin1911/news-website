@@ -4,18 +4,16 @@ import { initProfileFilepond } from "../../plugins/filepond/profileFilePond.js";
 import { toggleFileErrors } from "../../ui/forms/formMessagesUI.js";
 import { clearFileInputs } from "../../utils/formUtils.js";
 
-document.addEventListener('DOMContentLoaded', () => {
+const selector = '#accountForm';
+const form = document.querySelector(selector);
+const profile = JSON.parse(document.getElementById('user-data').textContent);
 
-    const form = document.querySelector('#accountForm');
-    const profile = JSON.parse(document.getElementById('user-data').textContent);
+if (!form) return;
 
-    if (!form) return;
-
-    initProfileFilepond(form, profile);
-});
+initProfileFilepond(form, profile);
 
 useForm({
-    formId: 'accountForm',
+    selector,
     normalizeData: (form, data) => clearFileInputs(form, data),
     normalizeErrors: ({ form, errors }) => toggleFileErrors(form, errors),
     sendRequest: (data, options) => updateAccountInfo(data, options),

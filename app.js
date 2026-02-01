@@ -5,6 +5,8 @@ import newsletterApiRoutes from './routes/api/newsletterApiRoute.js';
 import searchApiRoutes from './routes/api/searchApiRoute.js';
 import profileApiRoutes from './routes/api/profileApiRoute.js';
 import contactApiRoutes from './routes/api/contactApiRoute.js';
+import articleApiRoute from './routes/api/articleApiRoute.js';
+import commentApiRoute from './routes/api/commentApiRoute.js';
 
 import profileUploadRoutes from './routes/upload/profileUploadRoute.js';
 
@@ -90,6 +92,8 @@ app.use(apiRoute + '/newsletter', newsletterApiRoutes);
 app.use(apiRoute + '/search', searchApiRoutes);
 app.use(apiRoute + profileRoute, profileApiRoutes);
 app.use(apiRoute + '/contacts', contactApiRoutes);
+app.use(apiRoute + '/articles', articleApiRoute);
+app.use(apiRoute + '/comments', commentApiRoute);
 
 // upload routes
 app.use(uploadRoute + profileRoute, profileUploadRoutes);

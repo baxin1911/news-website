@@ -2,7 +2,7 @@ import { useForm } from "../../core/forms/form.js";
 import { login } from "../../api/authApi.js";
 
 useForm({
-    formId: 'loginForm',
+    selector: '#loginForm',
     normalizeErrors: ({ errors }) => {
 
         errors.email = errors.email ?? 'Correo incorrecto';

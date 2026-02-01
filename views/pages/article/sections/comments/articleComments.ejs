@@ -25,22 +25,37 @@
             <p class="text-dark py-1 px-3 px-md-4 px-lg-5"><%= comment.description %></p>
 
             <div class="d-flex flex-wrap gap-3">
-                <%- include('./articleCommentButton', {
+                <%- include('../../ui/articleActionButton', {
+                    id: 'articleCommentLikeButton',
+                    entityId: comment.id,
+                    action: 'like',
+                    entityType: 'comment',
                     iconClass: 'fas fa-thumbs-up',
-                    value: comment.likeCount,
-                    buttonTitle: 'Dar me gusta'
+                    value: comment.likeTotal,
+                    buttonTitle: 'Dar me gusta',
+                    buttonClass: 'btn btn-link btn-sm rounded-pill'
                 }) %>
 
-                <%- include('./articleCommentButton', {
+                <%- include('../../ui/articleActionButton', {
+                    id: 'articleCommentDislikeButton',
+                    entityId: comment.id,
+                    entityType: 'comment',
+                    action: 'dislike',
                     iconClass: 'fas fa-thumbs-down',
-                    value: comment.dislikeCount,
-                    buttonTitle: 'Dar no me gusta'
+                    value: comment.dislikeTotal,
+                    buttonTitle: 'Dar no me gusta',
+                    buttonClass: 'btn btn-link btn-sm rounded-pill'
                 }) %>
 
-                <%- include('./articleCommentButton', {
+                <%- include('../../ui/articleActionButton', {
+                    id: 'articleCommentReplyButton',
+                    entityId: comment.id,
+                    entityType: 'comment',
+                    action: 'reply',
                     iconClass: 'fas fa-reply',
-                    value: comment.replyCount,
-                    buttonTitle: 'Responder'
+                    value: comment.replyTotal,
+                    buttonTitle: 'Responder',
+                    buttonClass: 'btn btn-link btn-sm rounded-pill'
                 }) %>
             </div>
         </li>

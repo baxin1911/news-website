@@ -2,7 +2,7 @@ import { updatePreferences } from "../../api/profileApi.js";
 import { useForm } from "../../core/forms/form.js";
 
 useForm({
-    formId: 'preferencesForm',
+    selector: '#preferencesForm',
     normalizeData: (form, data) => {
 
         form.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
