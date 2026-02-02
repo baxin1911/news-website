@@ -18,11 +18,15 @@ import { getNewRefreshToken } from "../../services/authService.js";
 export const login = async (req, res) => {
 
     const { email, password } = req.body || {};
-    const isValid = await verifyPassword(password);
-
-    if (!isValid) return res.status(401).json({ code: errorCodeMessages.LOGIN_ERROR });
 
     const userId = await getUserIdByEmail(email);
+
+    if (!userId) return res.status(401).json({ code: errorCodeMessages.LOGIN_ERROR });
+
+    const isValid = await verifyPassword(userId, password);
+
+    if (!isValid) return res.status(401).json({ code: errorCodeMessages.LOGIN_ERROR });
+    
     const role = await getRoleNameByUserId(userId);
     const tokenDto = createUserDtoForToken(userId, role);
     // if (result.error) return res.status(500).json({ message: result.error });

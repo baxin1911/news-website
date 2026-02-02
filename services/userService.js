@@ -1,6 +1,15 @@
-import { encryptPassword } from "../utils/encryptionUtils.js";
+import { comparePassword, encryptPassword } from "../utils/encryptionUtils.js";
 
-let users = [];
+let users = [
+    {
+        id: crypto.randomUUID(),
+        email: 'dersey@example.com',
+        verifiedEmail: true,
+        password: await encryptPassword('Qwerty%1'),
+        username: 'frontierZone',
+        roleId: 1
+    }
+];
 
 let roles = [
     { id: 1, name: 'admin' },
@@ -11,21 +20,24 @@ let roles = [
 const profiles = [
     {
         id: 2,
-        email: 'dersey@example.com',
-        verifiedEmail: true,
-        username: 'frontierZone',
         code: 'AA000001',
-        role: 1,
         avatarPath: '/img/ejemplo.png',
         coverPath: null,
-        totalPosts: 0,
-        totalTopics: 0,
-        totalAuthors: 0,
-        followers: 0
+        name: null,
+        lastName: null,
+        userId: users[0].id
     }
 ];
 
-const listPreferences = [];
+const listPreferences = [
+    {
+        id: crypto.randomUUID(),
+        commentNotifications: false,
+        followingNotifications: true,
+        newsletterNotifications: false,
+        userId: users[0].id
+    }
+];
 
 const contacts = [];
 
@@ -178,8 +190,8 @@ export const verifyRegisteredEmailByUserId = async (userId) => {
 }
 
 export const verifyPassword = async (userId, password) => {
+
+    const user = users.find(user => user.id === userId);
     
-    const hashedPassword = await encryptPassword(password);
-    
-    return users.find(user => user.id === userId).password === hashedPassword;
+    return await comparePassword(password, user.password);
 }

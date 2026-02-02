@@ -49,6 +49,20 @@ export const authGoogle = async (req, res) => {
         userId = await getUserIdByEmail(email);
     }
 
+    let redirect = '/';
+
+    if (req.query.state) {
+
+        try {
+
+            const data = JSON.parse(Buffer.from(req.query.state, 'base64').toString());
+            redirect = data.redirect || '/profile';
+
+        } catch (e) {}
+    }
+
+    if (!redirect.startsWith('http://localhost:3000/')) redirect = '/profile';
+
     const role = await getRoleNameByUserId(userId);
     const tokenDto = createUserDtoForToken(userId, role);
     const newAccessToken = generateAccessToken(tokenDto);
@@ -60,7 +74,7 @@ export const authGoogle = async (req, res) => {
 
     setAuthCookies(res, newAccessToken, newRefreshToken);
 
-    return res.redirect('/profile');
+    return res.redirect(redirect);
 }
 
 export const resetPassword = async (req, res) => {
@@ -108,12 +122,15 @@ export const refreshAuthToken = async (req, res) => {
     const returnTo = req.cookies.returnTo;
 
     res.clearCookie('returnTo');
-    setAuthCookies(res, newAccessToken, newRefreshToken);
+    setAuthCookies(res, result.newAccessToken, result.newRefreshToken);
 
     return res.redirect(returnTo || req.headers.referer);
 }
 
 export const logout = async (req, res) => {
+
+    const returnTo = req.cookies.returnTo;
+    res.clearCookie('returnTo');
 
     // Delete refreshToken from DB
 
@@ -124,6 +141,7 @@ export const logout = async (req, res) => {
         res, 
         req.error ? errorMessages.INVALID_AUTH : successMessages.SUCCESS_LOGOUT, 
         req.error ?? successCodeMessages.SUCCESS_LOGOUT, 
-        req.error ? 'error' : 'info'
+        req.error ? 'error' : 'info',
+        returnTo || req.headers.referer
     );
 }

@@ -25,10 +25,11 @@ export const handleSuccessResponse = (response, onSuccess) => {
             onSuccess.resetForm();
             break;
         
+        case 'SUCCESS_LOGIN':
         case 'UPDATED_RESET_PASSWORD':
         case 'UPDATED_ACCOUNT_PASSWORD':
+            localStorage.setItem('showSuccessToast', successMessage);
             onSuccess.redirect();
-            notifications.showSuccess(successMessage);
             break;
         
         case 'UPDATED_ACCOUNT':

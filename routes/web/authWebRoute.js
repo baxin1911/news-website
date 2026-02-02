@@ -7,7 +7,13 @@ const router = express.Router();
 
 router.get(
     '/google', 
-    passport.authenticate('google', { scope: ['profile', 'email'] })
+    (req, res, next) => {
+
+        const redirect = req.headers.referer || '/';
+        const state = Buffer.from(JSON.stringify({ redirect })).toString('base64');
+
+        passport.authenticate('google', { scope: ['profile', 'email'], state })(req, res, next);
+    }
 );
 
 router.get(
