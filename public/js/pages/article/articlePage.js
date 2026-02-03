@@ -56,3 +56,12 @@ on('click', '.article-action-button', async (e, btn) => {
 
     await handlers[type](data, options);
 });
+
+on('click', 'a span[data-copy]', (e, span) => {
+
+    if (span.dataset.copy) {
+
+        e.preventDefault();
+        navigator.clipboard.writeText(window.location.href);
+    }
+});

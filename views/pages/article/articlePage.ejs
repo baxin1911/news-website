@@ -1,3 +1,34 @@
+<% const url = `http://localhost:3000/${ slugify(article.title) }`;
+const dropdown = {
+    toggleSplitButton: {
+        class: 'btn btn-primary btn-sm rounded-pill',
+        content: 'Compartir<i class="ms-1 fas fa-share"></i>'
+    },
+    links: [
+        {
+            content: 'WhatsApp',
+            href: `https://wa.me/?text=${ encodeURIComponent(url) }`,
+            target: '_blank'
+        },
+        {
+            content: 'X',
+            href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`,
+            target: '_blank'
+        },
+        {
+            content: 'Facebook',
+            href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+            target: '_blank'
+        },
+        {
+            content: '<span data-copy="true">Copiar enlace</span>',
+            href: '#',
+            target: '_self'
+        }
+
+    ]
+}; %>
+
 <article>
     <%- include('../../shared/linkBadge', {
         badgeClass: null,
@@ -31,8 +62,10 @@
                 iconClass: 'fas fa-heart',
                 value: article.likeTotal,
                 buttonTitle: 'Me gusta',
-                buttonClass: 'btn btn-primary btn-sm rounded-pill'
+                buttonClass: 'btn btn-primary btn-sm rounded-pill mb-2'
             }) %>
+
+            <%- include('../../shared/dropdown', { dropdown }) %>
         </div>
     </div>
 

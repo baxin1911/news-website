@@ -11,23 +11,23 @@
 const links = [
     { 
         content: 'Mi perfil', 
-        slug: '/profile#home-tab' 
+        href: '/profile#home-tab' 
     },
     { 
         content: 'Seguimientos', 
-        slug: '/profile#following-tab' 
+        href: '/profile#following-tab' 
     },
     { 
         content: 'Cuenta', 
-        slug: '/profile#account-tab' 
+        href: '/profile#account-tab' 
     },
     { 
         content: 'Preferencias', 
-        slug: '/profile#preferences-tab' 
+        href: '/profile#preferences-tab' 
     },
     {
         content: 'Seguridad',
-        slug: '/profile#security-tab'
+        href: '/profile#security-tab'
     }
 ];
 
@@ -55,52 +55,22 @@ const accordion = {
 };
 
 const dropdown = {
-    link: `
+    linkSplit: `
         <a href="/profile" class="btn btn-dark d-flex align-items-center">
             ${ getUserAvatar('fw-bold') }
         </a>
     `,
-    toggleButton: {
+    toggleSplitButton: {
         id: 'dropdownMenuButton',
         class: 'btn btn-dark dropdown-toggle-split',
         content: '<i class="fas fa-caret-down"></i>'
     },
+    links,
     logout: getLogoutForm('dropdown-item')
 }; %>
 
 <% if (variant === 'navbar') { %>
-    <ul class="navbar-nav">
-        <li class="btn-group d-flex justify-content-end dropdown">
-            <%- dropdown.link || '' %>
-
-            <button id="<%= dropdown.toggleButton.id %>" type="button"
-                class="<%= dropdown.toggleButton.class %>" data-mdb-dropdown-init
-                data-mdb-ripple-init aria-expanded="false"
-            >
-                <%- dropdown.toggleButton.content %>
-            </button>
-
-            <ul class="dropdown-menu" aria-labelledby="<%= dropdown.toggleButton.id %>">
-                <% links.forEach(link => { %>
-                    <li>
-                        <a href="<%= link.slug %>" class="dropdown-item">
-                            <%- link.content %>
-                        </a>
-                    </li>
-                <% }); %>
-                
-                <% if (dropdown.logout) { %>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
-                        <%- dropdown.logout %>
-                    </li>
-                <% } %>
-            </ul>
-        </li>
-    </ul>
+    <%- include('../../../shared/dropdown', { dropdown }) %>
 <% } else { %>
     <%- include('./menuAccordion', { accordion }) %>
 <% } %>

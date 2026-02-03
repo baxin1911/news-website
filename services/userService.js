@@ -21,7 +21,7 @@ const profiles = [
     {
         id: 2,
         code: 'AA000001',
-        avatarPath: '/img/ejemplo.png',
+        avatarPath: null,
         coverPath: null,
         name: null,
         lastName: null,
