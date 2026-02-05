@@ -1,34 +1,33 @@
-import { tokenStore, generateAccessToken, generateOneTimeToken, generateRefreshToken, verifyRefreshToken } from "../../services/jwtService.js";
+import { tokenStore, generateAccessToken, generateOneTimeToken, generateRefreshToken } from "../../services/jwtService.js";
 import { errorCodeMessages, successCodeMessages } from "../../messages/codeMessages.js";
 import { encryptToken } from "../../utils/encryptionUtils.js";
 import { sendEmail } from "../../utils/emailUtils.js";
 import { clearAuthCookies, setAuthCookies } from "../../utils/cookiesUtils.js";
-import { saveProfile } from "../../services/userService.js";
+import { getUserByEmail, saveProfile } from "../../services/userService.js";
 import { createProfileDtoForRegister } from "../../dtos/profileDTO.js";
 import { createUserPreferencesDtoForRegister } from "../../dtos/preferencesDTO.js";
 import { createUserDtoForRegister, createUserDtoForToken } from "../../dtos/userDTO.js";
 import { saveUser } from "../../services/userService.js";
 import { saveUserPreferences } from "../../services/userService.js";
-import { getUserIdByEmail } from "../../services/userService.js";
 import { editPasswordByUserId } from "../../services/userService.js";
 import { verifyPassword } from "../../services/userService.js";
-import { getRoleNameByUserId } from "../../services/userService.js";
+import { getRoleByUserId } from "../../services/userService.js";
 import { getNewRefreshToken } from "../../services/authService.js";
 
 export const login = async (req, res) => {
 
     const { email, password } = req.body || {};
 
-    const userId = await getUserIdByEmail(email);
+    const user = await getUserByEmail(email);
 
-    if (!userId) return res.status(401).json({ code: errorCodeMessages.LOGIN_ERROR });
+    if (!user) return res.status(401).json({ code: errorCodeMessages.LOGIN_ERROR });
 
-    const isValid = await verifyPassword(userId, password);
+    const isValid = await verifyPassword(user.id, password);
 
     if (!isValid) return res.status(401).json({ code: errorCodeMessages.LOGIN_ERROR });
     
-    const role = await getRoleNameByUserId(userId);
-    const tokenDto = createUserDtoForToken(userId, role);
+    const role = await getRoleByUserId(user.id);
+    const tokenDto = createUserDtoForToken(user.id, role.name);
     // if (result.error) return res.status(500).json({ message: result.error });
 
     // 429, 500
@@ -78,13 +77,13 @@ export const registerAccount = async (req, res) => {
 export const recoverAccount = async (req, res) => {
 
     const { email } = req.body || {};
-    const userId = await getUserIdByEmail(email);
+    const user = await getUserByEmail(email);
 
     // if (result.error) return res.status(500).json({ message: result.error });
 
     //429, 500
 
-    const token = generateOneTimeToken(userId, 'password-reset');
+    const token = generateOneTimeToken(user.id, 'password-reset');
     const resetLink = `http://localhost:3000/auth/password-reset?token=${token}`;
 
     await sendEmail(email, 'Restablece tu contraseña', `

@@ -1,16 +1,12 @@
-import { tokenStore, generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../../services/jwtService.js';
+import { tokenStore, generateAccessToken, generateRefreshToken } from '../../services/jwtService.js';
 import { errorCodeMessages, successCodeMessages } from '../../messages/codeMessages.js';
 import { errorMessages, successMessages } from '../../messages/messages.js';
-import { downloadGoogleAvatar } from '../../services/googleService.js';
 import { redirectWithFlash } from '../../utils/flashUtils.js';
 import { encryptToken } from '../../utils/encryptionUtils.js';
 import { clearAuthCookies, setAuthCookies } from '../../utils/cookiesUtils.js';
-import { findUserByEmail, getUserIdByEmail, saveUser, saveProfile, saveUserPreferences } from '../../services/userService.js';
-import { createUserDtoForToken, createUserDtoFromGoogle } from '../../dtos/userDTO.js';
-import { createProfileDtoForGoogleAuth } from '../../dtos/profileDTO.js';
-import { createUserPreferencesDtoForRegister } from '../../dtos/preferencesDTO.js';
+import { createUserDtoForToken } from '../../dtos/userDTO.js';
 import { verifyRegisteredEmailByUserId } from '../../services/userService.js';
-import { getRoleNameByUserId } from '../../services/userService.js';
+import { getRoleByUserId } from '../../services/userService.js';
 import { getNewRefreshToken } from '../../services/authService.js';
 
 export const authGoogle = async (req, res) => {
@@ -21,33 +17,6 @@ export const authGoogle = async (req, res) => {
         errorCodeMessages.GOOGLE_LOGIN_ERROR, 
         'error'
     );
-    
-    const { user } = req;
-    const { _json, provider } = user;
-    const profileDto = createProfileDtoForGoogleAuth(_json, provider);
-    const email = _json.email;
-    const existsUser = await findUserByEmail(email);
-    let userId = null;
-    
-    if (!existsUser) {
-
-        const userDto = createUserDtoFromGoogle(_json);
-        userId = await saveUser(userDto);
-
-        const avatarPath = await downloadGoogleAvatar(_json.picture, userId);
-        profileDto.avatarPath = avatarPath;
-        profileDto.userId = userId;
-
-        await saveProfile(profileDto);
-
-        const preferencesDto = createUserPreferencesDtoForRegister(userId);
-
-        await saveUserPreferences(preferencesDto);
-
-    } else {
-
-        userId = await getUserIdByEmail(email);
-    }
 
     let redirect = '/';
 
@@ -63,10 +32,9 @@ export const authGoogle = async (req, res) => {
 
     if (!redirect.startsWith('http://localhost:3000/')) redirect = '/profile';
 
-    const role = await getRoleNameByUserId(userId);
-    const tokenDto = createUserDtoForToken(userId, role);
-    const newAccessToken = generateAccessToken(tokenDto);
-    const newRefreshToken = generateRefreshToken(tokenDto);
+    const { user } = req;
+    const newAccessToken = generateAccessToken(user);
+    const newRefreshToken = generateRefreshToken(user);
 
     // Save refresh token in DB
     const hashedToken = encryptToken(newRefreshToken);
@@ -90,8 +58,8 @@ export const verifyEmail = async (req, res) => {
     
     await verifyRegisteredEmailByUserId(id);
 
-    const role = await getRoleNameByUserId(id);
-    const tokenDto = createUserDtoForToken(id, role);
+    const role = await getRoleByUserId(id);
+    const tokenDto = createUserDtoForToken(id, role.name);
     const newAccessToken = generateAccessToken(tokenDto);
     const newRefreshToken = generateRefreshToken(tokenDto);
 

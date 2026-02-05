@@ -12,13 +12,20 @@ router.get(
         const redirect = req.headers.referer || '/';
         const state = Buffer.from(JSON.stringify({ redirect })).toString('base64');
 
-        passport.authenticate('google', { scope: ['profile', 'email'], state })(req, res, next);
+        passport.authenticate('google', { 
+            scope: ['profile', 'email'], 
+            state, 
+            prompt: 'select_account' 
+        })(req, res, next);
     }
 );
 
 router.get(
     '/google/callback', 
-    passport.authenticate('google', { session: false }), 
+    passport.authenticate('google', { 
+        session: false,
+        failureRedirect: '/'
+    }), 
     authGoogle
 );
 

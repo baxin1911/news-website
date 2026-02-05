@@ -28,6 +28,7 @@ import expressEjsLayouts from 'express-ejs-layouts';
 import passport from 'passport';
 import { publicDir, viewsDir, avatarsDir, coversDir } from './utils/pathsUtils.js';
 import { errorCodeMessages } from './messages/codeMessages.js';
+import { googleLogin } from './services/authService.js';
 
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -44,9 +45,18 @@ passport.use(new Strategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
     callbackURL: 'http://localhost:3000/auth/google/callback'
-}, (accessToken, refreshToken, profile, done) => {
-    // Save user
-    return done(null, profile);
+}, async (accessToken, refreshToken, profile, done) => {
+    
+    try {
+
+        const tokenDto = await googleLogin(profile);
+
+        return done(null, tokenDto);
+
+    } catch (err) {
+
+        return done(err, null);
+    }
 }));
 
 app.set('views', viewsDir);

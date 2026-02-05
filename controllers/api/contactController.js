@@ -20,7 +20,7 @@ export const createContact = async (req, res) => {
     // 429, 500
 
     await sendEmail(process.env.EMAIL_CONTACT, subject, `
-        <p><b>Nombre:</b> ${ name }</p>
+        <p><b>Nombre:</b> ${ contactDto.name }</p>
         <p><b>Correo:</b> ${ email }</p>
         <p>${ message }</p>
     `);

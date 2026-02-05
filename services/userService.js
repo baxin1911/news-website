@@ -77,21 +77,23 @@ export const findUsersByIdUser = async (id) => {
     return users;
 }
 
-export const findUserByEmail = async (email) => {
+export const getUserByEmail = async (email) => {
 
-    return users.includes(user => user.email === email);
+    return users.find(user => user.email === email);
 }
 
 export const getUserIdByEmail = async (email) => {
 
-    return users.find(user => user.email === email).id;
+    const user = users.find(user => user.email === email);
+
+    return user ? user.id : null;
 }
 
-export const getRoleNameByUserId = async (userId) => {
+export const getRoleByUserId = async (userId) => {
 
     const roleId = users.find(user => user.id === userId).roleId;
 
-    return roles.find(role => role.id === roleId).name;
+    return roles.find(role => role.id === roleId);
 }
 
 export const getAvatarPathByUserId = async (userId) => {
@@ -109,13 +111,6 @@ export const getFullnameByUserId = async (userId) => {
     const profile = profiles.find(profile => profile.userId === userId);
 
     return `${ profile.name } ${ profile.lastName }`;
-}
-
-export const getRoleByEmail = async (email) => {
-
-    const roleId = users.find(user => user.email === email).roleId;
-
-    return roles.find(role => role.id === roleId);
 }
 
 export const getUsernameByUserId = async (userId) => {
