@@ -30,9 +30,9 @@
                     entityId: comment.id,
                     action: 'like',
                     entityType: 'comment',
-                    iconClass: 'fas fa-thumbs-up',
+                    iconClass: comment.isLiked ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up',
                     value: comment.likeTotal,
-                    buttonTitle: 'Dar me gusta',
+                    buttonTitle: comment.isLiked ? 'Gustado' : 'Dar me gusta',
                     buttonClass: 'btn btn-link btn-sm rounded-pill'
                 }) %>
 
@@ -41,9 +41,9 @@
                     entityId: comment.id,
                     entityType: 'comment',
                     action: 'dislike',
-                    iconClass: 'fas fa-thumbs-down',
+                    iconClass: comment.isDisliked ? 'fa-solid fa-thumbs-down' : 'fa-regular fa-thumbs-down',
                     value: comment.dislikeTotal,
-                    buttonTitle: 'Dar no me gusta',
+                    buttonTitle: comment.isDisliked ? 'No gustado' : 'Dar no me gusta',
                     buttonClass: 'btn btn-link btn-sm rounded-pill'
                 }) %>
 

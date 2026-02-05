@@ -38,10 +38,12 @@ export const handleSuccessResponse = (response, onSuccess) => {
             onSuccess.reload();
             break;
 
-        case 'LIKED_COMMENT':
-        case 'LIKED_ARTICLE':
-        case 'DISLIKED_COMMENT':
+        case 'UPDATED_REACTION':
             onSuccess.updateCount(data.result);
+            break;
+
+        case 'UPDATED_BOOKMARK':
+            onSuccess.updateBookmark(data.isSaved);
             break;
         
         default:

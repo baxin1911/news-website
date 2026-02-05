@@ -41,6 +41,11 @@ if (successMessage) {
 document.querySelectorAll('.dropdown').forEach(dropdown => {
     const btn = dropdown.querySelector('button[data-mdb-dropdown-init]');
     const instance = mdb.Dropdown.getOrCreateInstance(btn);
-    dropdown.addEventListener('mouseenter', () => instance.show());
-    dropdown.addEventListener('mouseleave', () => instance.hide());
+    dropdown.addEventListener('mouseenter', () => {
+        instance.show();
+    });
+    dropdown.addEventListener('mouseleave', () => {
+        instance.hide();
+        btn.blur();
+    });
 });

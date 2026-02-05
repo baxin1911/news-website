@@ -1,5 +1,6 @@
 import { activateArticleAction } from "../../api/articleApi.js";
 import { activateCommentAction } from "../../api/commentApi.js";
+import { getOppositeAction, updateButtonState } from "../../ui/buttonUI.js";
 import { on } from "../../utils/domUtils.js";
 
 on('click', '.article-action-button', async (e, btn) => {
@@ -14,34 +15,39 @@ on('click', '.article-action-button', async (e, btn) => {
             showButtonError: () => btn.classList.add('btn-error')
         },
         onSuccess: {
-            updateCount: (result) => {
+            updateBookmark: (isSaved) => {
 
                 const span = btn.querySelector('span');
 
-                if (span) {
-                    
-                    const current = Number(span.textContent) || 0;
-                    span.textContent = current + result.delta;
-                }
+                if (span) span.textContent = isSaved ? 'Guardado' : 'Guardar';
 
-                btn.classList.toggle('active', result.isActive);
-                btn.setAttribute('aria-pressed', result.isActive);
-                const oppsiteAction = action === 'like' ? 'dislike' : 'like';
+                updateButtonState(btn, {
+                    isActive: isSaved,
+                    icon: 'fa-bookmark',
+                    solid: isSaved
+                });
+
+                delete btn.dataset.loading;
+                btn.blur();
+            },
+            updateCount: (result) => {
+
+                updateButtonState(btn, {
+                    isActive: result.isActive,
+                    delta: result.delta,
+                    icon: action === 'like' ? 'fa-thumbs-up' : 'fa-thumbs-down',
+                    solid: action === 'like' ? result.isLiked : result.isDisliked
+                });
+
+                const oppsiteAction = getOppositeAction(action);
                 const oppositeBtn = document.querySelector(`button[data-action="${ oppsiteAction }"][data-type="${ type }"][data-id="${ id }"]`);
 
-                if (oppositeBtn) {
-
-                    const oppositeSpan = oppositeBtn.querySelector('span');
-
-                    if (oppositeSpan) {
-                        
-                        const oppositeCurrent = Number(oppositeSpan.textContent) || 0;
-                        oppositeSpan.textContent = oppositeCurrent + result.oppositeDelta;
-                    }
-
-                    oppositeBtn.classList.remove('active');
-                    oppositeBtn.setAttribute('aria-pressed', false);
-                }
+                if (oppositeBtn) updateButtonState(oppositeBtn, {
+                    isActive: false,
+                    delta: result.oppositeDelta,
+                    icon: oppositeBtn.dataset.action === 'dislike' ? 'fa-thumbs-down' : 'fa-thumbs-up',
+                    solid: false
+                });
 
                 delete btn.dataset.loading;
                 btn.blur();

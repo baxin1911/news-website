@@ -11,7 +11,7 @@ const toggleCommentLike = async (req, res) => {
     const reactionDto = createReactionDtoForCommentLike(id, commentId);
     const result = await toggleReactionWithOpposite(reactionDto)
 
-    return res.status(200).json({ code: successCodeMessages.LIKED_COMMENT, result });
+    return res.status(200).json({ code: successCodeMessages.UPDATED_REACTION, result });
 }
 
 const toggleCommentDislike = async (req, res) => {
@@ -22,7 +22,7 @@ const toggleCommentDislike = async (req, res) => {
     const reactionDto = createReactionDtoForCommentDislike(id, commentId);
     const result = await toggleReactionWithOpposite(reactionDto)
 
-    return res.status(200).json({ code: successCodeMessages.DISLIKED_COMMENT, result });
+    return res.status(200).json({ code: successCodeMessages.UPDATED_REACTION, result });
 }
 
 const actions = {

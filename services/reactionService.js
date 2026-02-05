@@ -18,7 +18,7 @@ export const toggleReactionWithOpposite = async (reactionDto) => {
     return { delta, oppositeDelta, isActive };
 }
 
-export const toggleReaction = async (reactionDto) => {
+const toggleReaction = async (reactionDto) => {
 
     const existsEntity = await existsReaction(reactionDto);
 
@@ -34,8 +34,9 @@ export const toggleReaction = async (reactionDto) => {
     return { isActive: true, delta };
 }
 
-export const saveReaction = async (reactionDto) => {
+const saveReaction = async (reactionDto) => {
 
+    reactionDto.id = crypto.randomUUID();
     const before = reactions.length;
     reactions.push(reactionDto);
 
@@ -44,7 +45,7 @@ export const saveReaction = async (reactionDto) => {
     return 0;
 }
 
-export const deleteReaction = async (reactionDto) => {
+const deleteReaction = async (reactionDto) => {
 
     const before = reactions.length;
     reactions = reactions.filter(reaction => !(
