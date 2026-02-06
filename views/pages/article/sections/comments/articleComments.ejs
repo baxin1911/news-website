@@ -1,3 +1,25 @@
+<% const form = {
+    id: 'commentForm',
+    input: {
+        id: 'commentMessageInput',
+        label: {
+            content: 'Comentario'
+        },
+        type: 'text',
+        name: 'comment'
+    },
+    submitButton: {
+        id: 'commentSubmitButton',
+        content: 'Comentar'
+    }
+} %>
+
+<form id="<%= form.id %>">
+    <%- include('../../../../shared/outlineInput', { input: form.input }) %>
+
+    <%- include('../../../../shared/submit', { button: form.submitButton }) %>
+</form>
+
 <ul class="list-group list-group-light">
     <% comments.forEach( comment => { %>
         <li id="comment-<%= comment.id %>"
@@ -25,37 +47,48 @@
             <p class="text-dark py-1 px-3 px-md-4 px-lg-5"><%= comment.description %></p>
 
             <div class="d-flex flex-wrap gap-3">
-                <%- include('../../ui/articleActionButton', {
-                    id: 'articleCommentLikeButton',
-                    entityId: comment.id,
-                    action: 'like',
-                    entityType: 'comment',
-                    iconClass: comment.isLiked ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up',
-                    value: comment.likeTotal,
-                    buttonTitle: comment.isLiked ? 'Gustado' : 'Dar me gusta',
-                    buttonClass: 'btn btn-link btn-sm rounded-pill'
+                <%- include('../../ui/actionButton', {
+                    actionButton: {
+                        id: 'articleCommentLikeButton',
+                        class: 'btn btn-link btn-sm rounded-pill',
+                        title: comment.isLiked ? 'Gustado' : 'Dar me gusta',
+                        data: {
+                            action: 'like',
+                            entityId: comment.id,
+                            entityType: 'comment'
+                        },
+                        iconClass: `${ comment.isLiked ? 'fa-solid' : 'fa-regular' } fa-thumbs-up`,
+                        value: comment.likeTotal,
+                        isToggle: true
+                    }
                 }) %>
 
-                <%- include('../../ui/articleActionButton', {
-                    id: 'articleCommentDislikeButton',
-                    entityId: comment.id,
-                    entityType: 'comment',
-                    action: 'dislike',
-                    iconClass: comment.isDisliked ? 'fa-solid fa-thumbs-down' : 'fa-regular fa-thumbs-down',
-                    value: comment.dislikeTotal,
-                    buttonTitle: comment.isDisliked ? 'No gustado' : 'Dar no me gusta',
-                    buttonClass: 'btn btn-link btn-sm rounded-pill'
+                <%- include('../../ui/actionButton', {
+                    actionButton: {
+                        id: 'articleCommentDislikeButton',
+                        class: 'btn btn-link btn-sm rounded-pill',
+                        title: comment.isDisliked ? 'No gustado' : 'Dar no me gusta',
+                        data: {
+                            action: 'dislike',
+                            entityId: comment.id,
+                            entityType: 'comment'
+                        },
+                        iconClass: `${ comment.isDisliked ? 'fa-solid' : 'fa-regular' } fa-thumbs-down`,
+                        value: comment.dislikeTotal,
+                        isToggle: true
+                    }
                 }) %>
-
-                <%- include('../../ui/articleActionButton', {
-                    id: 'articleCommentReplyButton',
-                    entityId: comment.id,
-                    entityType: 'comment',
-                    action: 'reply',
-                    iconClass: 'fas fa-reply',
-                    value: comment.replyTotal,
-                    buttonTitle: 'Responder',
-                    buttonClass: 'btn btn-link btn-sm rounded-pill'
+                
+                <%- include('../../ui/actionButton', {
+                    actionButton: {
+                        id: 'articleCommentReplyButton',
+                        class: 'btn btn-link btn-sm rounded-pill',
+                        title: 'Responder',
+                        data: null,
+                        iconClass: 'fas fa-reply',
+                        value: comment.replyTotal,
+                        isToggle: false
+                    }
                 }) %>
             </div>
         </li>

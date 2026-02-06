@@ -52,26 +52,36 @@ const dropdown = {
 
             <div>Publicado: <%= formatLongDate(article.publicationDate) %></div>
 
-            <%- include('./ui/articleActionButton', {
-                id: 'articleBookmarkButton',
-                entityId: article.id,
-                action: 'bookmark',
-                entityType: 'article',
-                iconClass: article.isSaved ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark',
-                value: article.isSaved ? 'Guardado' : 'Guardar',
-                buttonTitle: article.isSaved ? 'Guardado' : 'Guardar',
-                buttonClass: 'btn btn-primary btn-sm rounded-pill mb-2' + (article.isSaved ? ' active' : '')
+            <%- include('./ui/actionButton', {
+                actionButton: {
+                    id: 'articleBookmarkButton',
+                    class: `btn btn-primary btn-sm rounded-pill mb-2${ article.isSaved ? ' active' : '' }`,
+                    title: article.isSaved ? 'Guardado' : 'Guardar',
+                    data: {
+                        action: 'bookmark',
+                        entityId: article.id,
+                        entityType: 'article'
+                    },
+                    iconClass: `${ article.isSaved ? 'fa-solid' : 'fa-regular' } fa-bookmark`,
+                    value: article.isSaved ? 'Guardado' : 'Guardar',
+                    isToggle: true
+                }
             }) %>
 
-            <%- include('./ui/articleActionButton', {
-                id: 'articleLikeButton',
-                entityId: article.id,
-                action: 'like',
-                entityType: 'article',
-                iconClass: article.isLiked ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up',
-                value: article.likeTotal,
-                buttonTitle: article.isLiked ? 'Gustado' : 'Dar me gusta',
-                buttonClass: 'btn btn-primary btn-sm rounded-pill mb-2' + (article.isLiked ? ' active' : '')
+            <%- include('./ui/actionButton', {
+                actionButton: {
+                    id: 'articleLikeButton',
+                    class: `btn btn-primary btn-sm rounded-pill mb-2${ article.isSaved ? ' active' : '' }`,
+                    title: article.isLiked ? 'Gustado' : 'Dar me gusta',
+                    data: {
+                        action: 'like',
+                        entityId: article.id,
+                        entityType: 'article'
+                    },
+                    iconClass: `${ article.isLiked ? 'fa-solid' : 'fa-regular' } fa-thumbs-up`,
+                    value: article.likeTotal,
+                    isToggle: true
+                }
             }) %>
 
             <%- include('../../shared/dropdown', { dropdown }) %>

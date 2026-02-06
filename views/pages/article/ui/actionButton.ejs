@@ -1,0 +1,31 @@
+<% const buildCommentButton = (actionButton) => {
+
+    const attrs = {
+        'title': actionButton.title,
+        'data-mdb-tooltip-init': '',
+        'data-mdb-placement': 'top'
+    };
+
+    if (actionButton.isToggle && actionButton.data) {
+
+        const { data } = actionButton;
+        attrs['data-action'] = data.action;
+        attrs['data-id'] = data.entityId;
+        attrs['data-type'] = data.entityType;
+        attrs['data-mdb-toggle'] = 'button';
+    }
+
+    return {
+        id: actionButton.id,
+        class: `${ actionButton.class }${ actionButton.isToggle ? ' article-action-button' : '' }`,
+        attrs,
+        content: `
+            <i class="${ actionButton.iconClass }"></i>
+            <span class="ms-1">${ actionButton.value ?? 0 }</span>
+        `
+    }
+}; %>
+
+<%- include('../../../shared/button', {
+    button: buildCommentButton(actionButton)
+}) %>
