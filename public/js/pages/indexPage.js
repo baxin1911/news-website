@@ -21,7 +21,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-on('click', backToTopBtnSelector, (e, element) => {
+on('click', backToTopBtnSelector, (e, btn) => {
 
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
