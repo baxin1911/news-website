@@ -1,3 +1,6 @@
+import { searchNews } from "../../api/searchApi";
+import { useForm } from "./form";
+
 const inputs = ['textSearchOffcanvasInput', 'textSearchHeaderInput'];
 const buttons = ['searchOffcanvasBtn', 'searchHeaderBtn'];
 
@@ -8,4 +11,9 @@ inputs.forEach((inputId, index) => {
     inputElement.addEventListener('input', () => {
         buttonElement.disabled = inputElement.value.trim() === '';
     });
+});
+
+useForm({
+    selector: '#searchFeedForm',
+    sendRequest: (data, options) => searchNews(data, options)
 });

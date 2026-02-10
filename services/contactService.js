@@ -1,6 +1,6 @@
-import { createContactDtoForRegister } from "../dtos/contactDTO";
-import { sendEmail } from "../utils/emailUtils";
-import { getFullnameByUserId, getUserIdByEmail } from "./userService";
+import { createContactDtoForRegister } from "../dtos/contactDTO.js";
+import { sendEmail } from "../utils/emailUtils.js";
+import { getFullnameByUserId, getUserIdByEmail } from "./userService.js";
 
 const contacts = [];
 

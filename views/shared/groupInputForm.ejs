@@ -8,8 +8,8 @@ form.input.errorClass = 'invalid-tooltip'; %>
     novalidate
 >
     <div class="input-group">
-        <%- include('../../shared/input', { input: form.input }) %>
+        <%- include('./input', { input: form.input }) %>
 
-        <%- include('../../shared/submit', { button: form.submitButton }); %>
+        <%- include('./submit', { button: form.submitButton }); %>
     </div>
 </form>

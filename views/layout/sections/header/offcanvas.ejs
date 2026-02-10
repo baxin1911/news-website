@@ -89,9 +89,18 @@ const items = [
     }
 ];
 
-const searchForm = {
-    idInput: 'textSearchOffcanvasInput',
-    idButton: 'searchOffcanvasBtn'
+const form = {
+    attrs: {
+        'id': 'searchOffcanvasForm',
+        'action': '/search',
+        'method': 'get'
+    },
+    input: {
+        id: 'textSearchOffcanvasInput'
+    },
+    submitButton: {
+        id: 'searchOffcanvasBtn'
+    }
 }; %>
 
 <div id="menuOffcanvas" tabindex="-1" class="offcanvas offcanvas-start w-md-50" 
@@ -101,7 +110,7 @@ const searchForm = {
 
     <div class="offcanvas-body d-flex flex-column dark">
         <div class="flex-grow-1 mb-5">
-            <%- include('./searchForm', { searchForm }) %>
+            <%- include('../../../shared/searchForm', { form }) %>
         </div>
 
         <div class="flex-grow-1 mb-5">
