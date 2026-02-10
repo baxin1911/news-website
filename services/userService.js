@@ -39,8 +39,6 @@ const listPreferences = [
     }
 ];
 
-const contacts = [];
-
 export const saveProfile = async (userData) => {
     
     profiles.push(userData);
@@ -56,11 +54,6 @@ export const saveUser = async (user) => {
 export const saveUserPreferences = async (preferences) => {
 
     listPreferences.push(preferences);
-}
-
-export const saveContact = async (contact) => {
-
-    contacts.push(contact);
 }
 
 export const findUsersByIdUser = async (id) => {
