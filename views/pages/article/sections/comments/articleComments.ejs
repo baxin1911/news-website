@@ -1,34 +1,23 @@
-<% const form = {
-    id: 'commentForm',
-    input: {
-        id: 'commentHiddenInput',
-        name: 'comment'
-    },
-    submitButton: {
-        id: 'commentSubmitButton',
-        content: 'Comentar'
-    }
-} %>
+<% if (profile) { %>
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<% } %>
 
-<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<h3 class="fw-bold mb-3">💬 Comentarios</h3>
 
-<form id="<%= form.id %>" class="mb-3" novalidate>
-    <div class="mb-2">
-        <div id="editor"></div>
-        <div class="text-end small text-muted" id="counter">0 / 500</div>
+<% if (profile) { %>
+    <%- include('./commentForm', { comment: null }) %>
+<% } else { %>
+    <div class="d-flex flex-wrap align-items-center mb-3">
+        <span>Comparte tus pensamientos con </span>
+
+        <%- include('../../../../shared/loginButton', { idLoginButton: 'loginCommentBtn' }) %>
     </div>
+<% } %>
 
-    <%- include('../../../../shared/hiddenInput', {
-        input: form.input
-    }) %>
-
-    <%- include('../../../../shared/submit', { button: form.submitButton }) %>
-</form>
-
-<ul class="list-group list-group-light">
+<ul id="commentList" class="list-group list-group-light">
     <% comments.forEach( comment => { %>
         <li id="comment-<%= comment.id %>"
-            class="comment-card list-group-item px-3 rounded-3 list-group-item-primary mb-2" 
+            class="bg-comment list-group-item px-3 rounded-3 list-group-item-primary mb-2" 
         >
             <div class="d-inline-flex align-items-center gap-2">
                 <a href="/profile/<%= comment.username %>" class="text-decoration-none">
@@ -102,5 +91,7 @@
 
 <%- include('../../../../shared/pagination') %>
 
-<script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
-<script src="https://unpkg.com/tributejs/dist/tribute.min.js"></script>
+<% if (profile) { %>
+    <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+    <script src="https://unpkg.com/tributejs/dist/tribute.min.js"></script>
+<% } %>

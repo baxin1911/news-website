@@ -24,6 +24,12 @@ export const handleSuccessResponse = (response, onSuccess) => {
             notifications.showSuccess(successMessage);
             onSuccess.resetForm();
             break;
+
+        case 'CREATED_COMMENT':
+            notifications.showSuccess(successMessage);
+            onSuccess.resetForm();
+            onSuccess.appendComment(data.comment);
+            break;
         
         case 'SUCCESS_LOGIN':
         case 'UPDATED_RESET_PASSWORD':
@@ -45,9 +51,13 @@ export const handleSuccessResponse = (response, onSuccess) => {
         case 'UPDATED_BOOKMARK':
             onSuccess.updateBookmark(data.isSaved);
             break;
+
+        case 'SUCCESS_MENTIONED_USER':
+            onSuccess.showMentionedUser(data.users);
+            break;
         
         default:
-            notifications.showSuccess(successMessage);
+            break;
     }
 }
 
@@ -67,6 +77,12 @@ export const handleErrorResponse = (response, onError, context = 'nav') => {
     switch (status) {
 
         case 400:
+            if (context === 'mention') {
+
+                onError.showUndefinedUser();
+                break;
+            }
+            
             notifications.showWarning(errorMessage);
             onError.showFormErrors?.(data.errors);
             break;

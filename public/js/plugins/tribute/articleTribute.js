@@ -1,3 +1,3 @@
 import { createTribute } from "./baseTribute.js";
 
-export const initFormCommentTribute = (id) => createTribute(id);
+export const initFormCommentTribute = ({ element, selectTemplate, searchFn }) => createTribute(element, selectTemplate, searchFn);

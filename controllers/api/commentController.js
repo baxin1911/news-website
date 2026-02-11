@@ -1,26 +1,18 @@
-import { createReactionDtoForCommentDislike, createReactionDtoForCommentLike } from "../../dtos/reactionDTO.js";
 import { errorCodeMessages, successCodeMessages } from "../../messages/codeMessages.js";
-import { existsCommentByCommentId } from "../../services/commentService.js";
+import { existsCommentByCommentId, saveComment } from "../../services/commentService.js";
 import { toggleReactionWithOpposite } from "../../services/reactionService.js";
+import sanitizeHtml from 'sanitize-html';
 
 const toggleCommentLike = async (req, res) => {
 
-    const { id } = req.user;
-    let { id: commentId } = req.params;
-    commentId = Number(commentId);
-    const reactionDto = createReactionDtoForCommentLike(id, commentId);
-    const result = await toggleReactionWithOpposite(reactionDto)
+    const result = await toggleReactionWithOpposite(req.body)
 
     return res.status(200).json({ code: successCodeMessages.UPDATED_REACTION, result });
 }
 
 const toggleCommentDislike = async (req, res) => {
 
-    const { id } = req.user;
-    let { id: commentId } = req.params;
-    commentId = Number(commentId);
-    const reactionDto = createReactionDtoForCommentDislike(id, commentId);
-    const result = await toggleReactionWithOpposite(reactionDto)
+    const result = await toggleReactionWithOpposite(req.body)
 
     return res.status(200).json({ code: successCodeMessages.UPDATED_REACTION, result });
 }
@@ -45,5 +37,32 @@ export const activateCommentAction = async (req, res) => {
 
     if (!handler) return res.status(400).json({ code: errorCodeMessages.INVALID_ACTION });
 
+    const body = {};
+    body.entityType = 'comment';
+    body.entityId = id;
+    body.userId = req.user.id;
+    body.reactionType = action;
+    req.body = body;
+
     return handler(req, res);
+}
+
+export const createComment = async (req, res) => {
+
+    const { body } = req;
+    body.userId = req.user.id;
+    const clean = sanitizeHtml(req.body.description, {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
+        allowedAttributes: {
+            a: ['href', 'target'],
+            img: ['src', 'alt']
+        }
+    });
+    req.body.description = clean;
+    const comment = await saveComment(body);
+
+    return res.status(200).json({ 
+        code: successCodeMessages.CREATED_COMMENT,
+        comment
+    });
 }

@@ -18,7 +18,7 @@ export const createUserDtoForRegister = async (body = {}) => ({
     email: body.email,
     verifiedEmail: false,
     roleId: 2,
-    password: await encryptPassword(body.password)
+    password: body.password ? await encryptPassword(body.password) : null
 
 });
 

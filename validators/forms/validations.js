@@ -1,4 +1,4 @@
-import { validateEmail, validateGenericText,validatePassword, validateRepeatedPassword } from "../fields/fieldsValidator.js";
+import { validateEmail, validateGenericText, validatePassword, validateRepeatedPassword } from "../fields/fieldsValidator.js";
 
 export const emailValidation = [
     validateEmail,

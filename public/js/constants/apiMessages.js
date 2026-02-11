@@ -66,8 +66,7 @@ const errorMessages = {
     MESSAGE_TOO_LONG: 'El mensaje debe tener un máximo de 500 caracteres.',
     INVALID_PAGINATION: 'No existe esa página.',
     INVALID_ENTITY_ID: 'No es válido el ID.',
-    ENTITY_NOT_FOUND: 'No se encontró el recurso.',
-    INVALID_ACTION: 'No se posible realizar esta acción.'
+    ENTITY_NOT_FOUND: 'No se encontró el recurso.'
 };
 
 const successMessages = {
@@ -82,7 +81,8 @@ const successMessages = {
     SUCCESS_LOGOUT: 'Sesión cerrada exitosamente.',
     VERIFIED_EMAIL: '¡Correo verificado exitosamente!',
     SUCCESS_SEARCH: 'Búsqueda exitosa',
-    CREATED_CONTACT: '¡Información de contacto guardado exitosamente!'
+    CREATED_CONTACT: '¡Información de contacto guardado exitosamente!',
+    CREATED_COMMENT: '¡Comentario registrado exitosamente!'
 };
 
 const infoMessages = {

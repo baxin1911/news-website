@@ -1,4 +1,4 @@
-import { isEmptyOrNull, isLengthInRangeMax, isLengthInRangeMin, isString } from "./validations.js"
+import { isEmptyOrNull, isLengthInRangeMax, isString } from "./validations.js"
 
 export const validateSubject = (subject) => {
 
@@ -17,22 +17,18 @@ export const validateSubject = (subject) => {
     return result;
 }
 
-export const validateMessage = (subject) => {
+export const validateMessage = ({ value, maxLength }) => {
 
     const fieldname = 'El texto ';
-    let result = isEmptyOrNull(subject, fieldname);
+    let result = isEmptyOrNull(value, fieldname);
 
     if (result) return result;
 
-    result = isString(subject, fieldname);
+    result = isString(value, fieldname);
 
     if (result) return result;
 
-    result = isLengthInRangeMin(subject, 1, fieldname);
-
-    if (result) return result;
-
-    result = isLengthInRangeMax(subject, 500, fieldname);
+    result = isLengthInRangeMax(value, maxLength, fieldname);
 
     return result;
 }

@@ -2,7 +2,7 @@ import { countReactionTotal } from "./reactionService.js";
 
 const articles = [
     { 
-        id: 1, 
+        id: crypto.randomUUID(), 
         category: 1, 
         likeTotal: await countReactionTotal({ entityType: 'article', entityId: 1, reactionType: 'like' }),
         title: 'Nuevo lanzamiento de OverWatch', 

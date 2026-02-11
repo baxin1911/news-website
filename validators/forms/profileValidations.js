@@ -1,15 +1,15 @@
-import { validatecommentNotifications, validatefollowingNotifications, validateName, validateLastName, validatenewsletterNotifications, validateUsername, validateAvatarPath, validateCoverPath } from "../fields/fieldsValidator.js";
+import { validateBoolean, validateName, validateLastName, validateUsername, validateOptionalPath } from "../fields/fieldsValidator.js";
 
 export const profileValidation = [
     validateUsername,
     validateName,
     validateLastName,
-    validateAvatarPath,
-    validateCoverPath
+    validateOptionalPath('avatarPath'),
+    validateOptionalPath('coverPath'),
 ]
 
 export const preferencesValitdation = [
-    validatecommentNotifications,
-    validatefollowingNotifications,
-    validatenewsletterNotifications,
+    validateBoolean('commentNotifications'),
+    validateBoolean('followingNotifications'),
+    validateBoolean('newsletterNotifications'),
 ];

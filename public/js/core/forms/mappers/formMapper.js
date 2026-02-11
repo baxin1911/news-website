@@ -1,5 +1,4 @@
 import { getErrorMessage } from "../../../constants/apiMessages.js";
-import { validators } from "../../validations/validators.js";
 
 export const mapServerErrors = (serverErrors) => {
 
@@ -13,7 +12,7 @@ export const mapServerErrors = (serverErrors) => {
     return errors;
 }
 
-export const mapFormErrors = (data) => {
+export const mapFormErrors = (data, validators) => {
 
     const errors = {};
 

@@ -44,12 +44,12 @@ const searchForm = {
             <%- include('../../ui/navList', { 
                 listClass: 'navbar-nav',
                 items 
-            }); %>
+            }) %>
         </div>
 
         <div class="d-none d-sm-flex" role="navigation">
             <% if (!profile) { %>
-                <%- include('./loginButton', { idLoginButton: 'profileHeaderBtn' }) %>
+                <%- include('../../../shared/loginButton', { idLoginButton: 'loginHeaderBtn' }) %>
             <% } else { %>
                 <%- include('./profileMenu', { variant: 'navbar' }) %>
             <% } %>

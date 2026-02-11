@@ -4,5 +4,5 @@ export const contactValidation = [
     validateName,
     validateEmail,
     validateSubject,
-    validateMessage
+    validateMessage(500)
 ]

@@ -5,13 +5,14 @@ import { on } from "../../utils/domUtils.js";
 
 export const useForm = async ({ 
     selector,
+    validators,
     modalId = '',
     url = '/',
     normalizeData = () => {},
     normalizeErrors = () => {},
-    applyBeforeRequest = () => {},
     sendRequest,
     normalizeServerErrors = () => {},
+    onSuccess = {}
 }) => {
 
     on('submit', selector, async (e, form) => {
@@ -22,7 +23,7 @@ export const useForm = async ({
 
         normalizeData(form, data);
 
-        const errors = mapFormErrors(data);
+        const errors = mapFormErrors(data, validators);
 
         normalizeErrors({ form, errors });
         toggleErrorMessages(form, errors);
@@ -32,8 +33,6 @@ export const useForm = async ({
         if (hasErrors) return;
 
         try {
-
-            applyBeforeRequest(data);
 
             await sendRequest(data, {
                 onError: {
@@ -46,10 +45,11 @@ export const useForm = async ({
                     }
                 },
                 onSuccess: {
+                    ...onSuccess,
                     resetForm: () => form.reset(),
                     closeModal: () => closeModal(modalId, form),
                     redirect: () => window.location.replace(url),
-                    reload: () => window.location.reload()
+                    reload: () => window.location.reload(),
                 }
             });
 

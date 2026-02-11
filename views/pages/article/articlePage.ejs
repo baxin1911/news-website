@@ -38,9 +38,9 @@ const dropdown = {
 
     <div class="row">
         <div class="col-12 col-md-8">
-            <div class="fw-bold fs-6">
+            <h2 class="fw-bold">
                 <%= article.title %>
-            </div>
+            </h2>
 
             <div class="fs-6">
                 <%= article.description %>
@@ -52,39 +52,41 @@ const dropdown = {
 
             <div>Publicado: <%= formatLongDate(article.publicationDate) %></div>
 
-            <%- include('./ui/actionButton', {
-                actionButton: {
-                    id: 'articleBookmarkButton',
-                    class: `btn btn-primary btn-sm rounded-pill mb-2${ article.isSaved ? ' active' : '' }`,
-                    title: article.isSaved ? 'Guardado' : 'Guardar',
-                    data: {
-                        action: 'bookmark',
-                        entityId: article.id,
-                        entityType: 'article'
-                    },
-                    iconClass: `${ article.isSaved ? 'fa-solid' : 'fa-regular' } fa-bookmark`,
-                    value: article.isSaved ? 'Guardado' : 'Guardar',
-                    isToggle: true
-                }
-            }) %>
+            <div class="d-flex flex-wrap align-items-center gap-3">
+                <%- include('./ui/actionButton', {
+                    actionButton: {
+                        id: 'articleBookmarkButton',
+                        class: `btn btn-primary btn-sm rounded-pill mb-2${ article.isSaved ? ' active' : '' }`,
+                        title: article.isSaved ? 'Guardado' : 'Guardar',
+                        data: {
+                            action: 'bookmark',
+                            entityId: article.id,
+                            entityType: 'article'
+                        },
+                        iconClass: `${ article.isSaved ? 'fa-solid' : 'fa-regular' } fa-bookmark`,
+                        value: article.isSaved ? 'Guardado' : 'Guardar',
+                        isToggle: true
+                    }
+                }) %>
 
-            <%- include('./ui/actionButton', {
-                actionButton: {
-                    id: 'articleLikeButton',
-                    class: `btn btn-primary btn-sm rounded-pill mb-2${ article.isSaved ? ' active' : '' }`,
-                    title: article.isLiked ? 'Gustado' : 'Dar me gusta',
-                    data: {
-                        action: 'like',
-                        entityId: article.id,
-                        entityType: 'article'
-                    },
-                    iconClass: `${ article.isLiked ? 'fa-solid' : 'fa-regular' } fa-thumbs-up`,
-                    value: article.likeTotal,
-                    isToggle: true
-                }
-            }) %>
+                <%- include('./ui/actionButton', {
+                    actionButton: {
+                        id: 'articleLikeButton',
+                        class: `btn btn-primary btn-sm rounded-pill mb-2${ article.isSaved ? ' active' : '' }`,
+                        title: article.isLiked ? 'Gustado' : 'Dar me gusta',
+                        data: {
+                            action: 'like',
+                            entityId: article.id,
+                            entityType: 'article'
+                        },
+                        iconClass: `${ article.isLiked ? 'fa-solid' : 'fa-regular' } fa-thumbs-up`,
+                        value: article.likeTotal,
+                        isToggle: true
+                    }
+                }) %>
 
-            <%- include('../../shared/dropdown', { dropdown }) %>
+                <%- include('../../shared/dropdown', { dropdown }) %>
+            </div>
         </div>
     </div>
 
@@ -113,9 +115,15 @@ const dropdown = {
     <% }); %>
 </article>
 
-<section class="my-2">
+<div class="layout-separator"></div>
+
+<section class="comment-card my-2">
     <%- include('./sections/comments/articleComments') %>
 </section>
+
+<script type="application/json" id="user-data">
+    <%- JSON.stringify(profile) %>
+</script>
 
 <script type="module" src="/js/pages/article/articlePage.js"></script>
 

@@ -1,5 +1,3 @@
-import { createReactionDtoForArticleLike } from "../../dtos/reactionDTO.js";
-import { createBookmarkDto } from '../../dtos/bookmarkDTO.js';
 import { errorCodeMessages, successCodeMessages } from "../../messages/codeMessages.js";
 import { existsArticleByArticleId } from "../../services/articleService.js";
 import { toggleReactionWithOpposite } from "../../services/reactionService.js";
@@ -7,22 +5,26 @@ import { toggleBookmark } from "../../services/bookmarkService.js";
 
 const toggleArticleLike = async (req, res) => {
 
-    const { id } = req.user;
-    let { id: articleId } = req.params;
-    articleId = Number(articleId);
-    const reactionDto = createReactionDtoForArticleLike(id, articleId);
-    const result = await toggleReactionWithOpposite(reactionDto);
+    const body = {
+        userId: req.user.id,
+        entityId: Number(req.params.id),
+        reactionType: req.params.action,
+        entityType: 'article'
+    };
+    
+    const result = await toggleReactionWithOpposite(body);
 
     return res.status(200).json({ code: successCodeMessages.UPDATED_REACTION, result });
 }
 
 const toggleArticleBookmark = async (req, res) => {
 
-    const { id } = req.user;
-    let { id: articleId } = req.params;
-    articleId = Number(articleId);
-    const bookmarkDto = createBookmarkDto(id, articleId);
-    const isSaved = await toggleBookmark(bookmarkDto);
+    const body = {
+        userId: req.user.id,
+        articleId: Number(req.params.id)
+    };
+    
+    const isSaved = await toggleBookmark(body);
 
     return res.status(200).json({ code: successCodeMessages.UPDATED_BOOKMARK, isSaved });
 }

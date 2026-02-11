@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, query } from "express-validator";
 import { errorCodeMessages } from "../../messages/codeMessages.js";
 
 const numberRegex = /\d/;
@@ -73,48 +73,27 @@ export const validateUsername =
 ;
 
 export const validateGenericText = 
-    body('q')
+    query('q')
         .trim()
         .notEmpty().withMessage(errorCodeMessages.EMPTY_TEXT)
         .isString().withMessage(errorCodeMessages.TEXT_NOT_STRING)
-        .isLength({ min: 1 }).withMessage(errorCodeMessages.TEXT_TOO_SHORT)
-        .isLength({ max: 500 }).withMessage(errorCodeMessages.TEXT_TOO_LONG)
+        .isLength({ max: 200 }).withMessage(errorCodeMessages.TEXT_TOO_LONG)
 ;
 
-export const validatecommentNotifications = 
-    body('commentNotifications')
+export const validateBoolean = (field) =>
+    body(field)
         .exists().withMessage(errorCodeMessages.EMPTY_OPTION)
         .isBoolean().withMessage(errorCodeMessages.OPTION_NOT_BOOLEAN)
         .toBoolean()
 ;
 
-export const validatefollowingNotifications = 
-    body('followingNotifications')
-        .exists().withMessage(errorCodeMessages.EMPTY_OPTION)
-        .isBoolean().withMessage(errorCodeMessages.OPTION_NOT_BOOLEAN)
-        .toBoolean()
-;
-
-export const validatenewsletterNotifications = 
-    body('newsletterNotifications')
-        .exists().withMessage(errorCodeMessages.EMPTY_OPTION)
-        .isBoolean().withMessage(errorCodeMessages.OPTION_NOT_BOOLEAN)
-        .toBoolean()
-;
-
-export const validateCoverPath = 
-    body('coverPath')
+export const validateOptionalPath = (field) =>
+    body(field)
         .if(value => value !== undefined && value !== null && value !== '')
         .isString().withMessage(errorCodeMessages.IMAGE_PATH_NOT_STRING)
         .trim()
-        .matches(pathRegex).withMessage(errorCodeMessages.INVALID_IMAGE_PATH);
-
-export const validateAvatarPath = 
-    body('avatarPath')
-        .if(value => value !== undefined && value !== null && value !== '')
-        .isString().withMessage(errorCodeMessages.IMAGE_PATH_NOT_STRING)
-        .trim()
-        .matches(pathRegex).withMessage(errorCodeMessages.INVALID_IMAGE_PATH);
+        .matches(pathRegex).withMessage(errorCodeMessages.INVALID_IMAGE_PATH)
+;
 
 export const validateSubject =
     body('subject')
@@ -122,11 +101,24 @@ export const validateSubject =
         .notEmpty().withMessage(errorCodeMessages.EMPTY_SUBJECT)
         .isString().withMessage(errorCodeMessages.SUBJECT_NOT_STRING)
         .isIn(['error', 'suggestion', 'news', 'collab', 'other']).withMessage(errorCodeMessages.FORBIDDEN_SUBJECT)
+;
 
-export const validateMessage = 
+export const validateMessage = (max) =>
     body('message')
         .trim()
         .notEmpty().withMessage(errorCodeMessages.EMPTY_MESSAGE)
         .isString().withMessage(errorCodeMessages.MESSAGE_NOT_STRING)
-        .isLength({ min: 1 }).withMessage(errorCodeMessages.MESSAGE_TOO_SHORT)
-        .isLength({ max: 500 }).withMessage(errorCodeMessages.MESSAGE_TOO_LONG)
+        .isLength({ max }).withMessage(errorCodeMessages.MESSAGE_TOO_LONG)
+;
+
+export const validateId = (field) =>
+    body(field)
+        .notEmpty().withMessage(errorCodeMessages.EMPTY_ID)
+        .isUUID('4').withMessage(errorCodeMessages.ID_NOT_UUID)
+;
+
+export const validateOptionalId = (field) =>
+    body(field)
+        .if(value => value !== undefined && value !== null && value !== '')
+        .isUUID('4').withMessage(errorCodeMessages.ID_NOT_UUID)
+;

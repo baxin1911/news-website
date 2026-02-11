@@ -1,7 +1,10 @@
+import { createReactionDtoForRegister } from "../dtos/reactionDTO.js";
+
 let reactions = [];
 
-export const toggleReactionWithOpposite = async (reactionDto) => {
+export const toggleReactionWithOpposite = async (body) => {
 
+    const reactionDto = createReactionDtoForRegister(body);
     const { isActive, delta } = await toggleReaction(reactionDto);
     let oppositeDelta = 0;
 

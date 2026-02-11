@@ -1,3 +1,4 @@
+import { createCommentDtoForRegister } from "../dtos/commentDto.js";
 import { getAllArticles } from "./articleService.js";
 import { countReactionTotal } from "./reactionService.js";
 import { getAllProfiles } from "./userService.js";
@@ -52,6 +53,13 @@ const comments = [
         created_at: Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000 
     },
 ];
+
+export const saveComment = async (body) => {
+
+    const commentDto = createCommentDtoForRegister(body);
+    comments.push(commentDto);
+    return commentDto;
+}
 
 export const findCommentsByArticleId = async (articleId, limit, offset = 0) => {
     const filteredComments = comments.filter(comment => comment.articleId === articleId);

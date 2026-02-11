@@ -1,8 +1,10 @@
 import { updatePreferences } from "../../api/profileApi.js";
 import { useForm } from "../../core/forms/form.js";
+import { preferencesValidators } from "../../core/validations/validators.js";
 
 useForm({
     selector: '#preferencesForm',
+    validators: preferencesValidators,
     normalizeData: (form, data) => {
 
         form.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {

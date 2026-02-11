@@ -1,3 +1,6 @@
+import { createUserPreferencesDtoForRegister } from "../dtos/preferencesDTO.js";
+import { createProfileDtoForRegister } from "../dtos/profileDTO.js";
+import { createUserDtoForRegister } from "../dtos/userDTO.js";
 import { comparePassword, encryptPassword } from "../utils/encryptionUtils.js";
 
 let users = [
@@ -41,21 +44,25 @@ const listPreferences = [
 
 const contacts = [];
 
-export const saveProfile = async (userData) => {
+export const saveProfile = async ({ userId }) => {
     
-    profiles.push(userData);
+    const profileDto = createProfileDtoForRegister();
+    profileDto.userId = userId;
+    profiles.push(profileDto);
 }
 
-export const saveUser = async (user) => {
+export const saveUser = async (body) => {
 
-    users.push(user);
+    const userDto = await createUserDtoForRegister(body);
+    users.push(userDto);
     
-    return user.id;
+    return userDto.id;
 }
 
-export const saveUserPreferences = async (preferences) => {
+export const saveUserPreferences = async (userId) => {
 
-    listPreferences.push(preferences);
+    const preferencesDto = createUserPreferencesDtoForRegister(userId);
+    listPreferences.push(preferencesDto);
 }
 
 export const saveContact = async (contact) => {
@@ -116,6 +123,25 @@ export const getFullnameByUserId = async (userId) => {
 export const getUsernameByUserId = async (userId) => {
 
     return users.find(user => user.id === userId).username;
+}
+
+export const searchUsersByUsername = async (q) => {
+
+    q = q.toLowerCase();
+
+    return users.map(user => {
+        const username = user.username.toLowerCase();
+        const index = username.indexOf(q);
+
+        return {
+            id: user.id,
+            username: user.username,
+            score: index === -1 ? Infinity : index
+        };
+    })
+    .filter(u => u.score !== Infinity)
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 3);
 }
 
 export const getAllProfiles = async () => {

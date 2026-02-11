@@ -1,0 +1,32 @@
+<% const form = {
+    id: 'commentForm',
+    inputs: [
+        {
+            id: 'parentCommentHiddenInput',
+            name: 'parentId',
+            value: comment ? comment.id : null
+        },
+        {
+            id: 'articleCommentHiddenInput',
+            name: 'articleId',
+            value: article.id
+        }
+    ],
+    submitButton: {
+        id: 'commentSubmitButton',
+        content: 'Comentar'
+    }
+} %>
+
+<form id="<%= form.id %>" class="mb-3" novalidate>
+    <div class="mb-2">
+        <div id="editor"></div>
+        <div class="text-end small text-muted" id="counter">0 / 500</div>
+    </div>
+
+    <% form.inputs.forEach(input => { %>
+        <%- include('../../../../shared/hiddenInput', { input }) %>
+    <% }); %>
+
+    <%- include('../../../../shared/submit', { button: form.submitButton }) %>
+</form>

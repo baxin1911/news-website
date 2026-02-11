@@ -21,7 +21,7 @@
         attrs,
         content: `
             <i class="${ actionButton.iconClass }"></i>
-            <span class="ms-1">${ actionButton.value ?? 0 }</span>
+            ${ typeof actionButton.value === 'string' ? actionButton.value : `<span class="ms-1">${ actionButton.value ?? 0 }</span>` }
         `
     }
 }; %>
