@@ -1,10 +1,7 @@
-<% const form = {
-    attrs: {
-        'action': '/search',
-        'method': 'get'
-    },
+<% const searchForm = {
+    attrs: form.attrs,
     input: {
-        id: searchForm.idInput,
+        id: form.input.id,
         type: 'search',
         name: 'q',
         attrs: {
@@ -16,9 +13,9 @@
     },
     submitButton: {
         disabled: 'disabled',
-        id: searchForm.idButton,
+        id: form.submitButton.id,
         content: '<i class="fas fa-search"></i>'
     }
 }; %>
 
-<%- include('../../ui/groupInputForm', { form }) %>
+<%- include('./groupInputForm', { form: searchForm }) %>

@@ -29,15 +29,24 @@
     class: `nav-link ${ item.isActive ? 'active' : ''}`
 }));
 
-const searchForm = {
-    idInput: 'textSearchHeaderInput',
-    idButton: 'searchHeaderBtn'
+const form = {
+    attrs: {
+        'id': 'searchHeaderForm',
+        'action': '/search',
+        'method': 'get'
+    },
+    input: {
+        id: 'textSearchHeaderInput'
+    },
+    submitButton: {
+        id: 'searchHeaderBtn'
+    }
 }; %>
 
 <nav class="navbar navbar-expand-lg bg-dark p-0">
     <div class="container-fluid justify-content-between">
         <div class="d-none d-sm-flex" role="navigation">
-            <%- include('./searchForm', { searchForm }) %>
+            <%- include('../../../shared/searchForm', { form }) %>
         </div>
 
         <div class="d-none d-lg-flex" role="navigation">

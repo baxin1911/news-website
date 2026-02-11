@@ -42,8 +42,6 @@ const listPreferences = [
     }
 ];
 
-const contacts = [];
-
 export const saveProfile = async ({ userId }) => {
     
     const profileDto = createProfileDtoForRegister();
@@ -63,11 +61,6 @@ export const saveUserPreferences = async (userId) => {
 
     const preferencesDto = createUserPreferencesDtoForRegister(userId);
     listPreferences.push(preferencesDto);
-}
-
-export const saveContact = async (contact) => {
-
-    contacts.push(contact);
 }
 
 export const findUsersByIdUser = async (id) => {

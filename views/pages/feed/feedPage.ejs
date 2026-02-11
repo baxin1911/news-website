@@ -1,4 +1,18 @@
+<% const form = {
+    attrs: {
+        'id': 'searchFeedForm'
+    },
+    input: {
+        id: 'textSearchFeedInput'
+    },
+    submitButton: {
+        id: 'searchFeedBtn',
+    }
+}; %>
+
 <section aria-label="Resultados de búsqueda">
+    <%- include('../../shared/searchForm', { form }) %>
+    
     <h2 class="title-style"><%= title %></h2>
 
     <% if (game) { %>
