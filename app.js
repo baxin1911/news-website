@@ -7,6 +7,7 @@ import contactApiRoutes from './routes/api/contactApiRoute.js';
 import articleApiRoute from './routes/api/articleApiRoute.js';
 import commentApiRoute from './routes/api/commentApiRoute.js';
 import userApiRoutes from './routes/api/userApiRoute.js';
+import searchApiRoute from './routes/api/searchApiRoute.js';
 
 import profileUploadRoutes from './routes/upload/profileUploadRoute.js';
 
@@ -104,6 +105,7 @@ app.use(apiRoute + '/contacts', contactApiRoutes);
 app.use(apiRoute + '/articles', articleApiRoute);
 app.use(apiRoute + '/comments', commentApiRoute);
 app.use(apiRoute + '/users', userApiRoutes);
+app.use(apiRoute + '/search', searchApiRoute);
 
 // upload routes
 app.use(uploadRoute + profileRoute, profileUploadRoutes);

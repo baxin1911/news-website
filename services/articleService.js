@@ -18,7 +18,7 @@ const articles = [
         status: 1 
     },
     { 
-        id: 2, 
+        id: crypto.randomUUID(), 
         category: 1, 
         likeTotal: await countReactionTotal({ entityType: 'article', entityId: 2, reactionType: 'like' }),
         title: 'Sale el nuevo juego de Hollow Knight: Silk Song',
@@ -34,7 +34,7 @@ const articles = [
         status: 1 
     },
     { 
-        id: 3, 
+        id: crypto.randomUUID(), 
         category: 1, 
         likeTotal: await countReactionTotal({ entityType: 'article', entityId: 3, reactionType: 'like' }),
         title: 'Forza Horizon 5 celebra con este nuevo DLC',
@@ -50,7 +50,7 @@ const articles = [
         status: 1 
     },
     { 
-        id: 4, 
+        id: crypto.randomUUID(), 
         category: 1, 
         likeTotal: await countReactionTotal({ entityType: 'article', entityId: 4, reactionType: 'like' }),
         title: 'Este título es un ejemplo de texto largo 4',

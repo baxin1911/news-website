@@ -80,15 +80,17 @@ const successMessages = {
     SUCCESS_LOGIN: '¡Inicio de sesión exitoso!',
     SUCCESS_LOGOUT: 'Sesión cerrada exitosamente.',
     VERIFIED_EMAIL: '¡Correo verificado exitosamente!',
-    SUCCESS_SEARCH: 'Búsqueda exitosa',
+    SUCCESS_SEARCH: 'Búsqueda exitosa.',
     CREATED_CONTACT: '¡Información de contacto guardado exitosamente!',
     CREATED_COMMENT: '¡Comentario registrado exitosamente!'
 };
 
 const infoMessages = {
-    NO_CONTENT_SEARCH: 'No se encontraron resultados'
+    NO_CONTENT_SEARCH: 'No se encontraron resultados. Pruebe otro término.'
 }
 
 export const getErrorMessage = (code) => errorMessages[code] ?? null;
 
 export const getSuccessMessage = (code) => successMessages[code] ?? null;
+
+export const getInfoMessage = (code) => infoMessages[code] ?? null;

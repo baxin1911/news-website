@@ -1,6 +1,6 @@
 import { apiRequest } from './axiosInstanceApi.js';
 
 export const searchNews = (params, options) => apiRequest(
-    { method: 'get', url: '/search', params }, 
+    { method: 'get', url: '/api/search', params }, 
     options
 );

@@ -3,6 +3,7 @@ import { validateUUID } from "./commentValidations.js";
 import { validateMessage, validateSubject } from "./contactValidations.js";
 import { validateBooleanField } from "./preferencesValidations.js";
 import { validateAvatarPath, validateCoverPath, validateLastName, validateName } from "./profileValidations.js";
+import { validateQuery } from "./searchValidations.js";
 
 export const newsletterValidators = {
     email: validateEmail
@@ -10,6 +11,10 @@ export const newsletterValidators = {
 
 export const recoverAuthValidators = {
     email: validateEmail
+};
+
+export const searchValidators = {
+    q: validateQuery
 };
 
 export const articleCommentValidators = {

@@ -17,3 +17,5 @@ export const getCategory = (categoryId) => {
             return 'Sin categoría';
     }
 }
+
+export const slugify = (text) => text.toLowerCase().trim().replace(/\s+/g, '-');

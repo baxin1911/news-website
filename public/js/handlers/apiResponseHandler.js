@@ -1,4 +1,4 @@
-import { getErrorMessage, getSuccessMessage } from "../constants/apiMessages.js";
+import { getErrorMessage, getInfoMessage, getSuccessMessage } from "../constants/apiMessages.js";
 import { notifications } from "../plugins/swal/swalComponent.js";
 import { showModal } from "../ui/modalUI.js";
 
@@ -54,6 +54,24 @@ export const handleSuccessResponse = (response, onSuccess) => {
 
         case 'SUCCESS_MENTIONED_USER':
             onSuccess.showMentionedUser(data.users);
+            break;
+
+        case 'SUCCESS_SEARCH':
+            onSuccess.updateNews({ 
+                articles: data.articles, 
+                pagination: data.pagination,
+                q: data.q
+            });
+            notifications.showSuccess(successMessage);
+            break;
+
+        case 'NO_CONTENT_SEARCH':
+            const message = getInfoMessage(data.code);
+            onSuccess.updateNews({
+                articles: data.articles,
+                q: data.q,
+                message
+            });
             break;
         
         default:
