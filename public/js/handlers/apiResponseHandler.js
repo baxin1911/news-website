@@ -95,6 +95,8 @@ export const handleErrorResponse = (response, onError, context = 'nav') => {
     switch (status) {
 
         case 400:
+            if (context === 'action') onError.showButtonError();
+            
             if (context === 'mention') {
 
                 onError.showUndefinedUser();

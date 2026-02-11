@@ -118,6 +118,20 @@ body {
   --mdb-btn-hover-border-color: var(--mdb-secondary);
 }
 
+.btn-error {
+  animation: shake 0.3s;
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
 .btn-dark {
   --mdb-btn-bg: var(--mdb-dark);
 }

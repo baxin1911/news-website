@@ -7,6 +7,7 @@ import { initFormCommentQuill } from "../../plugins/quill/articleQuill.js";
 import { initFormCommentTribute } from "../../plugins/tribute/articleTribute.js";
 import { getOppositeAction, updateButtonState } from "../../ui/buttonUI.js";
 import { on } from "../../utils/domUtils.js";
+import { formatLongDate, formatRelativeDate } from "../../utils/formatters.js";
 
 const profile = JSON.parse(document.getElementById('user-data').textContent);
 
@@ -31,41 +32,44 @@ if (profile) {
         return div.innerHTML;
     };
 
-    const buildButtons = (comment) => `
-        <button 
-            class="btn btn-link btn-sm rounded-pill article-action-button"
-            title="${comment.isLiked ? 'Gustado' : 'Dar me gusta'}"
-            data-action="like"
-            data-id="${comment.id}"
-            data-type="comment"
-        >
-            <i class="${comment.isLiked ? 'fa-solid' : 'fa-regular'} fa-thumbs-up"></i>
-            <span class="ms-1">${comment.likeTotal || 0}</span>
-        </button>
+    const buildCommentButton = (actionButton) => {
 
-        <button 
-            class="btn btn-link btn-sm rounded-pill article-action-button"
-            title="${comment.isDisliked ? 'No gustado' : 'Dar no me gusta'}"
-            data-action="dislike"
-            data-id="${comment.id}"
-            data-type="comment"
-        >
-            <i class="${comment.isDisliked ? 'fa-solid' : 'fa-regular'} fa-thumbs-down"></i>
-            <span class="ms-1">${comment.dislikeTotal || 0}</span>
-        </button>
+        const button = document.createElement('button');
 
-        <button 
-            class="btn btn-link btn-sm rounded-pill"
-            title="Responder"
-        >
-            <i class="fas fa-reply"></i>
-            <span class="ms-1">${comment.replyTotal || 0}</span>
-        </button>
-    `;
+        button.type = 'button';
+        button.id = actionButton.id;
+        button.className = `${ actionButton.class }${ actionButton.isToggle ? ' article-action-button' : '' }`;
+        button.setAttribute('data-mdb-ripple-init', '');
+        button.setAttribute('title', actionButton.title);
+        button.setAttribute('data-mdb-tooltip-init', '');
+        button.setAttribute('data-mdb-placement', 'top');
+
+        if (actionButton.isToggle && actionButton.data) {
+
+            button.setAttribute('data-action', actionButton.data.action);
+            button.setAttribute('data-id', actionButton.data.entityId);
+            button.setAttribute('data-type', actionButton.data.entityType);
+            button.setAttribute('data-mdb-toggle', 'button');
+        }
+
+        const icon = document.createElement('i');
+        icon.className = actionButton.iconClass;
+
+        const value = document.createElement('span');
+        value.className = 'ms-1';
+        value.textContent = actionButton.value ?? 0;
+
+        button.appendChild(icon);
+        button.appendChild(value);
+
+        return button;
+    }
 
     const appendComment = (comment) => {
+        
         const list = document.getElementById('commentList');
         const li = document.createElement('li');
+
         li.id = `comment-${comment.id}`;
         li.className = 'bg-comment list-group-item px-3 rounded-3 list-group-item-primary mb-2';
 
@@ -86,20 +90,58 @@ if (profile) {
 
                 <span class="text-muted">·</span>
 
-                <span class="fs-6" title="${escapeHTML(comment.createdLong)}">
-                    ${escapeHTML(comment.createdRelative)}
+                <span class="fs-6" title="${formatLongDate(comment.created_at)}">
+                    ${formatRelativeDate(comment.created_at)}
                 </span>
             </div>
 
             <p class="text-dark py-1 px-3 px-md-4 px-lg-5">
-                ${comment.description}
+                ${comment.message}
             </p>
-
-            <div class="d-flex flex-wrap gap-3">
-                ${buildButtons(comment)}
-            </div>
         `;
 
+        const buttonWrapper = document.createElement('div');
+        buttonWrapper.className = 'd-flex flex-wrap gap-3';
+
+        buttonWrapper.append(
+            buildCommentButton({
+                id: `like-${comment.id}`,
+                class: 'btn btn-link btn-sm rounded-pill',
+                title: comment.isLiked ? 'Gustado' : 'Dar me gusta',
+                data: { 
+                    action: 'like', 
+                    entityId: comment.id, 
+                    entityType: 'comment' 
+                },
+                iconClass: `${comment.isLiked ? 'fa-solid' : 'fa-regular'} fa-thumbs-up`,
+                value: comment.likeTotal || 0,
+                isToggle: true
+            }),
+            buildCommentButton({
+                id: `dislike-${comment.id}`,
+                class: 'btn btn-link btn-sm rounded-pill',
+                title: comment.isDisliked ? 'No gustado' : 'Dar no me gusta',
+                data: { 
+                    action: 'dislike', 
+                    entityId: comment.id, 
+                    entityType: 'comment' 
+                },
+                iconClass: `${comment.isDisliked ? 'fa-solid' : 'fa-regular'} fa-thumbs-down`,
+                value: comment.dislikeTotal || 0,
+                isToggle: true
+            }),
+            buildCommentButton({
+                id: `reply-${comment.id}`,
+                class: 'btn btn-link btn-sm rounded-pill',
+                title: 'Responder',
+                data: null,
+                iconClass: 'fas fa-reply',
+                value: comment.replyTotal || 0,
+                isToggle: false
+            })
+        );
+
+        li.appendChild(buttonWrapper);
         list.prepend(li);
 
         if (list.children.length > 10) list.lastElementChild.remove();
@@ -161,7 +203,14 @@ on('click', '.article-action-button', async (e, btn) => {
     const options = {
         context: 'action',
         onError: {
-            showButtonError: () => btn.classList.add('btn-error')
+            showButtonError: () => {
+
+                btn.classList.add('btn-error')
+
+                setTimeout(() => {
+                    btn.classList.remove('btn-error');
+                }, 1500);
+            }
         },
         onSuccess: {
             updateBookmark: (isSaved) => {

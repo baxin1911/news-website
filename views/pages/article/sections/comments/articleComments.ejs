@@ -38,9 +38,11 @@
                 </span>
             </div>
 
-            <p class="text-dark py-1 px-3 px-md-4 px-lg-5"><%- comment.description %></p>
+            <p class="text-dark py-1 px-3 px-md-4 px-lg-5">
+                <%- comment.message %>
+            </p>
 
-            <div class="d-flex flex-wrap gap-3">
+            <div id="buttonWrapper" class="d-flex flex-wrap gap-3">
                 <%- include('../../ui/actionButton', {
                     actionButton: {
                         id: 'articleCommentLikeButton',

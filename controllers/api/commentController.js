@@ -51,14 +51,14 @@ export const createComment = async (req, res) => {
 
     const { body } = req;
     body.userId = req.user.id;
-    const clean = sanitizeHtml(req.body.description, {
+    const clean = sanitizeHtml(body.message, {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
         allowedAttributes: {
             a: ['href', 'target'],
             img: ['src', 'alt']
         }
     });
-    req.body.description = clean;
+    body.message = clean;
     const comment = await saveComment(body);
 
     return res.status(200).json({ 

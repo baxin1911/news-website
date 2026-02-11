@@ -1,14 +1,30 @@
 export const formatShortDate = (date) => {
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+
+    const options = { 
+      year: 'numeric', 
+      month: '2-digit', 
+      day: '2-digit' 
+    };
+
     return new Date(date).toLocaleDateString('es-MX', options);
 }
 
 export const formatLongDate = (date) => {
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+
+    const options = { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric', 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    };
+
     return new Date(date).toLocaleDateString('es-MX', options);
 }
 
 export const formatRelativeDate = (date) => {
+  
   const now = Date.now();
   const d = new Date(date);
   const diff = (now - d) / 1000;
