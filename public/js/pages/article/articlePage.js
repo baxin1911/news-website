@@ -170,19 +170,24 @@ if (profile) {
         element: quill.root, 
         selectTemplate: (item, tribute) => {
 
+            if (!item || !item.original) return '';
+
             const range = quill.getSelection(true);
 
             if (!range) return '';
 
             const mentionText = tribute.current.mentionText;
             const startPos = range.index - mentionText.length - 1;
+
+            if (startPos < 0) return '';
+            
             quill.insertEmbed(range.index, 'mention', {
                 id: item.original.id,
                 username: item.original.username
-            });
-            quill.deleteText(startPos, mentionText.length + 1);
-            quill.insertText(startPos + 1, ' ');
-            quill.setSelection(range.index + 1);
+            }, 'silent');
+            quill.deleteText(startPos, mentionText.length + 1, 'silent');
+            quill.insertText(startPos + 1, ' ', 'silent');
+            quill.setSelection(range.index + 2, 0, 'silent');
 
             return '';
         },

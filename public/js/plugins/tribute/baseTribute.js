@@ -1,7 +1,8 @@
-export const createTribute = (element, selectTemplate, searchFn) => {
+export const createTribute = (element, containerClass, selectTemplate, searchFn) => {
 
     const tribute = new Tribute({
         trigger: '@',
+        containerClass,
         lookup: item => item.username.toLowerCase(),
         values: async (text, cb) => {
 

@@ -1,5 +1,5 @@
 export const createQuill = (id) => {
-    return new Quill(id, {
+    const quill = new Quill(id, {
         theme: 'snow',
         modules: {
             toolbar: [
@@ -9,4 +9,22 @@ export const createQuill = (id) => {
             ]
         }
     });
+
+    const { keyboard } = quill;
+
+    keyboard.bindings[13].unshift({
+        key: 13,
+        handler(range, context) {
+
+            const tributeMenu = document.querySelector('.mention-tribute');
+
+            if (tributeMenu && tributeMenu.offsetParent !== null) {
+                return false; // bloquear salto
+            }
+
+            return true;
+        }
+    });
+
+    return quill;
 }
