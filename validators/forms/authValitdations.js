@@ -1,5 +1,5 @@
 
-import { validateEmail, validatePassword, validateRepeatedPassword, validateUsername } from "../fields/fieldsValidator.js";
+import { validateEmail, validatePassword, validateRepeatedPassword, validateUsername } from "../fields/bodyValidator.js";
 
 
 export const loginValidation = [

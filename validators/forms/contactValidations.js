@@ -1,4 +1,4 @@
-import { validateEmail, validateMessage, validateName, validateSubject } from "../fields/fieldsValidator.js";
+import { validateEmail, validateMessage, validateName, validateSubject } from "../fields/bodyValidator.js";
 
 export const contactValidation = [
     validateName,

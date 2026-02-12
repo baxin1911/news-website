@@ -70,42 +70,49 @@ if (profile) {
         const list = document.getElementById('commentList');
         const li = document.createElement('li');
 
-        li.id = `comment-${comment.id}`;
+        li.id = `comment-${ comment.id }`;
         li.className = 'bg-comment list-group-item px-3 rounded-3 list-group-item-primary mb-2';
 
-        const username = escapeHTML(profile.username);
-        const name = escapeHTML(profile.name || profile.username || 'Usuario');
+        const header = document.createElement('div');
+        header.className = 'd-inline-flex align-items-center gap-2';
 
-        li.innerHTML = `
-            <div class="d-inline-flex align-items-center gap-2">
-                <a href="/profile/${username}" class="text-decoration-none">
-                    <img 
-                        src="${profile.avatarPath || '/upload/avatar.jpg'}"
-                        class="rounded-circle me-2"
-                        width="32"
-                        height="32"
-                    />
-                    <span class="fw-bold">${name}</span>
-                </a>
+        const link = document.createElement('a');
+        link.href = `/profile/${ escapeHTML(profile.username) }`;
+        link.className = 'text-decoration-none';
 
-                <span class="text-muted">·</span>
+        const img = document.createElement('img');
+        img.src = profile.avatarPath || '/upload/avatar.jpg';
+        img.className = 'rounded-circle me-2';
+        img.width = 32;
+        img.height = 32;
 
-                <span class="fs-6" title="${formatLongDate(comment.created_at)}">
-                    ${formatRelativeDate(comment.created_at)}
-                </span>
-            </div>
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'fw-bold';
+        nameSpan.textContent = profile.name || profile.username || 'Usuario';
 
-            <p class="text-dark py-1 px-3 px-md-4 px-lg-5">
-                ${comment.message}
-            </p>
-        `;
+        link.append(img, nameSpan);
+
+        const dot = document.createElement('span');
+        dot.className = 'text-muted';
+        dot.textContent = '·';
+
+        const time = document.createElement('span');
+        time.className = 'fs-6';
+        time.title = formatLongDate(comment.created_at);
+        time.textContent = formatRelativeDate(comment.created_at);
+
+        header.append(link, dot, time);
+
+        const p = document.createElement('p');
+        p.className = 'text-dark py-1 px-3 px-md-4 px-lg-5';
+        p.innerHTML = comment.message;
 
         const buttonWrapper = document.createElement('div');
         buttonWrapper.className = 'd-flex flex-wrap gap-3';
 
         buttonWrapper.append(
             buildCommentButton({
-                id: `like-${comment.id}`,
+                id: `like-${ comment.id }`,
                 class: 'btn btn-link btn-sm rounded-pill',
                 title: comment.isLiked ? 'Gustado' : 'Dar me gusta',
                 data: { 
@@ -113,12 +120,12 @@ if (profile) {
                     entityId: comment.id, 
                     entityType: 'comment' 
                 },
-                iconClass: `${comment.isLiked ? 'fa-solid' : 'fa-regular'} fa-thumbs-up`,
+                iconClass: `${ comment.isLiked ? 'fa-solid' : 'fa-regular' } fa-thumbs-up`,
                 value: comment.likeTotal || 0,
                 isToggle: true
             }),
             buildCommentButton({
-                id: `dislike-${comment.id}`,
+                id: `dislike-${ comment.id }`,
                 class: 'btn btn-link btn-sm rounded-pill',
                 title: comment.isDisliked ? 'No gustado' : 'Dar no me gusta',
                 data: { 
@@ -126,12 +133,12 @@ if (profile) {
                     entityId: comment.id, 
                     entityType: 'comment' 
                 },
-                iconClass: `${comment.isDisliked ? 'fa-solid' : 'fa-regular'} fa-thumbs-down`,
+                iconClass: `${ comment.isDisliked ? 'fa-solid' : 'fa-regular' } fa-thumbs-down`,
                 value: comment.dislikeTotal || 0,
                 isToggle: true
             }),
             buildCommentButton({
-                id: `reply-${comment.id}`,
+                id: `reply-${ comment.id }`,
                 class: 'btn btn-link btn-sm rounded-pill',
                 title: 'Responder',
                 data: null,
@@ -141,7 +148,7 @@ if (profile) {
             })
         );
 
-        li.appendChild(buttonWrapper);
+        li.append(header, p, buttonWrapper);
         list.prepend(li);
 
         if (list.children.length > 10) list.lastElementChild.remove();
@@ -203,14 +210,7 @@ on('click', '.article-action-button', async (e, btn) => {
     const options = {
         context: 'action',
         onError: {
-            showButtonError: () => {
-
-                btn.classList.add('btn-error')
-
-                setTimeout(() => {
-                    btn.classList.remove('btn-error');
-                }, 1500);
-            }
+            showButtonError: () => btn.classList.add('btn-error')
         },
         onSuccess: {
             updateBookmark: (isSaved) => {

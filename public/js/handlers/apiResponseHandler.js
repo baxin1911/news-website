@@ -79,7 +79,7 @@ export const handleSuccessResponse = (response, onSuccess) => {
     }
 }
 
-export const handleErrorResponse = (response, onError, context = 'nav') => {
+export const handleErrorResponse = (response, onError, context = 'form') => {
 
     const { data, status } = response;
 
@@ -95,7 +95,12 @@ export const handleErrorResponse = (response, onError, context = 'nav') => {
     switch (status) {
 
         case 400:
-            if (context === 'action') onError.showButtonError();
+            if (context === 'action') {
+                
+                onError.showButtonError();
+                notifications.showError('No se puede procesar la accion.');
+                break;
+            }
             
             if (context === 'mention') {
 
@@ -103,9 +108,12 @@ export const handleErrorResponse = (response, onError, context = 'nav') => {
                 break;
             }
             
-            notifications.showWarning(errorMessage);
-            onError.showFormErrors?.(data.errors);
-            break;
+            if (context === 'form') {
+
+                notifications.showWarning(errorMessage);
+                onError.showFormErrors(data.errors);
+                break;
+            }
 
         case 401:
             if (context === 'action') showModal('loginModal');

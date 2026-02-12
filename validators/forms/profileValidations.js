@@ -1,4 +1,4 @@
-import { validateBoolean, validateName, validateLastName, validateUsername, validateOptionalPath } from "../fields/fieldsValidator.js";
+import { validateBoolean, validateName, validateLastName, validateUsername, validateOptionalPath } from "../fields/bodyValidator.js";
 
 export const profileValidation = [
     validateUsername,

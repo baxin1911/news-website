@@ -25,9 +25,6 @@ const actions = {
 export const activateCommentAction = async (req, res) => {
 
     let { id, action } = req.params;
-    id = Number(id);
-
-    if (isNaN(id)) return res.status(400).json({ code: errorCodeMessages.INVALID_ENTITY_ID });
     
     const existsComment = await existsCommentByCommentId(id);
 
@@ -52,10 +49,11 @@ export const createComment = async (req, res) => {
     const { body } = req;
     body.userId = req.user.id;
     const clean = sanitizeHtml(body.message, {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'span']),
         allowedAttributes: {
             a: ['href', 'target'],
-            img: ['src', 'alt']
+            img: ['src', 'alt'],
+            span: ['class','data-id']
         }
     });
     body.message = clean;

@@ -1,4 +1,5 @@
-import { body, query } from "express-validator";
+import { body } from "express-validator";
+import sanitizeHtml from 'sanitize-html';
 import { errorCodeMessages } from "../../messages/codeMessages.js";
 
 const numberRegex = /\d/;
@@ -72,14 +73,6 @@ export const validateUsername =
         .matches(usernameRegex).withMessage(errorCodeMessages.INVALID_USERNAME_CHARS)
 ;
 
-export const validateGenericText = 
-    query('q')
-        .trim()
-        .notEmpty().withMessage(errorCodeMessages.EMPTY_TEXT)
-        .isString().withMessage(errorCodeMessages.TEXT_NOT_STRING)
-        .isLength({ max: 200 }).withMessage(errorCodeMessages.TEXT_TOO_LONG)
-;
-
 export const validateBoolean = (field) =>
     body(field)
         .exists().withMessage(errorCodeMessages.EMPTY_OPTION)
@@ -108,6 +101,13 @@ export const validateMessage = (max) =>
         .trim()
         .notEmpty().withMessage(errorCodeMessages.EMPTY_MESSAGE)
         .isString().withMessage(errorCodeMessages.MESSAGE_NOT_STRING)
+        .custom(value => {
+            const clean = sanitizeHtml(value, { allowedTags: [], allowedAttributes: {} }).trim();
+
+            if (!clean.length) throw new Error(errorCodeMessages.EMPTY_MESSAGE);
+
+            return true;
+        })
         .isLength({ max }).withMessage(errorCodeMessages.MESSAGE_TOO_LONG)
 ;
 

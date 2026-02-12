@@ -1,4 +1,4 @@
-import { validateId, validateMessage, validateOptionalId } from "../fields/fieldsValidator.js";
+import { validateId, validateMessage, validateOptionalId } from "../fields/bodyValidator.js";
 
 export const commentValidation = [
     validateMessage(2000),
