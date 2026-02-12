@@ -1,7 +1,7 @@
-import { mapFormErrors, mapServerErrors } from "./mappers/formMapper.js";
-import { toggleErrorMessages } from "../../ui/forms/formMessagesUI.js";
-import { closeModal } from "../../ui/modalUI.js";
-import { on } from "../../utils/domUtils.js";
+import { mapFormErrors, mapServerErrors } from "../core/forms/mappers/formMapper.js";
+import { toggleErrorMessages } from "../ui/forms/formMessagesUI.js";
+import { closeModal } from "../ui/modalUI.js";
+import { on } from "../utils/domUtils.js";
 
 export const useForm = async ({ 
     selector,

@@ -1,4 +1,4 @@
-import { useForm } from "./form.js";
+import { useForm } from "../../application/form.js";
 import { subscribeToNewsletter } from "../../api/newsletterApi.js";
 import { newsletterValidators } from "../validations/validators.js";
 

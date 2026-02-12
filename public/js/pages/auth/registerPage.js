@@ -1,5 +1,5 @@
 import { register } from "../../api/authApi.js";
-import { useForm } from "../../core/forms/form.js";
+import { useForm } from "../../application/form.js";
 import { registerAuthValidators } from "../../core/validations/validators.js";
 
 useForm({

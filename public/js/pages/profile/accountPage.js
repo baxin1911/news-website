@@ -1,5 +1,5 @@
 import { updateAccountInfo } from "../../api/profileApi.js";
-import { useForm } from "../../core/forms/form.js";
+import { useForm } from "../../application/form.js";
 import { accountValidators } from "../../core/validations/validators.js";
 import { initProfileFilepond } from "../../plugins/filepond/profileFilePond.js";
 import { toggleFileErrors } from "../../ui/forms/formMessagesUI.js";

@@ -3,7 +3,7 @@ import { enableSearchButtons } from "../../ui/forms/formInputs.js";
 import { buildPaginationHTML } from "../../ui/paginationUI.js";
 import { renderArticles } from "../../ui/render/renderFeed.js";
 import { searchValidators } from "../validations/validators.js";
-import { useForm } from "./form.js";
+import { useForm } from "../../application/form.js";
 
 const inputs = ['textSearchOffcanvasInput', 'textSearchHeaderInput', 'textSearchFeedInput'];
 const buttons = ['searchOffcanvasBtn', 'searchHeaderBtn', 'searchFeedBtn'];

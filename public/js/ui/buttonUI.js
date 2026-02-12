@@ -22,4 +22,10 @@ export const updateButtonState = (btn, { isActive, delta = 0, icon, solid }) => 
     btn.setAttribute('aria-pressed', isActive);
 }
 
-export const getOppositeAction = (action) => action === 'like' ? 'dislike' : 'like';
+export const setButtonError = (btn) => btn.classList.add('btn-error');
+
+export const setLoadingState = (btn, state) => {
+    
+    if (state) btn.dataset.loading = true;
+    else delete btn.dataset.loading;
+}

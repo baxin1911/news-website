@@ -1,4 +1,4 @@
-import { useForm } from "../../core/forms/form.js";
+import { useForm } from "../../application/form.js";
 import { login } from "../../api/authApi.js";
 import { loginValidators } from "../../core/validations/validators.js";
 

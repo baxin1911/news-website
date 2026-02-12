@@ -1,4 +1,4 @@
-import { useForm } from "../../core/forms/form.js";
+import { useForm } from "../../application/form.js";
 import { resetPassword } from "../../api/authApi.js";
 import { resetAuthValidators } from "../../core/validations/validators.js";
 

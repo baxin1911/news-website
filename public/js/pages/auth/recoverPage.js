@@ -1,5 +1,5 @@
 import { recoverPassword } from "../../api/authApi.js";
-import { useForm } from "../../core/forms/form.js";
+import { useForm } from "../../application/form.js";
 import { recoverAuthValidators } from "../../core/validations/validators.js";
 
 useForm({

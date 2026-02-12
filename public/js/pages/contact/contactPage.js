@@ -1,5 +1,5 @@
 import { createContact } from "../../api/contactApi.js";
-import { useForm } from "../../core/forms/form.js";
+import { useForm } from "../../application/form.js";
 import { contactValidators } from "../../core/validations/validators.js";
 
 useForm({

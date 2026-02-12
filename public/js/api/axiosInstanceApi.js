@@ -51,7 +51,11 @@ export const apiRequest = async ({ method, url, params, data }, options) =>{
 
     } catch (error) {
 
-        if (error?.response) handleErrorResponse(error.response, options.onError, options.context);
+        if (error?.response) return handleErrorResponse(
+            error.response, 
+            options.onError, 
+            options.context
+        );
 
         throw error;
     }
