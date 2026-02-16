@@ -1,4 +1,4 @@
-import { searchUsers } from "../../../api/userApi.js";
+import { searchUsers } from "../../../application/users/searchUser.js";
 import { initFormCommentTribute } from "../../../plugins/tribute/articleTribute.js";
 
 export const initMentions = (quill) => {
@@ -28,17 +28,18 @@ export const initMentions = (quill) => {
 
             return '';
         },
-        searchFn: async (q) => new Promise(async (resolve) => 
+        searchFn: async (q) => {
 
-            await searchUsers({ q }, {
-                context: 'mention',
-                onSuccess: {
-                    showMentionedUser: (users) => resolve(users)
-                },
-                onError: {
-                    showUndefinedUser: () => resolve([])
-                }
-            })
-        )
+            try {
+
+                const data = await searchUsers(q);
+
+                return data.users;
+
+            } catch (error) {
+
+                return [];
+            }
+        }
     });
 }

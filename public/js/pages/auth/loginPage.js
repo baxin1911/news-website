@@ -1,11 +1,10 @@
-import { useForm } from "../../application/form.js";
-import { login } from "../../api/authApi.js";
+import { useForm } from "../../application/shared/form.js";
 import { loginValidators } from "../../core/validations/validators.js";
+import { login } from "../../application/auth/login.js";
 
 useForm({
     selector: '#loginForm',
     validators: loginValidators,
-    url: window.location.pathname + window.location.search,
     normalizeErrors: ({ errors }) => {
 
         errors.email = errors.email ? 'Correo incorrecto' : null;
@@ -13,5 +12,11 @@ useForm({
 
         return errors;
     },
-    sendRequest: (data, options) => login(data, options),
+    sendRequest: async ({ formData }) => {
+
+        const data = await login(formData);
+        localStorage.setItem('showSuccessToast', data.message);
+        const url = window.location.pathname + window.location.search;
+        window.location.replace(url);
+    }
 });

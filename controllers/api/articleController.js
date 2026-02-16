@@ -37,9 +37,6 @@ const actions = {
 export const activateArticleAction = async (req, res) => {
 
     let { id, action } = req.params;
-    id = Number(id);
-
-    if (isNaN(id)) return res.status(400).json({ code: errorCodeMessages.INVALID_ENTITY_ID });
 
     const existsArticle = await existsArticleByArticleId(id);
 

@@ -66,31 +66,8 @@ const errorMessages = {
     MESSAGE_TOO_LONG: 'El mensaje debe tener un máximo de 500 caracteres.',
     INVALID_PAGINATION: 'No existe esa página.',
     INVALID_ENTITY_ID: 'No es válido el ID.',
-    ENTITY_NOT_FOUND: 'No se encontró el recurso.'
+    ENTITY_NOT_FOUND: 'No se encontró el recurso.',
+    INVALID_ACTION: 'No se puede procesar la accion.',
 };
-
-const successMessages = {
-    CREATED_ACCOUNT: '¡Cuenta registrada exitosamente!',
-    UPDATED_ACCOUNT: '¡Cuenta actualizada con éxito!',
-    UPDATED_ACCOUNT_PASSWORD: '¡Contraseña actualizada con éxito!',
-    UPDATED_RESET_PASSWORD: 'Si el correo está registrado, la contraseña ha sido actualizada.',
-    SENDED_NEWSLETTER_EMAIL: '¡Gracias por suscribirte al boletín!',
-    SENDED_RECOVER_EMAIL: 'Si el correo está registrado, recibirás un enlace para recuperar tu cuenta.',
-    UPDATED_PREFERENCES: 'Preferencias actualizadas con éxito!',
-    SUCCESS_LOGIN: '¡Inicio de sesión exitoso!',
-    SUCCESS_LOGOUT: 'Sesión cerrada exitosamente.',
-    VERIFIED_EMAIL: '¡Correo verificado exitosamente!',
-    SUCCESS_SEARCH: 'Búsqueda exitosa.',
-    CREATED_CONTACT: '¡Información de contacto guardado exitosamente!',
-    CREATED_COMMENT: '¡Comentario registrado exitosamente!'
-};
-
-const infoMessages = {
-    NO_CONTENT_SEARCH: 'No se encontraron resultados. Pruebe otro término.'
-}
 
 export const getErrorMessage = (code) => errorMessages[code] ?? null;
-
-export const getSuccessMessage = (code) => successMessages[code] ?? null;
-
-export const getInfoMessage = (code) => infoMessages[code] ?? null;

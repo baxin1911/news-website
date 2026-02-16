@@ -1,6 +1,9 @@
 import { apiRequest } from "./axiosInstanceApi.js";
 
-export const subscribeToNewsletter = (data, options) => apiRequest(
-    { method: 'post', url: '/api/newsletter/subscribe', data }, 
-    options
-);
+const route = '/api/newsletters';
+
+export const subscribeNewsletterRequest = (data) => apiRequest({ 
+    method: 'post', 
+    url: `${ route }/subscribe`, 
+    data 
+});

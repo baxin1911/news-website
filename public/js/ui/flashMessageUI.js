@@ -1,6 +1,7 @@
-import { getErrorMessage, getSuccessMessage } from "../constants/apiMessages.js";
-import { showModal } from "../ui/modalUI.js";
+import { getErrorMessage } from "../constants/errorMessages.js";
+import { showModal } from "./modalUI.js";
 import { notifications } from "../plugins/swal/swalComponent.js";
+import { getSuccessMessage } from "../constants/successMessages.js";
 
 export const handleFlashMessage = (flash) => {
     

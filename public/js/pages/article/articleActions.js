@@ -1,37 +1,18 @@
-import { activateCommentAction } from "../../api/commentApi.js";
-import { handlerToggleAction } from "../../application/toggleAction.js";
-import { updateButtonState } from "../../ui/buttonUI.js";
+import { handleToggleBookmark } from "../../application/article/handleToggleBookmark.js";
+import { handleToggleLike } from "../../application/article/handleToggleLike.js";
 import { on } from "../../utils/domUtils.js";
 
 export const initArticleActions = () => {
 
-    on('click', '.action-button[data-type="article"]', async (e, btn) => {
+    on({
+        event: 'click', 
+        selector: '.action-button[data-type="article"][data-action="like"]', 
+        handler: async (e, btn) => await handleToggleLike(btn)
+    });
 
-        handlerToggleAction({
-            handler: activateCommentAction, 
-            onSuccess: {
-                updateBookmark: (isSaved) => {
-                
-                    const span = btn.querySelector('span');
-
-                    if (span) span.textContent = isSaved ? 'Guardado' : 'Guardar';
-
-                    updateButtonState(btn, {
-                        isActive: isSaved,
-                        icon: 'fa-bookmark',
-                        solid: isSaved
-                    });
-                },
-                updateCount: (result) => {
-
-                    updateButtonState(btn, {
-                        isActive: result.isActive,
-                        delta: result.delta,
-                        icon: action === 'like' ? 'fa-thumbs-up' : 'fa-thumbs-down',
-                        solid: action === 'like' ? result.isLiked : result.isDisliked
-                    });
-                }
-            }
-        });
+    on({
+        event: 'click', 
+        selector: '.action-button[data-type="article"][data-action="bookmark"]', 
+        handler: async (e, btn) => await handleToggleBookmark(btn)
     });
 }

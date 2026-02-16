@@ -5,7 +5,7 @@ import { getAllProfiles, getAvatarPathByUserId, getUsernameByUserId } from "./us
 
 const comments = [
     { 
-        id: 1, 
+        id: crypto.randomUUID(), 
         replyCount: 0, 
         dislikeTotal: await countReactionTotal({ entityType: 'comment', entityId: 1, reactionType: 'dislike' }), 
         likeTotal: await countReactionTotal({ entityType: 'comment', entityId: 1, reactionType: 'like' }), 
@@ -21,7 +21,7 @@ const comments = [
         created_at: Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000 
     },
     { 
-        id: 2, 
+        id: crypto.randomUUID(), 
         replyCount: 1, 
         dislikeTotal: await countReactionTotal({ entityType: 'comment', entityId: 2, reactionType: 'dislike' }), 
         likeTotal: await countReactionTotal({ entityType: 'comment', entityId: 2, reactionType: 'like' }), 
@@ -37,7 +37,7 @@ const comments = [
         created_at: Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000 
     },
     { 
-        id: 3, 
+        id: crypto.randomUUID(), 
         replyCount: 3, 
         dislikeTotal: await countReactionTotal({ entityType: 'comment', entityId: 3, reactionType: 'dislike' }), 
         likeTotal: await countReactionTotal({ entityType: 'comment', entityId: 3, reactionType: 'like' }), 

@@ -1,6 +1,7 @@
-import { updatePreferences } from "../../api/profileApi.js";
-import { useForm } from "../../application/form.js";
+import { useForm } from "../../application/shared/form.js";
+import { updatePreferences } from "../../application/profile/updatePreferences.js";
 import { preferencesValidators } from "../../core/validations/validators.js";
+import { notifications } from "../../plugins/swal/swalComponent.js";
 
 useForm({
     selector: '#preferencesForm',
@@ -12,5 +13,15 @@ useForm({
             data[checkbox.name] = checkbox.checked;
         });
     },
-    sendRequest: (data, options) => updatePreferences(data, options)
+    sendRequest: async ({ formData }) => {
+
+        const data = await updatePreferences(formData);
+        localStorage.setItem('showSuccessToast', data.message);
+        window.location.reload();
+    },
+    onUnauthorized: (message) => {
+        
+        window.location.replace('/');
+        notifications.showError(message);
+    }
 });

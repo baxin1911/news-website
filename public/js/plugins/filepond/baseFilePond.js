@@ -1,4 +1,4 @@
-import { getErrorMessage } from "../../constants/apiMessages.js";
+import { getErrorMessage } from "../../constants/errorMessages.js";
 import { setInputFileError } from "../../ui/forms/formMessagesUI.js";
 
 export const createFilePond = (input, options = {}) => {

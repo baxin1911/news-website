@@ -1,5 +1,5 @@
 import { notifications } from "../plugins/swal/swalComponent.js";
-import { handleFlashMessage, handleModalWithFlashMessage } from "../handlers/flashMessageHandler.js";
+import { handleFlashMessage, handleModalWithFlashMessage } from "../ui/flashMessageUI.js";
 import { on } from "../utils/domUtils.js";
 
 const backToTopBtnSelector = '.back-to-top';

@@ -99,7 +99,7 @@ app.use(authRoute, authWebRoutes);
 
 // api routes
 app.use(apiRoute + authRoute, authApiRoutes);
-app.use(apiRoute + '/newsletter', newsletterApiRoutes);
+app.use(apiRoute + '/newsletters', newsletterApiRoutes);
 app.use(apiRoute + profileRoute, profileApiRoutes);
 app.use(apiRoute + '/contacts', contactApiRoutes);
 app.use(apiRoute + '/articles', articleApiRoute);

@@ -1,5 +1,3 @@
-import { handleErrorResponse, handleSuccessResponse } from "../handlers/apiResponseHandler.js";
-
 const api = axios.create({
     baseURL: 'http://localhost:3000',
     timeout: 5000,
@@ -47,15 +45,9 @@ export const apiRequest = async ({ method, url, params, data }, options) =>{
 
         const response = await api({ method, url, params, data });
 
-        handleSuccessResponse(response, options.onSuccess);
+        return response;
 
     } catch (error) {
-
-        if (error?.response) return handleErrorResponse(
-            error.response, 
-            options.onError, 
-            options.context
-        );
 
         throw error;
     }

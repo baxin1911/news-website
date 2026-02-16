@@ -1,9 +1,10 @@
-import { searchNews } from "../../api/searchApi.js";
 import { enableSearchButtons } from "../../ui/forms/formInputs.js";
 import { buildPaginationHTML } from "../../ui/paginationUI.js";
 import { renderArticles } from "../../ui/render/renderFeed.js";
 import { searchValidators } from "../validations/validators.js";
-import { useForm } from "../../application/form.js";
+import { useForm } from "../../application/shared/form.js";
+import { searchNews } from "../../application/search/searchNews.js";
+import { notifications } from "../../plugins/swal/swalComponent.js";
 
 const inputs = ['textSearchOffcanvasInput', 'textSearchHeaderInput', 'textSearchFeedInput'];
 const buttons = ['searchOffcanvasBtn', 'searchHeaderBtn', 'searchFeedBtn'];
@@ -12,20 +13,22 @@ enableSearchButtons(inputs, buttons);
 useForm({
     selector: '#searchFeedForm',
     validators: searchValidators,
-    sendRequest: (data, options) => searchNews(data, options),
-    onSuccess: {
-        updateNews: ({ articles, q, message, pagination }) => {
+    sendRequest: async ({ formData }) => {
 
-            renderArticles(articles, message);
+        const data = await searchNews(formData);
+        const { articles, message } = data;
 
-            const titleElement = document.getElementById('searchTitle');
-            titleElement.textContent = q;
+        renderArticles(articles, message);
 
-            if (articles.length > 0) {
+        const titleElement = document.getElementById('searchTitle');
+        titleElement.textContent = data.q;
 
-                const paginationContainer = document.getElementById('paginationWrapper');
-                paginationContainer.innerHTML = buildPaginationHTML(pagination);
-            }
+        if (articles) {
+
+            const paginationContainer = document.getElementById('paginationWrapper');
+            paginationContainer.innerHTML = buildPaginationHTML(data.pagination);
         }
+
+        if (data.messageType === 'success') notifications.showSuccess(message);
     }
 });

@@ -1,35 +1,18 @@
-import { activateCommentAction } from "../../../api/commentApi.js";
-import { handlerToggleAction } from "../../../application/toggleAction.js";
-import { updateButtonState } from "../../../ui/buttonUI.js";
+import { handleToggleDislike } from "../../../application/comments/handleToggleDislike.js";
+import { handleToggleLike } from "../../../application/comments/handleToggleLike.js";
 import { on } from "../../../utils/domUtils.js";
 
 export const initCommentActions = () => {
 
-    on('click', '.action-button[data-type="comment"]', async (e, btn) => {
+    on({
+        event: 'click', 
+        selector: '.action-button[data-type="comment"][data-action="like"]', 
+        handler: async (e, btn) => await handleToggleLike(btn)
+    });
 
-        handlerToggleAction({
-            handler: activateCommentAction, 
-            onSuccess: {
-                updateCount: (result) => {
-
-                    updateButtonState(btn, {
-                        isActive: result.isActive,
-                        delta: result.delta,
-                        icon: action === 'like' ? 'fa-thumbs-up' : 'fa-thumbs-down',
-                        solid: action === 'like' ? result.isLiked : result.isDisliked
-                    });
-
-                    const oppsiteAction = action === 'like' ? 'dislike' : 'like';
-                    const oppositeBtn = document.querySelector(`button[data-action="${ oppsiteAction }"][data-type="${ type }"][data-id="${ id }"]`);
-
-                    if (oppositeBtn) updateButtonState(oppositeBtn, {
-                        isActive: false,
-                        delta: result.oppositeDelta,
-                        icon: oppositeBtn.dataset.action === 'dislike' ? 'fa-thumbs-down' : 'fa-thumbs-up',
-                        solid: false
-                    });
-                }
-            }
-        });
+    on({
+        event: 'click', 
+        selector: '.action-button[data-type="comment"][data-action="dislike"]', 
+        handler: async (e, btn) => await handleToggleDislike(btn)
     });
 }

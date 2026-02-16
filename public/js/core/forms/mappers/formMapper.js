@@ -1,4 +1,4 @@
-import { getErrorMessage } from "../../../constants/apiMessages.js";
+import { getErrorMessage } from "../../../constants/errorMessages.js";
 
 export const mapServerErrors = (serverErrors) => {
 

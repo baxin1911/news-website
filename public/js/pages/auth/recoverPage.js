@@ -1,10 +1,15 @@
-import { recoverPassword } from "../../api/authApi.js";
-import { useForm } from "../../application/form.js";
+import { recoverAccount } from "../../application/auth/recoverAccount.js";
+import { useForm } from "../../application/shared/form.js";
 import { recoverAuthValidators } from "../../core/validations/validators.js";
+import { notifications } from "../../plugins/swal/swalComponent.js";
 
 useForm({
     selector: '#recoverForm',
     validators: recoverAuthValidators,
-    modalId: 'recoverModal',
-    sendRequest: (data, options) => recoverPassword(data, options),
+    sendRequest: async ({ form, formData }) => {
+        
+        const data = await recoverAccount(formData);
+        notifications.showSuccess(data.message);
+        closeModal('recoverModal', form);
+    }
 });

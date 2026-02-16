@@ -1,4 +1,4 @@
-export const on = (event, selector, handler, options = {}) => {
+export const on = ({ event, selector, handler, options = {} }) => {
 
     document.addEventListener(event, e => {
 
