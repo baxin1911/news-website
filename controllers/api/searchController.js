@@ -1,12 +1,14 @@
 import { countArticlesByQuery, findArticlesByQuery } from "../../services/articleService.js";
 import { infoCodeMessages, successCodeMessages } from "../../messages/codeMessages.js";
 import { validateWebPagination } from "../../middleware/validatorMiddleware.js";
+import { createSearchDtoForSearchSettings } from "../../dtos/searchDTO.js";
 
 const searchArticle = async (req, res) => {
 
     const { q } = req.query || {};
-    const { offset, pagination, itemsPerPage } = req.pageSettings;
-    const articles = await findArticlesByQuery(q, itemsPerPage, offset);
+    const { offset, pagination } = req.pageSettings;
+    const searchDto = createSearchDtoForSearchSettings(q, offset);
+    const articles = await findArticlesByQuery(searchDto);
 
     return res.status(200).json({ 
         code: (articles.length > 0) ? successCodeMessages.SUCCESS_SEARCH : infoCodeMessages.NO_CONTENT_SEARCH,

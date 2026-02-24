@@ -1,6 +1,6 @@
 import express from 'express';
 import { verifyApiResetToken, verifyAuthTokenOptional } from '../../middleware/authMiddleware.js';
-import { login, recoverAccount, refreshAuthToken, registerAccount, resetPassword } from '../../controllers/api/authController.js';
+import { loginAccount, recoverAccount, refreshAuthToken, registerAccount, resetPassword } from '../../controllers/api/authController.js';
 import { authRegisterValidation, loginValidation } from '../../validators/forms/authValitdations.js';
 import { emailValidation, passwordValidation } from '../../validators/forms/validations.js';
 import { validate, validateLogin } from '../../middleware/validatorMiddleware.js';
@@ -13,7 +13,7 @@ router.post(
     verifyAuthTokenOptional({ source: 'cookies' }), 
     loginValidation, 
     validateLogin, 
-    login
+    loginAccount
 );
 
 router.post(

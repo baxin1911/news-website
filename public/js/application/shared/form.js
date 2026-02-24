@@ -26,11 +26,11 @@ export const useForm = async ({
 
             e.preventDefault();
 
-            const data = Object.fromEntries(new FormData(form));
+            const formData = Object.fromEntries(new FormData(form));
 
-            normalizeData(form, data);
+            normalizeData({ form, formData });
 
-            const errors = mapFormErrors(data, validators);
+            const errors = mapFormErrors(formData, validators);
 
             normalizeErrors({ form, errors });
             toggleErrorMessages(form, errors);
@@ -41,7 +41,7 @@ export const useForm = async ({
 
             try {
 
-                await sendRequest(data);
+                await sendRequest({ form, formData });
 
             } catch (error) {
 
@@ -61,6 +61,8 @@ export const useForm = async ({
 
                     const message = getErrorMessage(error.response.data.code);
                     onUnauthorized(message);
+
+                    return;
                 }
 
                 throw error;

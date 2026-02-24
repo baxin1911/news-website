@@ -9,21 +9,14 @@ export const initCommentForm = (quill) => {
     useForm({
         selector: '#commentForm',
         validators: articleCommentValidators,
-        normalizeData: (form, formData) => formData.message = quill.root.innerHTML,
+        normalizeData: ({ formData }) => formData.message = quill.root.innerHTML,
         sendRequest: async ({ form, formData }) => {
             
-            try {
+            const data = await createComment(formData);
 
-                const data = await createComment(formData);
-
-                notifications.showSuccess(data.message);
-                form.reset();
-                appendComment(data.comment, quill);
-
-            } catch (error) {
-
-                throw error;
-            }
+            notifications.showSuccess(data.message);
+            form.reset();
+            appendComment(data.comment, quill);
         }
     });
 }

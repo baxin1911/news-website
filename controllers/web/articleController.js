@@ -8,8 +8,8 @@ import { findTopTagNames } from "../../services/tagService.js";
 import { getCategory } from "../../utils/categoryUtils.js";
 import { formatLongDate, formatShortDate, formatRelativeDate, slugify, unslugify } from "../../utils/formattersUtils.js";
 import { existsReaction } from "../../services/reactionService.js";
-import { createReactionDtoForArticleLike } from "../../dtos/reactionDTO.js";
 import { createBookmarkDto } from "../../dtos/bookmarkDTO.js";
+import { createReactionDtoForArticle } from "../../dtos/reactionDTO.js";
 
 export const showArticle = async (req, res) => {
 
@@ -29,7 +29,7 @@ export const showArticle = async (req, res) => {
 
         const bookmarkDTO = createBookmarkDto(user.id, article.id);
         article.isSaved = await existsBookmark(bookmarkDTO);
-        const reactionDTO = createReactionDtoForArticleLike(user.id, article.id);
+        const reactionDTO = createReactionDtoForArticle(user.id, article.id);
         article.isLiked = await existsReaction(reactionDTO);
     }
     

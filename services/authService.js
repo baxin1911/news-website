@@ -1,6 +1,6 @@
 import { createUserPreferencesDtoForRegister } from "../dtos/preferencesDTO.js";
-import { createProfileDtoForGoogleAuth } from "../dtos/profileDTO.js";
-import { createUserDtoForToken, createUserDtoFromGoogle } from "../dtos/userDTO.js";
+import { createProfileDtoForGoogleAuth, createProfileDtoForRegister } from "../dtos/profileDTO.js";
+import { createUserDtoForRegister, createUserDtoForToken, createUserDtoFromGoogle } from "../dtos/userDTO.js";
 import { errorCodeMessages, successCodeMessages } from "../messages/codeMessages.js";
 import { sendEmail } from "../utils/emailUtils.js";
 import { encryptToken } from "../utils/encryptionUtils.js";
@@ -10,9 +10,17 @@ import { getUserByEmail, getRoleByUserId, saveProfile, saveUser, saveUserPrefere
 
 export const register = async (body) => {
 
-    const userId = await saveUser(body);
-    await saveProfile({ userId });
-    await saveUserPreferences(userId);
+    const userDto = await createUserDtoForRegister(body);
+    const userId = await saveUser(userDto);
+
+    const profileDto = createProfileDtoForRegister();
+    profileDto.userId = userId;
+
+    await saveProfile(profileDto);
+
+    const preferencesDto = createUserPreferencesDtoForRegister(userId);
+
+    await saveUserPreferences(preferencesDto);
 
     const token = generateOneTimeToken(userId, 'email-verify');
     const verifyLink = `http://localhost:3000/auth/email-verify?token=${token}`;
@@ -100,6 +108,31 @@ export const getNewRefreshToken = async (refreshToken) => {
     };
 }
 
+export const getLoginToken = async (body)  => {
+    
+    const userId = await getUserIdByEmail(body.email);
+
+    if (!userId) return { error: errorCodeMessages.LOGIN_ERROR };
+
+    const isValid = await verifyPassword(userId, body.password);
+
+    if (!isValid) return { error: errorCodeMessages.LOGIN_ERROR };
+    
+    const role = await getRoleByUserId(userId);
+    const tokenDto = createUserDtoForToken(userId, role.name);
+    const newRefreshToken = generateRefreshToken(tokenDto);
+    const newAccessToken = generateAccessToken(tokenDto);
+    const hashedToken = encryptToken(newRefreshToken);
+
+    // Save refreshToken in DB
+    tokenStore.hashedRefreshToken = hashedToken;
+
+    return {
+        newAccessToken,
+        newRefreshToken
+    }
+}
+
 export const googleLogin = async (profile) => {
 
     const data = profile._json;
@@ -121,7 +154,7 @@ export const googleLogin = async (profile) => {
         await saveProfile(profileDto);
 
         const preferencesDto = createUserPreferencesDtoForRegister(userId);
-
+        
         await saveUserPreferences(preferencesDto);
         user = await getUserByEmail(email);
     }

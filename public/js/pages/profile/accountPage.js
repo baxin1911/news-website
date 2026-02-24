@@ -14,12 +14,12 @@ initProfileFilepond(form, profile);
 useForm({
     selector,
     validators: accountValidators,
-    normalizeData: (form, data) => clearFileInputs(form, data),
+    normalizeData: ({ form, data }) => clearFileInputs(form, data),
     normalizeErrors: ({ form, errors }) => toggleFileErrors(form, errors),
     sendRequest: async ({ formData }) => {
 
         const data = await updateProfile(formData);
-        localStorage.setItem('showSuccessToast', successMessage);
+        localStorage.setItem('showSuccessToast', data.message);
         window.location.reload();
     },
     onUnauthorized: (message) => {

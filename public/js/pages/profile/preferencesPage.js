@@ -6,7 +6,7 @@ import { notifications } from "../../plugins/swal/swalComponent.js";
 useForm({
     selector: '#preferencesForm',
     validators: preferencesValidators,
-    normalizeData: (form, data) => {
+    normalizeData: ({ form, data }) => {
 
         form.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
             

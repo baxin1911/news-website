@@ -3,7 +3,7 @@ import { countReactionTotal } from "./reactionService.js";
 const articles = [
     { 
         id: crypto.randomUUID(), 
-        category: 1, 
+        categoryId: 1, 
         likeTotal: await countReactionTotal({ entityType: 'article', entityId: 1, reactionType: 'like' }),
         title: 'Nuevo lanzamiento de OverWatch', 
         coverPath: '/upload/news/ejemplo.png',
@@ -19,7 +19,7 @@ const articles = [
     },
     { 
         id: crypto.randomUUID(), 
-        category: 1, 
+        categoryId: 1, 
         likeTotal: await countReactionTotal({ entityType: 'article', entityId: 2, reactionType: 'like' }),
         title: 'Sale el nuevo juego de Hollow Knight: Silk Song',
         coverPath: '/upload/news/ejemplo.png',
@@ -35,7 +35,7 @@ const articles = [
     },
     { 
         id: crypto.randomUUID(), 
-        category: 1, 
+        categoryId: 1, 
         likeTotal: await countReactionTotal({ entityType: 'article', entityId: 3, reactionType: 'like' }),
         title: 'Forza Horizon 5 celebra con este nuevo DLC',
         coverPath: '/upload/news/ejemplo.png',
@@ -51,7 +51,7 @@ const articles = [
     },
     { 
         id: crypto.randomUUID(), 
-        category: 1, 
+        categoryId: 1, 
         likeTotal: await countReactionTotal({ entityType: 'article', entityId: 4, reactionType: 'like' }),
         title: 'Este título es un ejemplo de texto largo 4',
         coverPath: '/upload/news/ejemplo.png',
@@ -72,23 +72,23 @@ export const getAllArticles = async () => {
     return articles;
 }
 
-export const findArticlesByCategory = async (categoryId, limit, offset = 0) => {
-    const allArticles = await getAllArticles();
-    const filteredArticles = allArticles.filter(article => article.category === categoryId);
+export const findArticlesByCategory = async (searchDto) => {
+    const { q, limit, offset } = searchDto;
+    const filteredArticles = articles.filter(article => article.categoryId === q);
     return filteredArticles.slice(offset, offset + limit);
 }
 
-export const findArticlesByQuery = async (q, limit, offset = 0) => {
+export const findArticlesByQuery = async (searchDto) => {
 
-    const allArticles = await getAllArticles();
-    const filteredArticles = allArticles.filter(article => article.title.toLowerCase().includes(q.toLowerCase()));
+    const { q, limit, offset } = searchDto;
+    const filteredArticles = articles.filter(article => article.title.toLowerCase().includes(q.toLowerCase()));
     return filteredArticles.slice(offset, offset + limit);
 }
 
-export const findArticlesByTag = async (tag, limit, offset = 0) => {
+export const findArticlesByTag = async (searchDto) => {
 
-    const allArticles = await getAllArticles();
-    const filteredArticles = allArticles.filter(article => article.tag.toLowerCase() === tag.toLowerCase());
+    const { q, limit, offset } = searchDto;
+    const filteredArticles = articles.filter(article => article.tag.toLowerCase() === q.toLowerCase());
     return filteredArticles.slice(offset, offset + limit);
 }
 
@@ -109,21 +109,18 @@ export const existsArticleByArticleId = async (id) => {
 
 export const countArticlesByQuery = async (q) => {
 
-    const allArticles = await getAllArticles();
-    const filteredArticles = allArticles.filter(article => article.title.toLowerCase().includes(q.toLowerCase()));
+    const filteredArticles = articles.filter(article => article.title.toLowerCase().includes(q.toLowerCase()));
     return filteredArticles.length;
 }
 
 export const countArticlesByCategory = async (categoryId) => {
 
-    const allArticles = await getAllArticles();
-    const articlesByCategory = allArticles.filter(article => article.category === categoryId);
+    const articlesByCategory = articles.filter(article => article.categoryId === categoryId);
     return articlesByCategory.length;
 }
 
 export const countArticlesByTag = async (tag) => {
 
-    const allArticles = await getAllArticles();
-    const articlesByTag = allArticles.filter(article => article.tag.toLowerCase() === tag.toLowerCase());
+    const articlesByTag = articles.filter(article => article.tag.toLowerCase() === tag.toLowerCase());
     return articlesByTag.length;
 }

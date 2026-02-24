@@ -6,6 +6,7 @@ import { getProfileByIdUser } from '../../services/userService.js';
 import { findTopTagNames } from '../../services/tagService.js';
 import { existsGameByName, getGameByName } from '../../services/gameService.js';
 import { validateWebPagination } from '../../middleware/validatorMiddleware.js';
+import { createSearchDtoForSearchSettings } from '../../dtos/searchDTO.js';
 
 export const searchFeed = async (req, res) => {
 
@@ -14,9 +15,10 @@ export const searchFeed = async (req, res) => {
 
     if (user) profile = await getProfileByIdUser(user.id);
 
-    const { offset, pagination, itemsPerPage } = req.pageSettings;
+    const { offset, pagination } = req.pageSettings;
     const { q } = req.query;
-    const articles = await findArticlesByQuery(q, itemsPerPage, offset);
+    const searchDto = createSearchDtoForSearchSettings(q, offset);
+    const articles = await findArticlesByQuery(searchDto);
     const tags = await findTopTagNames();
     const categories = await getAllCategories();
     const pageTitle = `Buscar: ${ q }`;
@@ -57,8 +59,9 @@ export const showCategoryFeed = async (req, res) => {
 
     if (user) profile = await getProfileByIdUser(user.id);
 
-    const { offset, pagination, itemsPerPage } = req.pageSettings;
-    const articles = await findArticlesByCategory(category, itemsPerPage, offset);
+    const { offset, pagination } = req.pageSettings;
+    const searchDto = createSearchDtoForSearchSettings(category, offset);
+    const articles = await findArticlesByCategory(searchDto);
     const categories = await getAllCategories();
     const tags = await findTopTagNames();
     const categoryName = getCategory(category);
@@ -111,8 +114,9 @@ export const showTagFeed = async (req, res) => {
 
     if (user) profile = await getProfileByIdUser(user.id);
 
-    const { offset, pagination, itemsPerPage } = req.pageSettings;
-    const articles = await findArticlesByTag(slug, itemsPerPage, offset);
+    const { offset, pagination } = req.pageSettings;
+    const searchDto = createSearchDtoForSearchSettings(tag, offset);
+    const articles = await findArticlesByTag(searchDto);
     const tags = await findTopTagNames();
     const categories = await getAllCategories();
     const pageTitle = `Etiqueta: ${ tag }`;

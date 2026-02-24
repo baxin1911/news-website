@@ -39,7 +39,7 @@ api.interceptors.response.use(
     }
 );
 
-export const apiRequest = async ({ method, url, params, data }, options) =>{
+export const apiRequest = async ({ method, url, params, data }) =>{
 
     try {
 

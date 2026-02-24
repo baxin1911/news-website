@@ -1,13 +1,13 @@
-export const createReactionDtoForRegister = (body) => ({
-    entityType: body.entityType,
-    reactionType: body.reactionType,
-    userId: body.userId,
-    entityId: body.entityId
+export const createReactionDtoForComment = (userId, params) => ({
+    entityType: 'comment',
+    reactionType: params.action,
+    userId,
+    entityId: params.id
 });
 
-export const createReactionDtoForArticleLike = (userId, articleId) => ({
+export const createReactionDtoForArticle = (userId, params) => ({
     entityType: 'article',
-    reactionType: 'like',
+    reactionType: params.action,
     userId,
-    articleId
+    articleId: params.id
 });

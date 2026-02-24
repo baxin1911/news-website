@@ -1,4 +1,3 @@
-import { getAllArticles } from "../../services/articleService.js";
 import { getAllCategories } from "../../services/categoryService.js";
 import { getProfileByIdUser } from "../../services/userService.js";
 import { findTopTagNames } from "../../services/tagService.js";
@@ -9,7 +8,7 @@ export const showContactForm = async (req, res) => {
     const { user } = req;
     let profile = null;
 
-    if (user) profile = await getProfileByIdUser();
+    if (user) profile = await getProfileByIdUser(user.id);
 
     const categories = getAllCategories();
     const tags = findTopTagNames();

@@ -1,10 +1,7 @@
-import { createBookmarkDto } from "../dtos/bookmarkDTO.js";
-
 let bookmarks = [];
 
-export const toggleBookmark = async (body) => {
+export const toggleBookmark = async (bookmarkDto) => {
 
-    const bookmarkDto = createBookmarkDto(body);
     const existsEntity = await existsBookmark(bookmarkDto);
 
     if (existsEntity) return await deleteBookmark(bookmarkDto);
@@ -14,7 +11,6 @@ export const toggleBookmark = async (body) => {
 
 const saveBookmark = async (bookmarkDto) => {
 
-    bookmarkDto.id = crypto.randomUUID();
     const before = bookmarks.length;
     bookmarks.push(bookmarkDto);
 

@@ -1,11 +1,9 @@
-import { createReactionDtoForRegister } from "../dtos/reactionDTO.js";
-
 let reactions = [];
 
-export const toggleReactionWithOpposite = async (body) => {
+export const toggleReactionWithOpposite = async (reactionDto) => {
 
-    const reactionDto = createReactionDtoForRegister(body);
     const { isActive, delta } = await toggleReaction(reactionDto);
+
     let oppositeDelta = 0;
 
     if (isActive) {
@@ -39,7 +37,6 @@ const toggleReaction = async (reactionDto) => {
 
 const saveReaction = async (reactionDto) => {
 
-    reactionDto.id = crypto.randomUUID();
     const before = reactions.length;
     reactions.push(reactionDto);
 

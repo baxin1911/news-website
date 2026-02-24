@@ -2,7 +2,7 @@ import { createUserPreferencesDtoForUpdate } from '../../dtos/preferencesDTO.js'
 import { createProfileDtoForUpdate } from '../../dtos/profileDTO.js';
 import { errorCodeMessages, successCodeMessages } from '../../messages/codeMessages.js';
 import { processAvatarImage, processCoverImage } from '../../services/imageService.js';
-import { editPasswordByUserId, editProfileInfoByUserId, editUsernameByUserId, editUserPreferencesByUserId, saveUserPreferences } from '../../services/userService.js';
+import { editPasswordByUserId, editProfileInfoByUserId, editUsernameByUserId, editUserPreferencesByUserId } from '../../services/userService.js';
 import { clearAuthCookies } from '../../utils/cookiesUtils.js';
 import { avatarsDir, coversDir, getBaseDir, sanitizePath } from '../../utils/pathsUtils.js';
 

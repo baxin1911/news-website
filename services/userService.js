@@ -1,5 +1,4 @@
 import { createUserPreferencesDtoForRegister } from "../dtos/preferencesDTO.js";
-import { createProfileDtoForRegister } from "../dtos/profileDTO.js";
 import { createUserDtoForRegister } from "../dtos/userDTO.js";
 import { comparePassword, encryptPassword } from "../utils/encryptionUtils.js";
 
@@ -42,24 +41,20 @@ const listPreferences = [
     }
 ];
 
-export const saveProfile = async ({ userId }) => {
+export const saveProfile = async (profileDto) => {
     
-    const profileDto = createProfileDtoForRegister();
-    profileDto.userId = userId;
     profiles.push(profileDto);
 }
 
-export const saveUser = async (body) => {
+export const saveUser = async (userDto) => {
 
-    const userDto = await createUserDtoForRegister(body);
     users.push(userDto);
     
     return userDto.id;
 }
 
-export const saveUserPreferences = async (userId) => {
+export const saveUserPreferences = async (preferencesDto) => {
 
-    const preferencesDto = createUserPreferencesDtoForRegister(userId);
     listPreferences.push(preferencesDto);
 }
 
@@ -118,8 +113,9 @@ export const getUsernameByUserId = async (userId) => {
     return users.find(user => user.id === userId).username;
 }
 
-export const searchUsersByUsername = async (q) => {
+export const searchUsersByUsername = async (searchDto) => {
 
+    const { q, limit, offset } = searchDto;
     q = q.toLowerCase();
 
     return users.map(user => {
@@ -134,7 +130,7 @@ export const searchUsersByUsername = async (q) => {
     })
     .filter(u => u.score !== Infinity)
     .sort((a, b) => a.score - b.score)
-    .slice(0, 3);
+    .slice(offset, offset + limit);
 }
 
 export const getAllProfiles = async () => {

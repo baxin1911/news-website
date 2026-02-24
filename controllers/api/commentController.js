@@ -1,3 +1,5 @@
+import { createCommentDtoForRegister } from "../../dtos/commentDTO.js";
+import { createReactionDtoForComment } from "../../dtos/reactionDTO.js";
 import { errorCodeMessages, successCodeMessages } from "../../messages/codeMessages.js";
 import { existsCommentByCommentId, saveComment } from "../../services/commentService.js";
 import { toggleReactionWithOpposite } from "../../services/reactionService.js";
@@ -5,14 +7,18 @@ import sanitizeHtml from 'sanitize-html';
 
 const toggleCommentLike = async (req, res) => {
 
-    const result = await toggleReactionWithOpposite(req.body)
+    const reactionDto = createReactionDtoForComment(req.user.id, req.params);
+
+    const result = await toggleReactionWithOpposite(reactionDto);
 
     return res.status(200).json({ code: successCodeMessages.UPDATED_REACTION, result });
 }
 
 const toggleCommentDislike = async (req, res) => {
 
-    const result = await toggleReactionWithOpposite(req.body)
+    const reactionDto = createReactionDtoForComment(req.user.id, req.params);
+
+    const result = await toggleReactionWithOpposite(reactionDto);
 
     return res.status(200).json({ code: successCodeMessages.UPDATED_REACTION, result });
 }
@@ -34,20 +40,12 @@ export const activateCommentAction = async (req, res) => {
 
     if (!handler) return res.status(400).json({ code: errorCodeMessages.INVALID_ACTION });
 
-    const body = {};
-    body.entityType = 'comment';
-    body.entityId = id;
-    body.userId = req.user.id;
-    body.reactionType = action;
-    req.body = body;
-
     return handler(req, res);
 }
 
 export const createComment = async (req, res) => {
 
     const { body } = req;
-    body.userId = req.user.id;
     const clean = sanitizeHtml(body.message, {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'span']),
         allowedAttributes: {
@@ -57,7 +55,9 @@ export const createComment = async (req, res) => {
         }
     });
     body.message = clean;
-    const comment = await saveComment(body);
+    const commentDto = createCommentDtoForRegister(req.user.id, body);
+    
+    const comment = await saveComment(commentDto);
 
     return res.status(200).json({ 
         code: successCodeMessages.CREATED_COMMENT,
