@@ -44,9 +44,9 @@ export const getBaseDir = (path) => {
 
     const normalizedPath = getNormalizedDir(path);
 
-    return normalizedPath.split(sep)[0];
+    return normalizedPath.split(sep)[1];
 }
 export const isValidBaseDir = (baseDir, allowedDirs) => allowedDirs.includes(baseDir);
-export const sanitizePath = (path) => path.replace(/\\/g, '/').replace(/^\/+/, '');
+export const sanitizePath = (path) => path.replace(/\\/g, '/').replace(/^\/+/, '/');
 export const getRelativePath = (basePath, absolutePath) => relative(basePath, absolutePath);
 export const getFileExt = (path) => extname(path);

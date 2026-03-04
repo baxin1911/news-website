@@ -1,5 +1,4 @@
-import { createFileHandlers, createFilePond } from "./baseFilePond.js";
-
+import { clearFileInputs, createFileHandlers, createFilePond } from "./baseFilePond.js";
 
 export const initProfileFilepond = (form, profile) => {
 
@@ -54,4 +53,14 @@ export const initProfileFilepond = (form, profile) => {
             instantUpload: false
         });
     });
+}
+
+export const clearProfileFileInputs = (form, formData) => {
+    
+    const data = clearFileInputs(form, formData);
+
+    return {
+        ...formData,
+        ...data
+    };
 }

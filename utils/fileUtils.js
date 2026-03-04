@@ -1,7 +1,5 @@
-import { extname } from 'path';
 import { fileTypeFromBuffer } from "file-type";
-
-export const getFileExtension = (filename) => extname(filename).toLowerCase();
+import { getNameFromFile } from './pathsUtils.js';
 
 export const validateBuffer = async (mimes, exts, file) => {
 
@@ -10,4 +8,12 @@ export const validateBuffer = async (mimes, exts, file) => {
     if (!type || !mimes.includes(type.mime) || !exts.includes(type.ext)) return false;
 
     return true;
+}
+
+export const getUserIdFromFilename = (filepath) => {
+
+    const filename = getNameFromFile(filepath);
+    const [randomId, userid] = filename.split('_');
+
+    return userid;
 }

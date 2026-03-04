@@ -8,13 +8,16 @@ const searchArticle = async (req, res) => {
     const { q } = req.query || {};
     const { offset, pagination } = req.pageSettings;
     const searchDto = createSearchDtoForSearchSettings(q, offset);
+    
     const articles = await findArticlesByQuery(searchDto);
 
     return res.status(200).json({ 
         code: (articles.length > 0) ? successCodeMessages.SUCCESS_SEARCH : infoCodeMessages.NO_CONTENT_SEARCH,
-        articles,
-        pagination,
-        q
+        result: {
+            articles,
+            pagination,
+            q
+        }
     });
 }
 

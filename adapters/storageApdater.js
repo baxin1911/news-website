@@ -1,48 +1,70 @@
 import { existsSync, mkdirSync, renameSync, statSync, unlinkSync } from 'fs';
 import { writeFile } from 'fs/promises';
-import { avatarsDir, coversDir, generateResolvedPath, getBaseDir, getDirname, getFilename, isValidBaseDir, sanitizePath, tempDir } from "../utils/pathsUtils.js";
+import { avatarsDir, coversDir, generateResolvedPath, getBaseDir, getDirname, getFileExt, getFilename, isValidBaseDir, sanitizePath, tempDir } from "../utils/pathsUtils.js";
 import { fileTypeFromBuffer } from 'file-type';
+import { FileNotFoundError, InvalidFileError, InvalidImagePathError, ServerFileSystemError } from '../errors/uploadError.js';
 
-const processLocal = async (filepath, targetDir, userId, mode) => {
+const processLocal = async ({ 
+    
+    sanitizedPath, 
+    targetDir, 
+    userId, 
+    mode 
 
-    if (
-        mode === 'update' && 
-        (!existsSync(avatarsDir) || !existsSync(coversDir))
-    ) return -3;
+}) => {
+
+    if ((mode === 'update' && targetDir === avatarsDir && !existsSync(avatarsDir)) ||
+        (mode === 'update' && targetDir === coversDir && !existsSync(coversDir))
+    ) throw new ServerFileSystemError();
 
     if (mode === 'create') {
 
-        if (!existsSync(tempDir)) return -3;
+        if (!existsSync(tempDir)) throw new ServerFileSystemError();
 
-        const fullDir = generateResolvedPath(targetDir, userId);
+        const ext = getFileExt(sanitizedPath);
+
+        if (!ext) throw new InvalidImagePathError();
+
+        const filename = userId + ext;
+        const fullDir = generateResolvedPath(targetDir, filename);
         const dirname = getDirname(fullDir);
     
         if (!existsSync(dirname)) mkdirSync(dirname, { recursive: true });
 
-        const stats = statSync(filepath);
+        const fullSanitizedPath = generateResolvedPath(tempDir, getFilename(sanitizedPath));
 
-        if (!stats.isFile()) return -4;
+        if (!existsSync(fullSanitizedPath)) throw new FileNotFoundError();
+
+        const stats = statSync(fullSanitizedPath);
+
+        if (!stats.isFile()) throw new InvalidFileError();
 
         try {
             
-            renameSync(filepath, fullDir);
+            renameSync(fullSanitizedPath, fullDir);
 
-        } catch (err) {
+        } catch (error) {
 
-            console.log(err);
-            return -5;
+            throw error;
         }
     }
 }
 
-const processCloud = async (filepath, targetDir) => {
+const processCloud = async ({ sanitizedPath, targetDir }) => {
 
     return;
 }
 
-const uploadLocal = async (buffer, targetDir, userId, mode) => {
+const uploadLocal = async ({ 
+    
+    buffer, 
+    targetDir, 
+    userId,
+    mode
 
-    const id = mode === 'download' ? userId : crypto.randomUUID();
+}) => {
+
+    const id = mode === 'download' ? userId : `${ crypto.randomUUID() }_${ userId }`;
     const type = await fileTypeFromBuffer(buffer);
     const filename = `${ id }.${ type.ext }`;
     const fullDir = generateResolvedPath(targetDir, filename);
@@ -63,64 +85,59 @@ const uploadLocal = async (buffer, targetDir, userId, mode) => {
     return { filename };
 }
 
-const uploadCloud = async (file) => {
+const uploadCloud = async ({ file }) => {
 
     return { url: null, id: null };
 }
 
-const revertLocal = (filepath, targetDir) => {
+const revertLocal = ({ filepath, targetDir }) => {
 
-    if (!existsSync(targetDir)) return -3;
+    if (!existsSync(targetDir)) throw new ServerFileSystemError();
 
     const sanitizedPath = sanitizePath(filepath);
     const baseDir = getBaseDir(sanitizedPath);
 
-    if (!isValidBaseDir(baseDir, ['temp'])) return -2;
+    if (!isValidBaseDir(baseDir, ['temp'])) throw new InvalidImagePathError();
 
     const filename = getFilename(sanitizedPath);
     const fullDir = generateResolvedPath(targetDir, filename);
 
-    if (!existsSync(fullDir)) return -4;
+    if (!existsSync(fullDir)) throw new FileNotFoundError();
 
     const stats = statSync(fullDir);
 
-    if (!stats.isFile()) return -5;
-
-    // validate user -6
+    if (!stats.isFile()) throw new InvalidFileError();
 
     try {
 
         unlinkSync(fullDir);
 
-        return 1;
+    } catch (error) {
 
-    } catch (err) {
-
-        console.log(err);
-        return -7;
+        throw error;
     }
 } 
 
-const revertCloud = async (filepath) => {
+const revertCloud = async ({ filepath }) => {
 
     return;
 }
 
 export const storage = {
 
-    async process(filepath, targetDir, userId, mode) {
+    async process({ sanitizedPath, targetDir, userId, mode }) {
 
-        if (process.env.STORAGE === 'local') return processLocal(filepath, targetDir, userId, mode);
-        else return processCloud(filepath, targetDir, userId, mode);
+        if (process.env.STORAGE === 'local') return processLocal({ sanitizedPath, targetDir, userId, mode });
+        else return processCloud({ sanitizedPath, targetDir, userId, mode });
     },
-    async upload({ buffer, targetDir, userId = null, mode }) {
+    async upload({ buffer, targetDir, userId, mode }) {
 
-        if (process.env.STORAGE === 'local') return uploadLocal(buffer, targetDir, userId, mode);
-        else return uploadCloud(buffer);
+        if (process.env.STORAGE === 'local') return uploadLocal({ buffer, targetDir, userId, mode });
+        else return uploadCloud({ buffer });
     },
-    async revert(filepath, targetDir) {
+    async revert({ filepath, targetDir }) {
 
-        if (process.env.STORAGE === 'local') return revertLocal(filepath, targetDir);
-        else return revertCloud(filepath);
+        if (process.env.STORAGE === 'local') return revertLocal({ filepath, targetDir });
+        else return revertCloud({ filepath });
     }
 }

@@ -3,5 +3,9 @@
         <p><%= description %></p>
     <% } %>
 
-    <%- include('../../../shared/outlineInput', { input }) %>
+    <% if (input.type) { %>
+        <%- include('../../../shared/outlineInput', { input }) %>
+    <% } else { %>
+        <%- include('../../../shared/fileInput', { input }) %>
+    <% } %>
 </div>

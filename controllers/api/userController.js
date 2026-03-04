@@ -8,5 +8,8 @@ export const searchUser = async (req, res) => {
 
     const users = await searchUsersByUsername(searchDto);
 
-    return res.status(200).json({ code: successCodeMessages.SUCCESS_MENTIONED_USER, users });
+    return res.status(200).json({ 
+        code: successCodeMessages.SUCCESS_MENTIONED_USER, 
+        users 
+    });
 }

@@ -1,9 +1,8 @@
 import { useForm } from "../../application/shared/form.js";
 import { updateProfile } from "../../application/profile/updateProfile.js";
 import { accountValidators } from "../../core/validations/validators.js";
-import { initProfileFilepond } from "../../plugins/filepond/profileFilePond.js";
+import { clearProfileFileInputs, initProfileFilepond } from "../../plugins/filepond/profileFilePond.js";
 import { toggleFileErrors } from "../../ui/forms/formMessagesUI.js";
-import { clearFileInputs } from "../../utils/formUtils.js";
 import { notifications } from "../../plugins/swal/swalComponent.js";
 
 const selector = '#accountForm';
@@ -14,7 +13,7 @@ initProfileFilepond(form, profile);
 useForm({
     selector,
     validators: accountValidators,
-    normalizeData: ({ form, data }) => clearFileInputs(form, data),
+    normalizeData: ({ form, formData }) => formData = clearProfileFileInputs(form, formData),
     normalizeErrors: ({ form, errors }) => toggleFileErrors(form, errors),
     sendRequest: async ({ formData }) => {
 

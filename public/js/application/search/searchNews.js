@@ -18,9 +18,9 @@ import { getSuccessMessage } from "../../constants/successMessages.js";
         }
 
         return {
-            articles: data.articles,
-            q: data.q,
-            pagination: data.pagination,
+            articles: data.result.articles,
+            q: data.result.q,
+            pagination: data.result.pagination,
             message,
             messageType
         };

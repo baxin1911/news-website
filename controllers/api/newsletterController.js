@@ -9,6 +9,6 @@ export const subscribeToNewsletter = async (req, res) => {
 
     return res.status(202).json({ 
         code: successCodeMessages.SENDED_NEWSLETTER_EMAIL,
-        data: result
+        result
     });
 }

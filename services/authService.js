@@ -1,12 +1,15 @@
 import { createUserPreferencesDtoForRegister } from "../dtos/preferencesDTO.js";
 import { createProfileDtoForGoogleAuth, createProfileDtoForRegister } from "../dtos/profileDTO.js";
 import { createUserDtoForRegister, createUserDtoForToken, createUserDtoFromGoogle } from "../dtos/userDTO.js";
-import { errorCodeMessages, successCodeMessages } from "../messages/codeMessages.js";
+import { DetectedReuseError, InvalidAuthError, LoginError } from "../errors/authError.js";
+import { successCodeMessages } from "../messages/codeMessages.js";
 import { sendEmail } from "../utils/emailUtils.js";
 import { encryptToken } from "../utils/encryptionUtils.js";
 import { downloadGoogleAvatar } from "./googleService.js";
 import { generateAccessToken, generateOneTimeToken, generateRefreshToken, tokenStore, verifyRefreshToken } from "./jwtService.js";
-import { getUserByEmail, getRoleByUserId, saveProfile, saveUser, saveUserPreferences, getUserIdByEmail, verifyPassword } from "./userService.js";
+import { saveUserPreferences } from "./preferencesService.js";
+import { saveProfile } from "./profileService.js";
+import { getUserByEmail, getRoleByUserId, saveUser, getUserIdByEmail, verifyPassword, verifyRegisteredEmailByUserId } from "./userService.js";
 
 export const register = async (body) => {
 
@@ -52,25 +55,10 @@ export const recover = async (body) => {
     return { code: successCodeMessages.SENDED_RECOVER_EMAIL };
 }
 
-export const getAuthToken = async (body) => {
-
-    const userId = await getUserIdByEmail(body.email);
+export const generateAuthTokens = async (tokenDto) => {
     
-    if (!userId) return { error: errorCodeMessages.LOGIN_ERROR };
-
-    const isValid = await verifyPassword(userId, body.password);
-
-    if (!isValid) return { error: errorCodeMessages.LOGIN_ERROR };
-    
-    const role = await getRoleByUserId(userId);
-
-    const tokenDto = createUserDtoForToken(userId, role.name);
     const newRefreshToken = generateRefreshToken(tokenDto);
     const newAccessToken = generateAccessToken(tokenDto);
-    const hashedToken = encryptToken(newRefreshToken);
-
-    // Save refreshToken in DB
-    tokenStore.hashedRefreshToken = hashedToken;
 
     return {
         newAccessToken,
@@ -80,57 +68,59 @@ export const getAuthToken = async (body) => {
 
 export const getNewRefreshToken = async (refreshToken) => {
 
-    if (!refreshToken) return { error: errorCodeMessages.INVALID_AUTH };
+    if (!refreshToken) throw new InvalidAuthError();
 
     const hashedToken = encryptToken(refreshToken);
-
     const existsToken = hashedToken === tokenStore.hashedRefreshToken;
 
     if (!existsToken) {
 
         tokenStore.hashedRefreshToken = null;
 
-        return { error: errorCodeMessages.DETECTED_REUSE };
+        throw new DetectedReuseError();
     }
 
     const tokenInfo = verifyRefreshToken(refreshToken);
 
-    if (!tokenInfo) return { error: errorCodeMessages.INVALID_AUTH };
+    if (!tokenInfo) throw new InvalidAuthError();
 
     const { id, role } = tokenInfo;
     const tokenDto = createUserDtoForToken(id, role);
-    const newAccessToken = generateAccessToken(tokenDto);
-    const newRefreshToken = generateRefreshToken(tokenDto);
 
-    return {
-        newAccessToken,
-        newRefreshToken
-    };
+    const tokens = await generateAuthTokens(tokenDto);
+
+    return tokens;
 }
 
 export const getLoginToken = async (body)  => {
     
     const userId = await getUserIdByEmail(body.email);
 
-    if (!userId) return { error: errorCodeMessages.LOGIN_ERROR };
+    if (!userId) throw new LoginError();
 
     const isValid = await verifyPassword(userId, body.password);
 
-    if (!isValid) return { error: errorCodeMessages.LOGIN_ERROR };
+    if (!isValid) throw new LoginError();
     
     const role = await getRoleByUserId(userId);
+    
     const tokenDto = createUserDtoForToken(userId, role.name);
-    const newRefreshToken = generateRefreshToken(tokenDto);
-    const newAccessToken = generateAccessToken(tokenDto);
-    const hashedToken = encryptToken(newRefreshToken);
 
-    // Save refreshToken in DB
-    tokenStore.hashedRefreshToken = hashedToken;
+    const tokens = await generateAuthTokens(tokenDto);
 
-    return {
-        newAccessToken,
-        newRefreshToken
-    }
+    return tokens;
+}
+
+export const getTokensFromVerifiedEmail = async (id) => {
+
+    await verifyRegisteredEmailByUserId(id);
+    const role = await getRoleByUserId(id);
+
+    const tokenDto = createUserDtoForToken(id, role.name);
+
+    const tokens = await generateAuthTokens(tokenDto);
+
+    return tokens;
 }
 
 export const googleLogin = async (profile) => {

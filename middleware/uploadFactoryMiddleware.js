@@ -1,6 +1,7 @@
 import multer from "multer";
 import { errorCodeMessages } from "../messages/codeMessages.js";
-import { getFileExtension, validateBuffer } from "../utils/fileUtils.js";
+import { validateBuffer } from "../utils/fileUtils.js";
+import { getFileExt } from "../utils/pathsUtils.js";
 
 export const createUpload = ({ field, maxSize, mimes, exts }) => {
 
@@ -18,7 +19,7 @@ export const createUpload = ({ field, maxSize, mimes, exts }) => {
                 new Error(errorCodeMessages.INVALID_FILE_TYPE)
             );
 
-            const ext = getFileExtension(file.originalname);
+            const ext = getFileExt(file.originalname);
 
             if (!exts.includes(ext)) return cb(new Error(errorCodeMessages.INVALID_FILE_EXTENSION));
 

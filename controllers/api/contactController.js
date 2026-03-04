@@ -9,6 +9,6 @@ export const createContact = async (req, res) => {
 
     return res.status(201).json({
         code: successCodeMessages.CREATED_ACCOUNT,
-        data: result
+        result
     });
 }

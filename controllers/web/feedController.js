@@ -1,39 +1,24 @@
 import { getCategory, getCategoryId } from '../../utils/categoryUtils.js';
 import { formatShortDate, slugify, unslugify } from '../../utils/formattersUtils.js';
-import { countArticlesByCategory, countArticlesByQuery, countArticlesByTag, findArticlesByCategory, findArticlesByQuery, findArticlesByTag } from "../../services/articleService.js";
-import { getAllCategories } from "../../services/categoryService.js";
-import { getProfileByIdUser } from '../../services/userService.js';
-import { findTopTagNames } from '../../services/tagService.js';
-import { existsGameByName, getGameByName } from '../../services/gameService.js';
+import { countArticlesByCategory, countArticlesByQuery, countArticlesByTag } from "../../services/articleService.js";
 import { validateWebPagination } from '../../middleware/validatorMiddleware.js';
-import { createSearchDtoForSearchSettings } from '../../dtos/searchDTO.js';
+import { getSearchFeedPage, getTagFeedPage } from '../../services/pageService.js';
 
 export const searchFeed = async (req, res) => {
 
-    const { user } = req;
-    let profile = null;
-
-    if (user) profile = await getProfileByIdUser(user.id);
-
-    const { offset, pagination } = req.pageSettings;
+    const { user, pageSettings } = req;
     const { q } = req.query;
-    const searchDto = createSearchDtoForSearchSettings(q, offset);
-    const articles = await findArticlesByQuery(searchDto);
-    const tags = await findTopTagNames();
-    const categories = await getAllCategories();
+    
+    const data = await getSearchFeedPage({ user, q, pageSettings });
+
     const pageTitle = `Buscar: ${ q }`;
 
     return res.render('pages/feed/feedPage', { 
+        ...data,
         pageTitle,
         title: q,
-        profile,
-        game: null,
-        articles, 
-        tags,
-        categories,
         currentRoute: '/search',
         queryParams: { q },
-        pagination,
         slugify,
         getCategory, 
         formatShortDate
@@ -54,30 +39,19 @@ export const showCategoryFeed = async (req, res) => {
 
     if (category === 'none') return res.status(404).render('pages/error/404');
 
-    const { user } = req;
-    let profile = null;
+    const { user, pageSettings } = req;
 
-    if (user) profile = await getProfileByIdUser(user.id);
+    const data = await getSearchFeedPage({ user, q: category, pageSettings });
 
-    const { offset, pagination } = req.pageSettings;
-    const searchDto = createSearchDtoForSearchSettings(category, offset);
-    const articles = await findArticlesByCategory(searchDto);
-    const categories = await getAllCategories();
-    const tags = await findTopTagNames();
     const categoryName = getCategory(category);
     const pageTitle = `Categoría: ${ categoryName }`;
 
     return res.render('pages/feed/feedPage', { 
+        ...data,
         pageTitle,
         title: categoryName,
-        profile,
-        game: null,
-        tags,
-        articles, 
-        categories,
         queryParams: {},
         currentRoute: '/categories/' + slug,
-        pagination,
         slugify,
         getCategory, 
         formatShortDate
@@ -103,35 +77,19 @@ export const showCategoryFeedWithPagination = [
 export const showTagFeed = async (req, res) => {
 
     const { slug } = req.params;
+    const { user, pageSettings } = req;
     const tag = unslugify(slug);
-    let existsGame = await existsGameByName(tag);
-    let game = null;
 
-    if (existsGame) game = await getGameByName(tag);
- 
-    const { user } = req;
-    let profile = null;
+    const data = await getTagFeedPage({ user, tag, pageSettings });
 
-    if (user) profile = await getProfileByIdUser(user.id);
-
-    const { offset, pagination } = req.pageSettings;
-    const searchDto = createSearchDtoForSearchSettings(tag, offset);
-    const articles = await findArticlesByTag(searchDto);
-    const tags = await findTopTagNames();
-    const categories = await getAllCategories();
     const pageTitle = `Etiqueta: ${ tag }`;
 
     return res.render('pages/feed/feedPage', {
+        ...data,
         pageTitle,
         title: tag,
-        profile,
-        game,
-        articles,
-        tags,
-        categories,
         queryParams: {},
         currentRoute: slug,
-        pagination,
         slugify,
         getCategory, 
         formatShortDate
@@ -141,6 +99,7 @@ export const showTagFeed = async (req, res) => {
 const getTotalArticlesForTag = async (req) => {
     
     const tag = unslugify(req.params.slug);
+    
     const count = await countArticlesByTag(tag);
 
     return count;

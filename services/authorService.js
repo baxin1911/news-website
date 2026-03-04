@@ -1,4 +1,7 @@
-export const findAuthorsByIdUser = async (id) => {
+import { getAvatarPathByUserId } from "./profileService.js";
+import { getUsernameByUserId } from "./userService.js";
+
+export const findAuthorsByUserId = async (id) => {
 
     const authors = [
         { id: 1, name: 'John', lastName: 'Doe', avatarPath: 'https://mdbootstrap.com/img/new/avatars/8.jpg' },
@@ -10,4 +13,16 @@ export const findAuthorsByIdUser = async (id) => {
     ];
 
     return authors;
+}
+
+export const getAuthorByUserId = async (userId) => {
+    
+    const username = await getUsernameByUserId(userId);
+    const avatarPath = await getAvatarPathByUserId(userId);
+
+    return { 
+        username, 
+        avatarPath, 
+        id: userId 
+    };
 }

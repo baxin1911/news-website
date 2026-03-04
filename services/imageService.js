@@ -1,94 +1,35 @@
 import { storage } from "../adapters/storageApdater.js"
-import { getFileExt, getNameFromFile, tempDir } from "../utils/pathsUtils.js";
-import { getAvatarPathByUserId, getCoverPathByUserId } from "./userService.js";
+import { EmptyFileError, InvalidImagePathError, UnauthUserEditFileError } from "../errors/uploadError.js";
+import { getUserIdFromFilename } from "../utils/fileUtils.js";
+import { avatarsDir, getFileExt, getNameFromFile, tempDir } from "../utils/pathsUtils.js";
+import { getAvatarPathByUserId, getCoverPathByUserId } from "./profileService.js";
 
 const PATH_TEMP = '/temp/';
 const PATH_AVATAR = '/avatars/';
 const PATH_COVER = '/covers/';
 
-const processImage = async ({
-
-    filepath,
-    targetDir,
+const uploadImage = async ({ 
+    
+    buffer, 
+    targetDir, 
     userId,
-    getOldPath,
     basePath,
     mode
 
 }) => {
 
-    if (!['create', 'update'].includes(mode)) return -1;
-
-    if (mode === 'update') {
-
-        const filename = getNameFromFile(filepath);
-    
-        if (filename !== userId) return -2;
-    }
-
-    await storage.process(filepath, targetDir, userId, mode);
-
-    if (mode === 'update') return filepath;
-    
-    if (typeof result === 'number' && result < 1) return result;
-
-    if (mode === 'create') {
-
-        const oldPath = await getOldPath(userId);
-        const ext = getFileExt(filepath);
-        const newPath = basePath + userId + ext;
-
-        if (oldPath && oldPath !== newPath) return await deleteImage(oldPath, targetDir);
-
-        return newPath;
-    }
-}
-
-export const processAvatarImage = async (
-
-    filepath, 
-    targetDir, 
-    userId,
-    mode
-
-) => processImage({
-
-    filepath,
-    targetDir,
-    userId,
-    getOldPath: getAvatarPathByUserId,
-    basePath: PATH_AVATAR,
-    mode
-
-});
-
-export const processCoverImage = async (
-
-    filepath, 
-    targetDir, 
-    userId,
-    mode
-
-) => processImage({
-
-    filepath,
-    targetDir,
-    userId,
-    getOldPath: getCoverPathByUserId,
-    basePath: PATH_COVER,
-    mode
-
-});
-
-export const saveAvatarImage = async (buffer, targetDir, userId) => {
-
-    const result = await storage.upload({ buffer, targetDir, userId, mode: 'download' });
+    const result = await storage.upload({ 
+        buffer, 
+        targetDir, 
+        userId,
+        mode
+    });
 
     switch (process.env.STORAGE) {
 
         case 'local':
 
-            if (result.filename) return PATH_AVATAR + result.filename;
+            if (result.filename) return basePath + result.filename;
 
             break;
 
@@ -102,24 +43,151 @@ export const saveAvatarImage = async (buffer, targetDir, userId) => {
     }
 }
 
-export const storeTempImage = async (buffer, targetDir) => {
+const processImage = async ({
 
-    const result = await storage.upload({ buffer, targetDir, mode: 'temp' });
+    sanitizedPath,
+    targetDir,
+    userId,
+    getOldPath,
+    basePath,
+    mode
 
-    return process.env.STORAGE === 'local' ? (PATH_TEMP + result.filename) : result.url;
+}) => {
+
+    if (!['create', 'update'].includes(mode)) throw new InvalidImagePathError();
+
+    if (mode === 'update') {
+
+        const filename = getNameFromFile(sanitizedPath);
+
+        if (filename !== userId) throw new UnauthUserEditFileError();
+    }
+
+    if (mode === 'create') {
+
+        const uuid = getUserIdFromFilename(sanitizedPath);
+    
+        if (uuid !== userId) throw new UnauthUserEditFileError();
+    }
+
+    await storage.process({ 
+        sanitizedPath, 
+        targetDir, 
+        userId, 
+        mode 
+    });
+    
+    if (mode === 'create') {
+
+        const oldPath = await getOldPath(userId);
+        const ext = getFileExt(sanitizedPath);
+        const newPath = basePath + userId + ext;
+
+        if (oldPath && oldPath !== newPath) await deleteImage({
+            filepath: oldPath,
+            userId
+        });
+
+        return newPath;
+    }
+
+    return sanitizedPath;
 }
 
-export const deleteTempImage = async (imagepath) => {
+export const deleteImage = async ({ filepath, userId }) => {
 
-    if (!imagepath) return -1;
+    if (!filepath) throw new EmptyFileError();
 
-    const path = imagepath.trim();
+    filepath = filepath.trim();
 
     const allowedPath = /^[a-zA-Z0-9/_\-\.]+\.(png|jpg|jpeg|webp)$/;
     
-    if (!allowedPath.test(path)) return -2;
+    if (!allowedPath.test(filepath)) throw new InvalidImagePathError();
 
-    const result = await storage.revert(path, tempDir);
+    const uuid = getUserIdFromFilename(filepath);
 
-    return result;
+    if (uuid !== userId) throw new UnauthUserEditFileError();
+
+    await storage.revert({ 
+        filepath, 
+        targetDir: tempDir 
+    });
 }
+
+export const processAvatarImage = async ({
+
+    sanitizedPath, 
+    targetDir, 
+    userId,
+    mode
+
+}) => await processImage({
+
+    sanitizedPath,
+    targetDir,
+    userId,
+    getOldPath: getAvatarPathByUserId,
+    basePath: PATH_AVATAR,
+    mode
+
+});
+
+export const processCoverImage = async ({
+
+    sanitizedPath, 
+    targetDir, 
+    userId,
+    mode
+
+}) => await processImage({
+
+    sanitizedPath,
+    targetDir,
+    userId,
+    getOldPath: getCoverPathByUserId,
+    basePath: PATH_COVER,
+    mode
+
+});
+
+export const saveAvatarImage = async ({ 
+    
+    buffer, 
+    userId 
+
+}) => await uploadImage({
+
+    buffer,
+    targetDir: avatarsDir,
+    userId,
+    basePath: PATH_AVATAR,
+    mode: 'download'
+
+});
+
+export const storeTempImage = async ({ 
+    
+    buffer, 
+    userId 
+
+}) => await uploadImage({
+
+    buffer,
+    targetDir: tempDir,
+    userId,
+    basePath: PATH_TEMP,
+    mode: 'create'
+
+});
+
+export const deleteTempImage = async ({
+    
+    filepath, 
+    userId
+
+}) => await deleteImage({ 
+
+    filepath, 
+    userId 
+
+});

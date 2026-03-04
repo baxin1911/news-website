@@ -1,7 +1,7 @@
-import { createCommentDtoForRegister } from "../dtos/commentDTO.js";
 import { getAllArticles } from "./articleService.js";
+import { getAuthorByUserId } from "./authorService.js";
+import { getAllProfiles } from "./profileService.js";
 import { countReactionTotal } from "./reactionService.js";
-import { getAllProfiles, getAvatarPathByUserId, getUsernameByUserId } from "./userService.js";
 
 const comments = [
     { 
@@ -57,11 +57,10 @@ const comments = [
 export const saveComment = async (commentDto) => {
 
     comments.push(commentDto);
-    const author = {};
-    author.username = await getUsernameByUserId(commentDto.userId);
-    author.avatarPath = await getAvatarPathByUserId(commentDto.userId);
-    author.id = commentDto.userId;
-    commentDto.author = author;
+
+    commentDto.author = await getAuthorByUserId(commentDto.userId);
+    
+    delete commentDto.userId;
     
     return commentDto;
 }

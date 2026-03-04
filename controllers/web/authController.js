@@ -1,13 +1,10 @@
-import { tokenStore, generateAccessToken, generateRefreshToken } from '../../services/jwtService.js';
+import { tokenStore } from '../../services/jwtService.js';
 import { errorCodeMessages, successCodeMessages } from '../../messages/codeMessages.js';
 import { errorMessages, successMessages } from '../../messages/messages.js';
 import { redirectWithFlash } from '../../utils/flashUtils.js';
-import { encryptToken } from '../../utils/encryptionUtils.js';
 import { clearAuthCookies, setAuthCookies } from '../../utils/cookiesUtils.js';
-import { createUserDtoForToken } from '../../dtos/userDTO.js';
-import { verifyRegisteredEmailByUserId } from '../../services/userService.js';
-import { getRoleByUserId } from '../../services/userService.js';
-import { getNewRefreshToken } from '../../services/authService.js';
+import { generateAuthTokens, getNewRefreshToken, getTokensFromVerifiedEmail } from '../../services/authService.js';
+import { DetectedReuseError, InvalidAuthError } from '../../errors/authError.js';
 
 export const authGoogle = async (req, res) => {
 
@@ -33,14 +30,9 @@ export const authGoogle = async (req, res) => {
     if (!redirect.startsWith('http://localhost:3000/')) redirect = '/profile';
 
     const { user } = req;
-    const newAccessToken = generateAccessToken(user);
-    const newRefreshToken = generateRefreshToken(user);
+    const tokens = await generateAuthTokens(user);
 
-    // Save refresh token in DB
-    const hashedToken = encryptToken(newRefreshToken);
-    tokenStore.hashedRefreshToken = hashedToken;
-
-    setAuthCookies(res, newAccessToken, newRefreshToken);
+    setAuthCookies(res, tokens.newAccessToken, tokens.newRefreshToken);
 
     return res.redirect(redirect);
 }
@@ -53,19 +45,10 @@ export const resetPassword = async (req, res) => {
 }
 
 export const verifyEmail = async (req, res) => {
-
-    const { id } = req;
     
-    await verifyRegisteredEmailByUserId(id);
+    const tokens = await getTokensFromVerifiedEmail(req.id);
 
-    const role = await getRoleByUserId(id);
-    const tokenDto = createUserDtoForToken(id, role.name);
-    const newAccessToken = generateAccessToken(tokenDto);
-    const newRefreshToken = generateRefreshToken(tokenDto);
-
-    setAuthCookies(res, newAccessToken, newRefreshToken);
-
-    // Save refresh token in BD
+    setAuthCookies(res, tokens.newAccessToken, tokens.newRefreshToken);
 
     return redirectWithFlash(
         res, 
@@ -77,22 +60,29 @@ export const verifyEmail = async (req, res) => {
 
 export const refreshAuthToken = async (req, res) => {
 
-    const { refreshToken } = req.cookies;
-    const result = await getNewRefreshToken(refreshToken);
+    try {
 
-    if (result.error) {
+        const { refreshToken } = req.cookies;
+        const tokens = await getNewRefreshToken(refreshToken);
         
-        req.error = result.error;
+        const returnTo = req.cookies.returnTo;
 
-        return logout(req, res);
+        res.clearCookie('returnTo');
+        setAuthCookies(res, tokens.newAccessToken, tokens.newRefreshToken);
+
+        return res.redirect(returnTo || req.headers.referer);
+
+    } catch (error) {
+
+        if (error instanceof InvalidAuthError || error instanceof DetectedReuseError) {
+
+            req.error = error.code;
+
+            return logout(req, res);
+        }
+
+        throw error;
     }
-    
-    const returnTo = req.cookies.returnTo;
-
-    res.clearCookie('returnTo');
-    setAuthCookies(res, result.newAccessToken, result.newRefreshToken);
-
-    return res.redirect(returnTo || req.headers.referer);
 }
 
 export const logout = async (req, res) => {

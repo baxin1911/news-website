@@ -1,5 +1,3 @@
-import { createUserPreferencesDtoForRegister } from "../dtos/preferencesDTO.js";
-import { createUserDtoForRegister } from "../dtos/userDTO.js";
 import { comparePassword, encryptPassword } from "../utils/encryptionUtils.js";
 
 let users = [
@@ -19,33 +17,6 @@ let roles = [
     { id: 1, name: 'author' },
 ]
 
-const profiles = [
-    {
-        id: 2,
-        code: 'AA000001',
-        avatarPath: null,
-        coverPath: null,
-        name: null,
-        lastName: null,
-        userId: users[0].id
-    }
-];
-
-const listPreferences = [
-    {
-        id: crypto.randomUUID(),
-        commentNotifications: false,
-        followingNotifications: true,
-        newsletterNotifications: false,
-        userId: users[0].id
-    }
-];
-
-export const saveProfile = async (profileDto) => {
-    
-    profiles.push(profileDto);
-}
-
 export const saveUser = async (userDto) => {
 
     users.push(userDto);
@@ -53,12 +24,12 @@ export const saveUser = async (userDto) => {
     return userDto.id;
 }
 
-export const saveUserPreferences = async (preferencesDto) => {
+export const getAllUsers = async () => {
 
-    listPreferences.push(preferencesDto);
+    return users;
 }
 
-export const findUsersByIdUser = async (id) => {
+export const findUsersByUserId = async (id) => {
 
     const users = [
         { id: 1, displayName: 'dsV45-sf', picture: 'https://i.pravatar.cc/45' },
@@ -91,23 +62,6 @@ export const getRoleByUserId = async (userId) => {
     return roles.find(role => role.id === roleId);
 }
 
-export const getAvatarPathByUserId = async (userId) => {
-
-    return profiles.find(profile => profile.userId === userId).avatarPath;
-}
-
-export const getCoverPathByUserId = async (userId) => {
-
-    return profiles.find(profile => profile.userId === userId).coverPath;
-}
-
-export const getFullnameByUserId = async (userId) => {
-
-    const profile = profiles.find(profile => profile.userId === userId);
-
-    return `${ profile.name } ${ profile.lastName }`;
-}
-
 export const getUsernameByUserId = async (userId) => {
 
     return users.find(user => user.id === userId).username;
@@ -133,65 +87,20 @@ export const searchUsersByUsername = async (searchDto) => {
     .slice(offset, offset + limit);
 }
 
-export const getAllProfiles = async () => {
-
-    return profiles;
-}
-
-export const getProfileByIdUser = async (userId) => {
-
-    return profiles.find(profile => profile.userId === userId) || null;
-}
-
-export const getUserPreferencesByIdUser = async (userId) => {
-
-    return listPreferences.find(preferences => preferences.userId === userId);
-}
-
 export const editPasswordByUserId = async (userId, password) => {
 
     const hashedPassword = await encryptPassword(password);
 
     users.find(user => user.id === userId).password = hashedPassword;
+
+    return true;
 }
 
 export const editUsernameByUserId = async (userId, username) => {
 
     users.find(user => user.id === userId).username = username;
-}
 
-export const editProfileInfoByUserId = async (
-
-    { name, lastName, coverPath, avatarPath }, 
-    userId
-
-) => {
-
-    const profile = profiles.find(profile => profile.userId === userId);
-
-    if (profile) {
-        profile.name = name;
-        profile.lastName = lastName;
-        profile.avatarPath = avatarPath;
-        profile.coverPath = coverPath;
-    }
-}
-
-export const editUserPreferencesByUserId = async (
-
-    { commentNotifications, followingNotifications, newsletterNotifications },
-    userId
-
-) => {
-
-    const preferences = listPreferences.find(preferences => preferences.userId === userId);
-
-    if (preferences) {
-
-        preferences.commentNotifications = commentNotifications;
-        preferences.followingNotifications = followingNotifications;
-        preferences.newsletterNotifications = newsletterNotifications;
-    }
+    return true;
 }
 
 export const verifyRegisteredEmailByUserId = async (userId) => {

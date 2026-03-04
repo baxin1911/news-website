@@ -28,7 +28,6 @@ import express from 'express';
 import expressEjsLayouts from 'express-ejs-layouts';
 import passport from 'passport';
 import { publicDir, viewsDir, avatarsDir, coversDir } from './utils/pathsUtils.js';
-import { errorCodeMessages } from './messages/codeMessages.js';
 import { googleLogin } from './services/authService.js';
 
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -114,16 +113,16 @@ app.use(uploadRoute + profileRoute, profileUploadRoutes);
 app.use(textRoute + profileRoute, profileTextRoute)
 
 app.use((req, res, next) => {
-    res.status(405).json({ message: 'Método HTTP no permitido.' });
+    res.status(404).json({ message: 'Ruta no encontrada.' });
 });
 
 app.use((req, res, next) => {
-    res.status(404).json({ message: 'Ruta no encontrada.' });
+    res.status(405).json({ message: 'Método HTTP no permitido.' });
 });
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ code: errorCodeMessages.SERVER_ERROR });
+    res.status(err.status || 500).json({ code: err.code || 'SERVER_ERROR' });
 });
 
 const PORT = process.env.PORT || 3000;

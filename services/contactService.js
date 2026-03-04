@@ -1,5 +1,6 @@
 import { sendEmail } from "../utils/emailUtils.js";
-import { getFullnameByUserId, getUserIdByEmail } from "./userService.js";
+import { getFullnameByUserId } from "./profileService.js";
+import { getUserIdByEmail } from "./userService.js";
 
 const contacts = [];
 

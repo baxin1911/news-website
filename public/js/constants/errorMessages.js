@@ -52,6 +52,7 @@ const errorMessages = {
     INVALID_FILE_EXTENSION: 'La extensión del archivo es inválida.',
     INVALID_FILE_CONTENT: 'El archivo esta corrompido.',
     FILE_NOT_FOUND: 'No se encontró el archivo subido.',
+    SERVER_FILE_SYSTEM_ERROR: 'Error en el sistema de archivos del servidor.',
     TEMP_FILE_NOT_FOUND: 'No se encontró el archivo temporal.',
     EMPTY_FILE: 'Necesita enviar un archivo.',
     UNAUTH_USER_EDIT_FILE: 'No estas autorizado para editar este archivo.',

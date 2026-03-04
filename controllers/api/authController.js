@@ -2,14 +2,13 @@ import { successCodeMessages } from "../../messages/codeMessages.js";
 import { clearAuthCookies, setAuthCookies } from "../../utils/cookiesUtils.js";
 import { editPasswordByUserId } from "../../services/userService.js";
 import { getNewRefreshToken, getLoginToken, recover, register } from "../../services/authService.js";
+import { DetectedReuseError, InvalidAuthError } from "../../errors/authError.js";
 
 export const loginAccount = async (req, res) => {
 
-    const result = await getLoginToken(req.body);
+    const tokens = await getLoginToken(req.body);
 
-    if (result.error) return res.status(401).json({ code: result.error });
-
-    setAuthCookies(res, result.newAccessToken, result.newRefreshToken);
+    setAuthCookies(res, tokens.newAccessToken, tokens.newRefreshToken);
 
     return res.status(200).json({ code: successCodeMessages.SUCCESS_LOGIN });
 }
@@ -18,14 +17,14 @@ export const registerAccount = async (req, res) => {
 
     const result = register(req.body);
 
-    return res.status(201).json({ code: result.code });
+    return res.status(201).json(result);
 }
 
 export const recoverAccount = async (req, res) => {
 
     const result = await recover(req.body);
 
-    return res.status(200).json({ code: result.code });
+    return res.status(200).json(result);
 }
 
 export const resetPassword = async (req, res) => {
@@ -33,24 +32,31 @@ export const resetPassword = async (req, res) => {
     const { password } = req.body || {};
     const { id } = req || {};
 
-    await editPasswordByUserId(id, password);
+    const isSaved = await editPasswordByUserId(id, password);
 
-    return res.status(200).json({ code: successCodeMessages.UPDATED_RESET_PASSWORD });
+    return res.status(200).json({ code: successCodeMessages.UPDATED_RESET_PASSWORD, isSaved });
 }
 
 export const refreshAuthToken = async (req, res) => {
 
-    const { refreshToken } = req.cookies;
-    const  result = await getNewRefreshToken(refreshToken);
+    try {
 
-    if (result.error) {
-        
-        clearAuthCookies(res);
+        const { refreshToken } = req.cookies;
+        const  tokens = await getNewRefreshToken(refreshToken);
 
-        return res.status(401).json({ code: result.error });
+        setAuthCookies(res, tokens.newAccessToken, tokens.newRefreshToken);
+
+        return res.sendStatus(200);
+
+    } catch (error) {
+
+        if (error instanceof InvalidAuthError || error instanceof DetectedReuseError) {
+
+            clearAuthCookies(res);
+
+            return res.status(error.status).json({ code: error.code });
+        }
+
+        throw error;
     }
-
-    setAuthCookies(res, result.newAccessToken, result.newRefreshToken);
-
-    return res.sendStatus(200);
 }

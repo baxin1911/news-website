@@ -11,7 +11,10 @@ const toggleArticleLike = async (req, res) => {
     
     const result = await toggleReactionWithOpposite(reactionDto);
 
-    return res.status(200).json({ code: successCodeMessages.UPDATED_REACTION, result });
+    return res.status(200).json({ 
+        code: successCodeMessages.UPDATED_REACTION, 
+        result 
+    });
 }
 
 const toggleArticleBookmark = async (req, res) => {
@@ -20,7 +23,10 @@ const toggleArticleBookmark = async (req, res) => {
     
     const isSaved = await toggleBookmark(bookmarkDto);
 
-    return res.status(200).json({ code: successCodeMessages.UPDATED_BOOKMARK, isSaved });
+    return res.status(200).json({ 
+        code: successCodeMessages.UPDATED_BOOKMARK, 
+        isSaved 
+    });
 }
 
 const actions = {
@@ -30,13 +36,11 @@ const actions = {
 
 export const activateArticleAction = async (req, res) => {
 
-    let { id, action } = req.params;
-
-    const existsArticle = await existsArticleByArticleId(id);
+    const existsArticle = await existsArticleByArticleId(req.params.id);
 
     if (!existsArticle) return res.status(404).json({ code: errorCodeMessages.ENTITY_NOT_FOUND });
 
-    const handler = actions[action];
+    const handler = actions[req.params.action];
 
     if (!handler) return res.status(400).json({ code: errorCodeMessages.INVALID_ACTION });
 

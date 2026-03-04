@@ -54,3 +54,24 @@ export const createFileHandlers = (form, key) => {
         }
     }
 }
+
+export const clearFileInputs = (form) => {
+
+    const result = {};
+
+    form.querySelectorAll('.filepond').forEach(input => {
+
+        const pond = FilePond.find(input);
+
+        if (!pond) return;
+
+        const name = pond.element.querySelector('input[type="file"]').name || 
+            pond.element.querySelector('input[type="hidden"]').name;
+
+        const files = pond.getFiles();
+
+        if (!files.length) result[name] = null;
+    });
+
+    return result;
+}
